@@ -1,0 +1,7 @@
+﻿<Transform>
+    <Shape>
+    <LineSet vertexCount="{0}">
+        <Coordinate point="{1}"/>
+    </LineSet>
+    </Shape>
+</Transform>

@@ -1,0 +1,83 @@
+COMPILER QL4BIM
+
+public FuncNode GlobalFunc { get; private set; }
+ 
+ 
+CHARACTERS
+
+	digit = "0123456789".
+	up = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".
+	low = "abcdefghijklmnopqrstuvwxyz".
+	specials =":.-_\\".
+	cr  = '\r'.
+	lf  = '\n'.
+	tab = '\t'.
+	str = up + low + digit.
+	add = '+'.
+	minus = '-'.
+
+
+TOKENS
+	float = [add|minus] digit {digit} '.' {digit} ['E' [add|minus] digit {digit}].
+	exAtt = '.' {str}.
+	exType = '#' {str}.
+	number = [add|minus] digit {digit}.
+	literal = low {low | up | digit}.
+	operator = up {low | up  | digit}.
+	conststring = '\"' { str | specials } '\"'.
+	compare = '<' | '>' | ">=" | "<=" | "~".
+
+	minust = minus.
+
+
+	
+COMMENTS FROM "/*" TO "*/" NESTED
+COMMENTS FROM "//" TO lf
+IGNORE cr + lf + tab
+
+PRODUCTIONS
+
+	QL4BIM												
+	= 		
+	{ 
+		statement_			
+	}.						
+	/*=====================================================*/
+	statement_														
+	=											
+	literal																						
+	{													
+	"[]" |
+	"[" literal											
+	 "|" literal										
+	{"|" literal}										
+	"]"
+	}
+	"="													
+	expression.						
+	/*=====================================================*/
+	expression					
+	= 
+	operator											
+	"("													
+		argument							
+	{ ","										
+		argument								
+	} ")".
+	/*=====================================================*/
+	argument			
+	=
+	literal [ relAtt ] [exAtt ([exType] | predicate)] 																								
+	|			
+	"[" literal	"]" [exAtt ([exType] | predicate)] 		
+	|	
+	constant.
+	/*=====================================================*/
+	constant =  conststring | number | float | bool_.
+	/*=====================================================*/
+	bool_ = "true" | "false" | "unknown".
+	/*=====================================================*/
+	predicate = compare (constant |  ( (literal [relAtt]) | relAtt )  exAtt).
+	/*=====================================================*/
+	relAtt = "[" literal "]".
+END QL4BIM.

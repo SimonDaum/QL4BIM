@@ -1,0 +1,102 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Text;
+using QL4BIMspatial;
+
+namespace QL4BIMinterpreter
+{
+    public class Logger : ILogger
+    {
+        private readonly string fileName;
+
+        private List<LogEntry> logs;
+        private string tag;
+        private int[] countIn;
+
+        private readonly System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
+
+        public Logger(ISettings settings)
+        {
+            var path = settings.Log.PathLogFileOut;
+            var dir = Path.GetDirectoryName(path);
+            var file = Path.GetFileNameWithoutExtension(path) + "{0}";
+
+            if (!Directory.Exists(dir))
+                throw new DirectoryNotFoundException();
+
+            var date = UseDateInFileName ? DateTime.Now.ToString("d_M_yyyy_HH_mm_ss") : string.Empty;
+
+            fileName = Path.Combine(dir, file + date + ".csv");
+
+            logs = new List<LogEntry>();
+        }
+
+        public void LogStart(string tag, int countIn)
+        {
+            LogStart(tag, new[] {countIn});
+        }
+
+        public void LogStart(string tag, int[] countIn)
+        {
+            this.tag = tag;
+            this.countIn = countIn;
+            if(stopwatch.IsRunning)
+                throw new InvalidOperationException();
+            stopwatch.Start();
+        }
+
+        public void LogStop(int countOut)
+        {
+            stopwatch.Stop();
+            int allIn = countIn.Aggregate(1, (x, y) => x * y);
+            logs.Add(new LogEntry(tag + "_" +  StatementIndex, allIn, countOut, stopwatch.ElapsedMilliseconds));
+            stopwatch.Reset();
+        }
+
+        public void AddEntry(string tag, int countIn, int countOut, long timing)
+        {
+            logs.Add(new LogEntry(tag + "_" + StatementIndex, countIn, countOut, timing));
+        }
+
+        public int StatementIndex { get; set; }
+
+
+        public void Write(int index)
+        {   
+            var groups = logs.GroupBy(e => e.tag).ToArray();
+            var sb = new StringBuilder();
+            foreach (var grouping in groups)
+            {
+                var first = grouping.First();
+                var timing = grouping.Average(g => g.timing);
+                sb.AppendFormat("{0}\t{1}\t{2}\t{3}\n",  first.tag, string.Join(" ",first.countIn), first.countOut, timing.ToString("F2",CultureInfo.CurrentCulture));
+            }
+
+            logs.Clear();
+
+            File.WriteAllText(string.Format(fileName, index), sb.ToString());
+        }
+
+        public bool UseDateInFileName { get; set; }
+
+
+        class LogEntry
+        {
+            public  string tag;
+            public  int countIn;
+            public  int countOut;
+            public long timing;
+
+            public LogEntry(string tag, int countIn, int countOut, long timing)
+            {
+                this.tag = tag;
+                this.countIn = countIn;
+                this.countOut = countOut;
+                this.timing = timing;
+            }
+        }
+    }
+}

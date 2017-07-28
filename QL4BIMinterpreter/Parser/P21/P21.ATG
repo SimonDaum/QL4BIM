@@ -1,0 +1,100 @@
+using System.Text;
+using QL4BIMinterpreter.QL4BIM;
+
+COMPILER EXCHANGEFILE
+    public QLExchangeFile QLExchangeFile { get; } = new QLExchangeFile();
+
+CHARACTERS
+	digit = "0123456789".
+	up = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".
+	low = "abcdefghijklmnopqrstuvwxyz".
+	startLetter = up + low.
+	space = " ".
+	sharp = "#".
+	semicolon = ";".
+	text = up + low + digit + space.
+	stringDelimiter = semicolon + "\r" + "\n" + "'".
+	anyWithoutStringDelimiteres = ANY-stringDelimiter.
+
+TOKENS
+	stringText = "'" {anyWithoutStringDelimiteres} "'".
+	entityId = sharp digit { digit }.
+	equal = "=".
+	obracket = '('.
+    cbracket = ')'.
+	float = ['+'|'-'] digit {digit} '.' {digit} ['E' ['+'|'-'] digit {digit}].
+	number = ['+'|'-'] digit {digit}.
+	indent = startLetter {text}.
+	star = "*".
+	semicolonT = semicolon {space} "\r\n".
+ 
+PRODUCTIONS
+	/*=====================================================*/
+	classname <. out string name .>
+	= indent							(. name = t.val; .).
+	
+	/*=====================================================*/
+	list<. out QLList QLList .>		(. QLList = new QLList(); .)
+	= '(' 								(. QLPart QLPart; .)
+	part<out QLPart> 					(. QLList.Add(QLPart); .)
+	{',' 
+	part<out QLPart> 					(. QLList.Add(QLPart); .)
+	}
+	')'.
+	
+	/*=====================================================*/
+	myenum<out string enumstring>	(. var sb = new StringBuilder(); .)
+	=                               
+	'.'                             (. sb.Append('.'); .)
+	{
+	ANY								(. sb.Append(t.val); .)
+	}                           	
+	'.'								(. sb.Append('.'); 
+									   enumstring = sb.ToString(); .).
+	
+	/*=====================================================*/
+	mystring<out string QLstring> 	(. var sb = new StringBuilder(); .)
+	= stringText					(. sb.Append(t.val); .)
+									(. QLstring = sb.ToString();	.).
+	
+	/*=====================================================*/
+	part<out QLPart QLPart>		(. QLPart  = new QLPart();  
+									  QLClass QLClass; 
+									  QLList QLList; 
+									  string QLstring; 
+									  string enumstring; .)
+	= myenum<out enumstring>		(. QLPart.QLEnum = new QLEnum(enumstring); .)
+	| mystring<out QLstring> 		(. QLPart.QLString = new QLString(QLstring); .)
+	| '$' 							(. QLPart.IsNull = true; .)
+	| entityId 						(. QLPart.QLEntityId = new QLEntityId(t.val); .)
+	| list<out QLList>				(. QLPart.QLList = QLList; .)
+	| float 						(. QLPart.SetFloat(t.val); .)
+	| number 						(. QLPart.SetNumber(t.val); .)
+	| star 							(. QLPart.IsNull = true; .)
+	| myclass<out QLClass>  		(. QLPart.QLClass = QLClass; .)
+	| "()"	 						(. QLPart.IsEmptyList = true; .).
+	
+	/*=====================================================*/
+	myclass<out QLClass QLClass> 	(. QLClass  = new QLClass();  
+									   string name; .)
+	= classname <out name>			(. QLList QLList; 
+									   QLClass.ClassName = name; .)
+	list<out QLList>  				(. QLClass.QLDirectList = QLList;   .).
+	
+	/*=====================================================*/
+ 	entity<out QLEntity QLEntity> (. QLEntity  = new QLEntity();   .)
+	= entityId 						(. var value = t.val; .)
+	equal 							(. QLClass QLClass;   .)
+	myclass<out QLClass> 
+	semicolonT 						(. QLEntity.SetEntityAndClass(value, QLClass);  .).
+
+	
+	/*=====================================================*/
+	EXCHANGEFILE 					(. QLEntity QLEntity;   .)
+	= entity<out QLEntity> 		(. QLExchangeFile.Add(QLEntity); .)
+	{ 
+		entity<out QLEntity> 		(. QLExchangeFile.Add(QLEntity); .)
+	}.
+
+
+END EXCHANGEFILE.

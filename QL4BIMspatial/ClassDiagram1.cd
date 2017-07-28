@@ -1,0 +1,486 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="QL4BIMspatial.IntervalIntersector" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="10.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACCAAAAA=</HashCode>
+      <FileName>Intersectors\IntervalIntersector.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="QL4BIMspatial.PrismTriangleIntersector" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="14" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAJAAAAAAAAAAAAAAAAAAAAAAAACAAAAAA=</HashCode>
+      <FileName>Intersectors\PrismTriangleIntersector.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="QL4BIMspatial.RayBoxIntersector" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="5.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAACAAAAAA=</HashCode>
+      <FileName>Intersectors\RayBoxIntersector.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="QL4BIMspatial.RayTriangleIntersector" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="7" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAACCAAAAA=</HashCode>
+      <FileName>Intersectors\RayTriangleIntersector.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="QL4BIMspatial.TriangleIntersector" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="12.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIACBBAAAAAIAQAAAAAMAAAAEAAQAIAAACAAACAAAIA=</HashCode>
+      <FileName>Intersectors\TriangleIntersector.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="QL4BIMspatial.IfcReader" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="15.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAYACAAQAAAAAAIAIAAAA=</HashCode>
+      <FileName>IO\IfcReader.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="QL4BIMspatial.X3DExporter" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="7" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAKAAAAAAAAAAAAAgAFIAAAAABKDAAECAAAAAIAAA=</HashCode>
+      <FileName>IO\X3DExporter.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="QL4BIMspatial.X3DImporter" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="8.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AASGAIQgAAQAAQEAIAABgCAAQABDEAoAEAgAACAAAAA=</HashCode>
+      <FileName>IO\X3DImporter.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="QL4BIMspatial.MainInterface" Collapsed="true">
+    <Position X="12.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>UAQAAgwAAFAEIBAhoAEABIAIQACQAABEEQAEABAAgAA=</HashCode>
+      <FileName>MainInterface.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL4BIMspatial.IndexedFaceSet" Collapsed="true">
+    <Position X="5.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAABAAAgAAAAAEQAEAQAAAAUAAAAAAAAEAECAAQ=</HashCode>
+      <FileName>Meshing\IndexedFaceSet.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL4BIMspatial.PolygonMerger" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="8.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAgAAAABAAAAIAEAIAAEACAAAAQAAAAAAAEAAE=</HashCode>
+      <FileName>Meshing\PolygonMerger.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="QL4BIMspatial.TriangleMesh" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="14" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQBBAAFAFAAAAAQQAAAAAAAAEAAAAEAAAAgA=</HashCode>
+      <FileName>Meshing\TriangleMesh.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="QL4BIMspatial.ContainOperator" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="7" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAQAIAAAAAAAAAAAAACAAAAAAAAAAAAAAQA=</HashCode>
+      <FileName>Operators\ContainOperator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="QL4BIMspatial.CoverOperator" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="8.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAABACAAAQA=</HashCode>
+      <FileName>Operators\CoverOperator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="QL4BIMspatial.DirectionalOperators" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="10.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAQQAEAAAAAAAAAEAAAABAAAwACQAAAAAA6AAEAIAgA=</HashCode>
+      <FileName>Operators\DirectionalOperators.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="QL4BIMspatial.DistanceOperator" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="12.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAACAAAAAAAACAAABQCAAAAAAABAA=</HashCode>
+      <FileName>Operators\DistanceOperator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="QL4BIMspatial.EqualOperator" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="14" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAQAAAAAAAAAABAAAAAAAACQAAAAAAAAAAIAAAA=</HashCode>
+      <FileName>Operators\EqualOperator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="QL4BIMspatial.InsideTester" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="7" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAAAAAAAAAAAAEAAAACAQAAAAACACAAAAAA=</HashCode>
+      <FileName>Operators\InsideTester.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="QL4BIMspatial.OverlapOperator" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="14" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAACAAAAAAAABgAEEAgCAAAACAAAAYCAAAAAAAAAA=</HashCode>
+      <FileName>Operators\OverlapOperator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="QL4BIMspatial.PointSampler" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="5.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAIAAAAAAAAAAAAAAAAAAAAAAAAAIQAAAAAIAA=</HashCode>
+      <FileName>Operators\PointSampler.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="QL4BIMspatial.TouchOperator" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="7" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gABAAAAAAgAAAABAACAAACgAAACAAAAYCAAAABAAAYA=</HashCode>
+      <FileName>Operators\TouchOperator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="QL4BIMspatial.VectorDirOperator" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="15.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IACAAAAAAAAABAAAAQAABAAAAAAEBAAAAQAgAAAAAIA=</HashCode>
+      <FileName>Operators\VectorDirOperator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="QL4BIMspatial.Box" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="5.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ANICEAGAADYShQAlkCBAyAOUAgQAAgMYAAADBRAY6oU=</HashCode>
+      <FileName>Primitives\Box.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="QL4BIMspatial.Interval" Collapsed="true">
+    <Position X="8.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAABAAAAAEkAAAAABAAAAAAAAABEAAIUAAAIA=</HashCode>
+      <FileName>Primitives\Interval.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL4BIMspatial.Point" Collapsed="true">
+    <Position X="15.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAAAAAAAAAIAAAAAAABAAEAAAAAAYAE=</HashCode>
+      <FileName>Primitives\Point.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL4BIMspatial.Polygon" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="7" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAQABAECAAAAAAAFAAAAgAAAAAAAAAAAAA=</HashCode>
+      <FileName>Primitives\Polygon.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="QL4BIMspatial.PolygonPoint" Collapsed="true">
+    <Position X="10.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAgAQBAAIEAAAAAACAA=</HashCode>
+      <FileName>Primitives\Polygon.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL4BIMspatial.Prism" Collapsed="true">
+    <Position X="12.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAQgA=</HashCode>
+      <FileName>Primitives\Prism.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL4BIMspatial.Ray" Collapsed="true">
+    <Position X="15.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Primitives\Ray.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL4BIMspatial.Triangle" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="10.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgCgAQAAAARBAhIAAEIwAgAAgAIAAMAEAADqREIAgc=</HashCode>
+      <FileName>Primitives\Triangle.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="QL4BIMspatial.VectorExtensions" Collapsed="true">
+    <Position X="5.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAA=</HashCode>
+      <FileName>Primitives\VectorExtensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL4BIMspatial.RTree&lt;T&gt;" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="10.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAKQCkAQAAEAAfAAFAQApgUQEAECCYAQIEACAAI4AkA=</HashCode>
+      <FileName>RTree\LeafNode.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="QL4BIMspatial.RStarTree&lt;T&gt;" Collapsed="true">
+    <Position X="8.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAEAACAAAAAAAAABIQQAAACAAAIAgA=</HashCode>
+      <FileName>RTree\RStarTree.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL4BIMspatial.SpatialMain" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="14" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAQAAEgAQBQAIQAkgAUgBAIAwACAQBBAEMYhABIAAgA=</HashCode>
+      <FileName>SpatialMain.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="QL4BIMspatial.Settings" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="12.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQQABIAgkgCAAAAAAAAgAAABAAAAAABAAAAA=</HashCode>
+      <FileName>State\Settings.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="QL4BIMspatial.SpatialRepository" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="15.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAABAAAABAAAAAAAgAAACAQAQCAAAAAIAAADACA=</HashCode>
+      <FileName>State\SpatialRepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="QL4BIMspatial.Stopwatch" Collapsed="true">
+    <Position X="5.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAIAAAgAAAIAAAAAAAAAA=</HashCode>
+      <FileName>Stopwatch.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL4BIMspatial.Meshing.Transformator" Collapsed="true">
+    <Position X="8.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Meshing\Transformator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="QL4BIMspatial.IIntervalIntersector" Collapsed="true">
+    <Position X="5.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACCAAAAA=</HashCode>
+      <FileName>Intersectors\IIntervalIntersector.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="QL4BIMspatial.IPrismTriangleIntersector" Collapsed="true">
+    <Position X="12.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAA=</HashCode>
+      <FileName>Intersectors\IPrismTriangleIntersector.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="QL4BIMspatial.IRayBoxIntersector" Collapsed="true">
+    <Position X="14" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAA=</HashCode>
+      <FileName>Intersectors\IRayBoxIntersector.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="QL4BIMspatial.IRayTriangleIntersector" Collapsed="true">
+    <Position X="15.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACCAAAAA=</HashCode>
+      <FileName>Intersectors\IRayTriangleIntersector.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="QL4BIMspatial.ITriangleIntersector" Collapsed="true">
+    <Position X="12.25" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAACAAAAA=</HashCode>
+      <FileName>Intersectors\ITriangleIntersector.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="QL4BIMspatial.IIfcReader" Collapsed="true">
+    <Position X="14" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAIAAAAAA=</HashCode>
+      <FileName>IO\IIfcReader.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="QL4BIMspatial.IX3DExporter" Collapsed="true">
+    <Position X="15.75" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAgAAIAAAAAAADAAACAAAAAIAAA=</HashCode>
+      <FileName>IO\IX3DExporter.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="QL4BIMspatial.IX3DImporter" Collapsed="true">
+    <Position X="5.25" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IO\IX3DImporter.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="QL4BIMspatial.ISpatialMain" Collapsed="true">
+    <Position X="7" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAQAAEgAABAAIAAkgAUgBAAAwACAQBBAEAIAABAAAgA=</HashCode>
+      <FileName>ISpatialMain.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="QL4BIMspatial.IPolygonMerger" Collapsed="true">
+    <Position X="10.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAABAAAAAAAAIAAAAAAAAAAAAAAAAAAAAE=</HashCode>
+      <FileName>Meshing\IPolygonMerger.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="QL4BIMspatial.IContainOperator" Collapsed="true">
+    <Position X="5.25" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Operators\Interfaces\IContainOperator.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="QL4BIMspatial.ICoverOperator" Collapsed="true">
+    <Position X="7" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAA=</HashCode>
+      <FileName>Operators\Interfaces\ICoverOperator.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="QL4BIMspatial.IDirectionalOperators" Collapsed="true">
+    <Position X="8.75" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAQQAEAAAAAAAAAEAAAABAAAwACAAAAAAAIAAAAIAgA=</HashCode>
+      <FileName>Operators\Interfaces\IDirectionalOperators.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="QL4BIMspatial.IDistanceOperator" Collapsed="true">
+    <Position X="10.5" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAA=</HashCode>
+      <FileName>Operators\Interfaces\IDistanceOperator.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="QL4BIMspatial.IEqualOperator" Collapsed="true">
+    <Position X="12.25" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Operators\Interfaces\IEqualOperator.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="QL4BIMspatial.IInsideTester" Collapsed="true">
+    <Position X="15.75" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAA=</HashCode>
+      <FileName>Operators\Interfaces\IInsideTester.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="QL4BIMspatial.IOverlapOperator" Collapsed="true">
+    <Position X="7" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAgAAAAgAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Operators\Interfaces\IOverlapOperator.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="QL4BIMspatial.IPointSampler" Collapsed="true">
+    <Position X="8.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAIAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAA=</HashCode>
+      <FileName>Operators\Interfaces\IPointSampler.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="QL4BIMspatial.ITouchOperator" Collapsed="true">
+    <Position X="10.5" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAABAAAAA=</HashCode>
+      <FileName>Operators\Interfaces\ITouchOperator.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="QL4BIMspatial.IVectorDirOperator" Collapsed="true">
+    <Position X="14" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAABAAAAAAAAAAAAAAABAAAAQAAAAAAAIA=</HashCode>
+      <FileName>Operators\Interfaces\IVectorDirOperator.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="QL4BIMspatial.IHasBounds" Collapsed="true">
+    <Position X="1.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgA=</HashCode>
+      <FileName>Primitives\IHasBounds.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="QL4BIMspatial.IVolume" Collapsed="true">
+    <Position X="2.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAIAAAAAAAA=</HashCode>
+      <FileName>Primitives\IVolume.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="QL4BIMspatial.ITreeItem" Collapsed="true">
+    <Position X="0.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABAAgAAAAAAAAAAAAAAAAAEBAAAAAAAAAAA=</HashCode>
+      <FileName>RTree\ITreeItem.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="QL4BIMspatial.ISettings" Collapsed="true">
+    <Position X="5.25" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAABIAAggCAAAAAAAAgAAABAAAAAABAAAAA=</HashCode>
+      <FileName>State\ISettings.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="QL4BIMspatial.ISpatialRepository" Collapsed="true">
+    <Position X="8.75" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAABAAAABAAAAAAAgAAACAQAQCAAAAAIAAACACA=</HashCode>
+      <FileName>State\ISpatialRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="QL4BIMspatial.Axis" Collapsed="true">
+    <Position X="5.25" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYAE=</HashCode>
+      <FileName>Primitives\Axis.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="QL4BIMspatial.AxisDirection" Collapsed="true">
+    <Position X="7" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAA=</HashCode>
+      <FileName>Primitives\Axis.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

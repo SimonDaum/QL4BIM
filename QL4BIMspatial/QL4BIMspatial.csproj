@@ -1,0 +1,194 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D5134BF8-5E58-4625-9893-AF72B8F8323D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>QL4BIMspatial</RootNamespace>
+    <AssemblyName>QL4BIMspatial</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="MathNet.Numerics, Version=3.20.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MathNet.Numerics.3.20.0\lib\net40\MathNet.Numerics.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation">
+      <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity">
+      <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.RegistrationByConvention">
+      <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.RegistrationByConvention.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Intersectors\IRayBoxIntersector.cs" />
+    <Compile Include="Intersectors\RayBoxIntersector.cs" />
+    <Compile Include="IO\IfcReader.cs" />
+    <Compile Include="IO\IIfcReader.cs" />
+    <Compile Include="ISpatialMain.cs" />
+    <None Include="ClassDiagram1.cd" />
+    <None Include="Intersectors\BoxIntersector.cs" />
+    <None Include="Intersectors\BoxTriangleIntersector.cs" />
+    <Compile Include="Intersectors\IIntervalIntersector.cs" />
+    <Compile Include="Intersectors\IntervalIntersector.cs" />
+    <Compile Include="Intersectors\IPrismTriangleIntersector.cs" />
+    <Compile Include="Intersectors\IRayTriangleIntersector.cs" />
+    <Compile Include="Intersectors\ITriangleIntersector.cs" />
+    <Compile Include="Meshing\Transformator.cs" />
+    <Compile Include="Operators\ContainOperator.cs" />
+    <None Include="Operators\EqualOperator2.cs" />
+    <Compile Include="Operators\EqualOperator.cs" />
+    <Compile Include="Operators\Interfaces\IContainOperator.cs" />
+    <Compile Include="Operators\Interfaces\ICoverOperator.cs" />
+    <Compile Include="Operators\Interfaces\IEqualOperator.cs" />
+    <Compile Include="Operators\Interfaces\IInsideTester.cs" />
+    <Compile Include="Operators\InsideTester.cs" />
+    <Compile Include="Operators\CoverOperator.cs" />
+    <Compile Include="Operators\Interfaces\IVectorDirOperator.cs" />
+    <Compile Include="Operators\VectorDirOperator.cs" />
+    <Compile Include="Primitives\Prism.cs" />
+    <Compile Include="Intersectors\RayTriangleIntersector.cs" />
+    <Compile Include="Intersectors\TriangleIntersector.cs" />
+    <Compile Include="IO\IX3DExporter.cs" />
+    <Compile Include="IO\IX3DImporter.cs" />
+    <Compile Include="IO\X3DExporter.cs" />
+    <Compile Include="IO\X3DImporter.cs" />
+    <Compile Include="SpatialMain.cs" />
+    <Compile Include="Meshing\IPolygonMerger.cs" />
+    <Compile Include="Meshing\PolygonMerger.cs" />
+    <Compile Include="Operators\Interfaces\IPointSampler.cs" />
+    <Compile Include="Operators\PointSampler.cs" />
+    <Compile Include="Primitives\Polygon.cs" />
+    <Compile Include="Primitives\Ray.cs" />
+    <Compile Include="State\ISpatialRepository.cs" />
+    <Compile Include="MainInterface.cs" />
+    <Compile Include="Operators\DirectionalOperators.cs" />
+    <Compile Include="Operators\Interfaces\IDirectionalOperators.cs" />
+    <Compile Include="Operators\DistanceOperator.cs" />
+    <Compile Include="Operators\Interfaces\IDistanceOperator.cs" />
+    <Compile Include="Operators\Interfaces\IOverlapOperator.cs" />
+    <Compile Include="Operators\Interfaces\ITouchOperator.cs" />
+    <Compile Include="Operators\OverlapOperator.cs" />
+    <Compile Include="Operators\TouchOperator.cs" />
+    <Compile Include="Primitives\Axis.cs" />
+    <Compile Include="Primitives\IHasBounds.cs" />
+    <Compile Include="Meshing\IndexedFaceSet.cs" />
+    <Compile Include="Primitives\Interval.cs" />
+    <Compile Include="Primitives\IVolume.cs" />
+    <Compile Include="Primitives\Point.cs" />
+    <Compile Include="Intersectors\PrismTriangleIntersector.cs" />
+    <Compile Include="Primitives\Triangle.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Meshing\TriangleMesh.cs" />
+    <Compile Include="Primitives\VectorExtensions.cs" />
+    <Compile Include="State\ISettings.cs" />
+    <Compile Include="State\SpatialRepository.cs" />
+    <Compile Include="Primitives\Box.cs" />
+    <Compile Include="RTree\ITreeItem.cs" />
+    <Compile Include="RTree\LeafNode.cs" />
+    <Compile Include="RTree\Node.cs" />
+    <Compile Include="RTree\RStarTree.cs" />
+    <Compile Include="RTree\RTree.cs" />
+    <Compile Include="State\Settings.cs" />
+    <Compile Include="Stopwatch.cs" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="IO\X3DTemplates\X3dFileTemplate.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="IO\X3DTemplates\X3dLocalGroupTemplate.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="IO\X3DTemplates\X3dWorldGroupTemplate.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="IO\X3DTemplates\X3dLineSet.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="IO\X3DTemplates\X3dPointSet.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\IfcImporter\IfcImporter.csproj">
+      <Project>{597d95a4-bdb8-4a29-b48c-517101dad0c9}</Project>
+      <Name>IfcImporter</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

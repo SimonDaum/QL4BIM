@@ -1,0 +1,1 @@
+cmd.exe /k "CreateParser.bat" & pause

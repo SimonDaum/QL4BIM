@@ -1,0 +1,195 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{DE063D5E-D3FD-4E45-AF53-1F6AEB958165}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>QL4BIMinterpreter</RootNamespace>
+    <AssemblyName>QL4BIMinterpreter</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Configuration, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.Configuration.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.RegistrationByConvention, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.RegistrationByConvention.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="FuncVisitor.cs" />
+    <Compile Include="ILogger.cs" />
+    <Compile Include="Logger.cs" />
+    <Compile Include="Interfaces\IFuncVisitor.cs" />
+    <Compile Include="Interfaces\IInterpreterRepository.cs" />
+    <Compile Include="InterpreterRepository.cs" />
+    <Compile Include="Interfaces\IP21Repository.cs" />
+    <Compile Include="OperatorsLevel0\AttributeFilterOperator.cs" />
+    <Compile Include="Interfaces\IMaximumOperator.cs" />
+    <Compile Include="OperatorsLevel0\ImportModelOperator.cs" />
+    <Compile Include="Interfaces\IAttributeFilterOperator.cs" />
+    <Compile Include="Interfaces\IGetModelOperator.cs" />
+    <Compile Include="Interfaces\ITypeFilterOperator.cs" />
+    <Compile Include="Interfaces\IProjectorOperator.cs" />
+    <Compile Include="OperatorsLevel0\MaximumOperator.cs" />
+    <Compile Include="OperatorsLevel0\ProjectorOperator.cs" />
+    <Compile Include="Interfaces\IPropertyFilterOperator.cs" />
+    <Compile Include="OperatorsLevel1\DeassociaterOperator.cs" />
+    <Compile Include="Interfaces\IDeassociaterOperator.cs" />
+    <Compile Include="Interfaces\ITaskTimerOperator.cs" />
+    <Compile Include="OperatorsLevel1\PropertyFilterOperator.cs" />
+    <Compile Include="OperatorsLevel0\DereferenceOperator.cs" />
+    <Compile Include="OperatorsLevel0\TypeFilterOperator.cs" />
+    <Compile Include="OperatorsLevel1\TaskTimerOperator.cs" />
+    <Compile Include="OperatorValidator\DeassociaterValidator.cs" />
+    <Compile Include="OperatorValidator\FuncValidator.cs" />
+    <Compile Include="OperatorValidator\MaximumValidator.cs" />
+    <Compile Include="OperatorValidator\PropertyFilterValidator.cs" />
+    <Compile Include="OperatorValidator\DereferencerValidator.cs" />
+    <Compile Include="OperatorValidator\ProjectorValidator.cs" />
+    <Compile Include="OperatorValidator\SpatialTopoValidator.cs" />
+    <Compile Include="OperatorValidator\TaskTimerValidator.cs" />
+    <Compile Include="OperatorValidator\TypeFilterValidator.cs" />
+    <Compile Include="OperatorValidator\ImportModelValidator.cs" />
+    <Compile Include="OperatorValidator\AttributeFilterValidator.cs" />
+    <Compile Include="Interfaces\IOperatorValidator.cs" />
+    <Compile Include="OperatorValidator\OperatorValidator.cs" />
+    <Compile Include="P21Repository.cs" />
+    <Compile Include="Interfaces\IVisitor.cs" />
+    <Compile Include="Interfaces\IP21Reader.cs" />
+    <Compile Include="Parser\P21\P21Reader.cs" />
+    <Compile Include="Interfaces\IDereferenceOperator.cs" />
+    <Compile Include="Interfaces\ISpatialQueryInterpreter.cs" />
+    <Compile Include="SpatialQueryInterpreter.cs" />
+    <Compile Include="Interfaces\IExecutionVisitor.cs" />
+    <Compile Include="Interfaces\IQueryReader.cs" />
+    <Compile Include="Parser\QL4BIM\Nodes.cs" />
+    <Compile Include="Parser\P21\P21InheritanceNode.cs" />
+    <Compile Include="Parser\P21\Parser.cs" />
+    <Compile Include="Parser\P21\Scanner.cs" />
+    <Compile Include="Parser\QL4BIM\Terminals.cs" />
+    <Compile Include="Parser\QL4BIM\Parser.cs" />
+    <Compile Include="Parser\QL4BIM\QueryParser.cs" />
+    <Compile Include="Parser\QL4BIM\Symbols\RelationSymbol.cs" />
+    <Compile Include="Parser\QL4BIM\Scanner.cs" />
+    <Compile Include="Parser\QL4BIM\Symbols\SetSymbol.cs" />
+    <Compile Include="Parser\QL4BIM\Symbols\Symbol.cs" />
+    <Compile Include="SymbolTable.cs" />
+    <Compile Include="ExecutionVisitor.cs" />
+    <Compile Include="SymbolVisitor.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="States\Context.cs" />
+    <Compile Include="Interfaces\IContext.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="ClassDiagram2.cd" />
+    <None Include="packages.config" />
+    <None Include="Parser\P21\P21.ATG" />
+    <None Include="Parser\QL4BIM\tQL4BIM.ATG" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\QL4BIMspatial\QL4BIMspatial.csproj">
+      <Project>{d5134bf8-5e58-4625-9893-af72b8f8323d}</Project>
+      <Name>QL4BIMspatial</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>XCOPY  $(SolutionDir)packages\IfcEngine $(ProjectDir)bin\$(PlatformName)\Debug\ /R /Y</PreBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

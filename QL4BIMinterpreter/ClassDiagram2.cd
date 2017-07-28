@@ -1,0 +1,882 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="QL4BIMinterpreter.ExecutionVisitor" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="37" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAABSAAEIQCAAAAAAAAAAIAAAgAAIAgAAAABAA=</HashCode>
+      <FileName>ExecutionVisitor.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="QL4BIMinterpreter.FuncVisitor" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="31.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>FuncVisitor.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="QL4BIMinterpreter.InterpreterRepository" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="35.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAgBAAAAAAAAEAAAAAAAAAQAIQAAAiAAAAAAAAAAAQ=</HashCode>
+      <FileName>InterpreterRepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="QL4BIMinterpreter.QueryException" Collapsed="true">
+    <Position X="37" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>InterpreterRepository.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL4BIMinterpreter.Logger" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="37" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAggCAAAAAAEAAAAQAAAAAAIAAAAAAAEEAAAEEAAAI=</HashCode>
+      <FileName>Logger.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="QL4BIMinterpreter.ArguementFilterValidator" Collapsed="true">
+    <Position X="6" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAA=</HashCode>
+      <FileName>OperatorValidator\AttributeFilterValidator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="QL4BIMinterpreter.DeassociaterValidator" Collapsed="true">
+    <Position X="10.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>OperatorValidator\DeassociaterValidator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="QL4BIMinterpreter.DereferencerValidator" Collapsed="true">
+    <Position X="15" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAA=</HashCode>
+      <FileName>OperatorValidator\DereferencerValidator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="QL4BIMinterpreter.FuncValidator" Collapsed="true">
+    <Position X="19.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>OperatorValidator\FuncValidator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="QL4BIMinterpreter.ImportModelValidator" Collapsed="true">
+    <Position X="21.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>OperatorValidator\ImportModelValidator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="QL4BIMinterpreter.MaximumValidator" Collapsed="true">
+    <Position X="24" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>OperatorValidator\MaximumValidator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="QL4BIMinterpreter.OperatorValidator" Collapsed="true">
+    <Position X="12.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAACAAgAgACAAQAAAAgCAAYIABAAAAAAAAAAAAQABAI=</HashCode>
+      <FileName>OperatorValidator\OperatorValidator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="QL4BIMinterpreter.FunctionSignatur" Collapsed="true">
+    <Position X="30" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAIAAAAEAAAAgAAIAAAAAAAAAAAAAAAAAAg=</HashCode>
+      <FileName>OperatorValidator\OperatorValidator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL4BIMinterpreter.ProjectorValidator" Collapsed="true">
+    <Position X="1.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAA=</HashCode>
+      <FileName>OperatorValidator\ProjectorValidator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="QL4BIMinterpreter.PropertyFilterValidator" Collapsed="true">
+    <Position X="3.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>OperatorValidator\PropertyFilterValidator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="QL4BIMinterpreter.SpatialTopoValidator" Collapsed="true">
+    <Position X="8.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>OperatorValidator\SpatialTopoValidator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="QL4BIMinterpreter.TaskTimerValidator" Collapsed="true">
+    <Position X="12.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>OperatorValidator\TaskTimerValidator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="QL4BIMinterpreter.TypeFilterValidator" Collapsed="true">
+    <Position X="17.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>OperatorValidator\TypeFilterValidator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="QL4BIMinterpreter.P21Repository" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="33.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACgIAAAAAABAAAAAAAAAARAAAABAAQAEAAAAAMAAA=</HashCode>
+      <FileName>P21Repository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="QL4BIMinterpreter.Program" Collapsed="true">
+    <Position X="26.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAFAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL4BIMinterpreter.SpatialQueryInterpreter" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="31.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAQAAgAAAEQFAhQhAAAAAIAAAAAQAABAAUAhABIAgAA=</HashCode>
+      <FileName>SpatialQueryInterpreter.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="QL4BIMinterpreter.Context" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="28.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CBAAAAAAAQAIAAQAIIAAABDAAIAAAQAAAABAAAIAAAA=</HashCode>
+      <FileName>States\Context.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="QL4BIMinterpreter.State" Collapsed="true">
+    <Position X="11.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAIAAAAABAQAAAAAAAQAAAAAAAAAAgAAAAAAAAA=</HashCode>
+      <FileName>States\Context.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL4BIMinterpreter.QueryAddState" Collapsed="true">
+    <Position X="21.75" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>States\Context.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL4BIMinterpreter.QueryClearState" Collapsed="true">
+    <Position X="1.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>States\Context.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL4BIMinterpreter.QueryShowState" Collapsed="true">
+    <Position X="3.75" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAIAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>States\Context.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL4BIMinterpreter.PerformanceTestState" Collapsed="true">
+    <Position X="6" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQCAAAAAQACAACAAAgAAAAAgAAAAAA=</HashCode>
+      <FileName>States\Context.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL4BIMinterpreter.ExecuteAllState" Collapsed="true">
+    <Position X="8.25" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAARACAAAAAAgAAABAgAAAIAA=</HashCode>
+      <FileName>States\Context.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL4BIMinterpreter.SymbolShowState" Collapsed="true">
+    <Position X="10.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>States\Context.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL4BIMinterpreter.SymbolClearState" Collapsed="true">
+    <Position X="12.75" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAAAAAAAQAAAAAABAAAAAAAAAAAAAAAAIAAAA=</HashCode>
+      <FileName>States\Context.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL4BIMinterpreter.ResultWriteState" Collapsed="true">
+    <Position X="15" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAEAAAAAQBAAAAAAAA=</HashCode>
+      <FileName>States\Context.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL4BIMinterpreter.ResultShowState" Collapsed="true">
+    <Position X="17.25" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQIAAAAAAABAQAAAAIABAAAAAAAAAAAQAgAAAgAAA=</HashCode>
+      <FileName>States\Context.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL4BIMinterpreter.ShowSettingsState" Collapsed="true">
+    <Position X="19.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAACAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>States\Context.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL4BIMinterpreter.SymbolTable" Collapsed="true">
+    <Position X="26.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEIAAABABAAAAgAAAAQAABABAARAAAAAAAAQAAA=</HashCode>
+      <FileName>SymbolTable.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL4BIMinterpreter.SymbolSymbolVisitor" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="37" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACgAAQAAAIAAAAAAAAAAAAAAQBAAAAAAAA=</HashCode>
+      <FileName>SymbolVisitor.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="QL4BIMinterpreter.OperatorsLevel0.AttributeFilterOperator" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="26.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACAAAAAAAAAQAAAAAAAwAAAABAAIAAAgg=</HashCode>
+      <FileName>OperatorsLevel0\AttributeFilterOperator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="QL4BIMinterpreter.OperatorsLevel0.DereferenceOperator" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="31.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACACAAAAEAAAQAAAAABAAEAAAAAAAAAAAYAAAAAAAAA=</HashCode>
+      <FileName>OperatorsLevel0\DereferenceOperator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="QL4BIMinterpreter.OperatorsLevel0.ImportModelOperator" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="33.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAAAAAACAAAAAAAAAAAAAQAAAQIAAAAAAAA=</HashCode>
+      <FileName>OperatorsLevel0\ImportModelOperator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="QL4BIMinterpreter.OperatorsLevel0.MaximumOperator" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="26.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAA=</HashCode>
+      <FileName>OperatorsLevel0\MaximumOperator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="QL4BIMinterpreter.OperatorsLevel0.ProjectorOperator" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="28.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAAAAAAAAAgAAACAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>OperatorsLevel0\ProjectorOperator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="QL4BIMinterpreter.OperatorsLevel0.TypeFilterOperator" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="33.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABCAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAgAA=</HashCode>
+      <FileName>OperatorsLevel0\TypeFilterOperator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="QL4BIMinterpreter.OperatorsLevel1.DeassociaterOperator" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="30" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAIQAAEAAARAAAAAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>OperatorsLevel1\DeassociaterOperator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="QL4BIMinterpreter.OperatorsLevel1.PropertyFilterOperator" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="30" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAIAAAAAAAAAAACAAAACAAIAAAAAABAA=</HashCode>
+      <FileName>OperatorsLevel1\PropertyFilterOperator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="QL4BIMinterpreter.OperatorsLevel1.TaskTimerOperator" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="28.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQAAAIABAQAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>OperatorsLevel1\TaskTimerOperator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="QL4BIMinterpreter.P21.P21InheritanceNode" Collapsed="true">
+    <Position X="30" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABAAAAQAAAAAQAQAAACAAAAAAAIAAAAAAAA=</HashCode>
+      <FileName>Parser\P21\P21InheritanceNode.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL4BIMinterpreter.P21.P21Reader" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="31.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAgAEACAAAAAACIQAAAAUAmAAEEMEAAAKAAAAA=</HashCode>
+      <FileName>Parser\P21\P21Reader.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="QL4BIMinterpreter.P21.NetType" Collapsed="true">
+    <Position X="28.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAAAAAAAAEAAAAAAAAAAAAAAAIAAAAgAAAAAA=</HashCode>
+      <FileName>Parser\P21\P21Reader.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL4BIMinterpreter.P21.StreamExtentions" Collapsed="true">
+    <Position X="35.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Parser\P21\P21Reader.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL4BIMinterpreter.P21.Parser" Collapsed="true">
+    <Position X="37" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAkIpAwAAAAgSBIAQcAAAAAAQkCgAAAgEZIEABEiQA=</HashCode>
+      <FileName>Parser\P21\Parser.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL4BIMinterpreter.P21.Errors" Collapsed="true">
+    <Position X="35.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAgAAAAAAAABAAAABAAAAAAAAAAAAAAAAAAABE=</HashCode>
+      <FileName>Parser\P21\Parser.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL4BIMinterpreter.P21.FatalError" Collapsed="true">
+    <Position X="28.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Parser\P21\Parser.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL4BIMinterpreter.P21.Token" Collapsed="true">
+    <Position X="31.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAYAAAAAAAAAAQAAAAYAAAAAAAAAAAAAAAAIAAAA=</HashCode>
+      <FileName>Parser\P21\Scanner.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL4BIMinterpreter.P21.Buffer" Collapsed="true">
+    <Position X="8.5" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgACBAAEAAQAAAQABACgAAOAEAAACAAIAACAAAA=</HashCode>
+      <FileName>Parser\P21\Scanner.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL4BIMinterpreter.P21.UTF8Buffer" Collapsed="true">
+    <Position X="8.5" Y="13.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Parser\P21\Scanner.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL4BIMinterpreter.P21.Scanner" Collapsed="true">
+    <Position X="30" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEcUARAAFAQEAAAgAAASAYAAAACAAEAAAARCAAAAISA=</HashCode>
+      <FileName>Parser\P21\Scanner.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL4BIMinterpreter.QL4BIM.Node" Collapsed="true">
+    <Position X="12.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAEAAAAAAEAAAAQAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Parser\QL4BIM\Nodes.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL4BIMinterpreter.QL4BIM.FuncNode" Collapsed="true">
+    <Position X="24" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AoAAAAAAAAAAAgAAAAAAAAAAAwAIACCAIAAgABAAAgA=</HashCode>
+      <FileName>Parser\QL4BIM\Nodes.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL4BIMinterpreter.QL4BIM.OperatorNode" Collapsed="true">
+    <Position X="1.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Parser\QL4BIM\Nodes.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL4BIMinterpreter.QL4BIM.LiteralNode" Collapsed="true">
+    <Position X="3.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAIAEAAAAAAAEAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Parser\QL4BIM\Nodes.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL4BIMinterpreter.QL4BIM.CompLitNode" Collapsed="true">
+    <Position X="6" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAIAEAAAAAAAAAAAAAAAAAAAgIAAAAAA=</HashCode>
+      <FileName>Parser\QL4BIM\Nodes.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL4BIMinterpreter.QL4BIM.CStringNode" Collapsed="true">
+    <Position X="8.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Parser\QL4BIM\Nodes.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL4BIMinterpreter.QL4BIM.ExAttNode" Collapsed="true">
+    <Position X="10.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Parser\QL4BIM\Nodes.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL4BIMinterpreter.QL4BIM.ExTypeNode" Collapsed="true">
+    <Position X="12.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Parser\QL4BIM\Nodes.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL4BIMinterpreter.QL4BIM.CNumberNode" Collapsed="true">
+    <Position X="15" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Parser\QL4BIM\Nodes.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL4BIMinterpreter.QL4BIM.CFloatNode" Collapsed="true">
+    <Position X="17.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Parser\QL4BIM\Nodes.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL4BIMinterpreter.QL4BIM.PredicateNode" Collapsed="true">
+    <Position X="19.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAEAAAAgICgAAAAAICAAAAAA=</HashCode>
+      <FileName>Parser\QL4BIM\Nodes.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL4BIMinterpreter.QL4BIM.StatementNode" Collapsed="true">
+    <Position X="21.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BoAAAAgAAEIAAoAEAQIAAAAACQAAAIAQIAAAAAAAACA=</HashCode>
+      <FileName>Parser\QL4BIM\Nodes.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL4BIMinterpreter.QL4BIM.Parser" Collapsed="true">
+    <Position X="35.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAkIgAgAgCAgQBIQwVAABIEAQgmAAABEARAEABFAQA=</HashCode>
+      <FileName>Parser\QL4BIM\Parser.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL4BIMinterpreter.QL4BIM.Errors" Collapsed="true">
+    <Position X="33.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAgAAAAAAAABAAAABAAAAAAAAAAAAAAAAAAABE=</HashCode>
+      <FileName>Parser\QL4BIM\Parser.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL4BIMinterpreter.QL4BIM.FatalError" Collapsed="true">
+    <Position X="26.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Parser\QL4BIM\Parser.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL4BIMinterpreter.QL4BIM.QueryReader" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="26.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAkAAAAAAAABAAAAAAAAAAAAAAAAAAAAQAAAAAAIAA=</HashCode>
+      <FileName>Parser\QL4BIM\QueryParser.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="QL4BIMinterpreter.QL4BIM.StreamExtension" Collapsed="true">
+    <Position X="33.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Parser\QL4BIM\QueryParser.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL4BIMinterpreter.QL4BIM.Token" Collapsed="true">
+    <Position X="30" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAYAAAAAAAAAAQAAAAYAAAAAAAAAAAAAAAAIAAAA=</HashCode>
+      <FileName>Parser\QL4BIM\Scanner.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL4BIMinterpreter.QL4BIM.Buffer" Collapsed="true">
+    <Position X="5.5" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgACBAAEAAQAAAQABACgAAOAEAAACAAIAACAAAA=</HashCode>
+      <FileName>Parser\QL4BIM\Scanner.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL4BIMinterpreter.QL4BIM.UTF8Buffer" Collapsed="true">
+    <Position X="5.5" Y="13.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Parser\QL4BIM\Scanner.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL4BIMinterpreter.QL4BIM.Scanner" Collapsed="true">
+    <Position X="28.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEc0ARAAFAQEAAAgAAASBYAAAACAAEAAAARCAAAAISA=</HashCode>
+      <FileName>Parser\QL4BIM\Scanner.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL4BIMinterpreter.QL4BIM.RelationSymbol" Collapsed="true">
+    <Position X="0.5" Y="13.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAhAAAAAAABAAAAAAAAAARAAAAEAAABAEAAAAAAgQ=</HashCode>
+      <FileName>Parser\QL4BIM\Symbols\RelationSymbol.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL4BIMinterpreter.QL4BIM.SetSymbol" Collapsed="true">
+    <Position X="2.75" Y="13.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABABCAAAAAABAAACAAAACIRAAAACAAAAAgAAAAAAAA=</HashCode>
+      <FileName>Parser\QL4BIM\Symbols\SetSymbol.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL4BIMinterpreter.QL4BIM.Symbol" Collapsed="true">
+    <Position X="1.75" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BQBABAAAAAAABAAAAAAAAAAQAAAAAAAAAAAgAAEAAAA=</HashCode>
+      <FileName>Parser\QL4BIM\Symbols\Symbol.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL4BIMinterpreter.QL4BIM.QLEntityId" Collapsed="true">
+    <Position X="37" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEACAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACCwA=</HashCode>
+      <FileName>Parser\QL4BIM\Terminals.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL4BIMinterpreter.QL4BIM.QLEnum" Collapsed="true">
+    <Position X="26.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Parser\QL4BIM\Terminals.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL4BIMinterpreter.QL4BIM.QLString" Collapsed="true">
+    <Position X="35.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Parser\QL4BIM\Terminals.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL4BIMinterpreter.QL4BIM.QLList" Collapsed="true">
+    <Position X="30" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAEgAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Parser\QL4BIM\Terminals.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL4BIMinterpreter.QL4BIM.QLClass" Collapsed="true">
+    <Position X="31.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAAAAAAAAAAAAACAAAIAAAAAAAAAAAAA=</HashCode>
+      <FileName>Parser\QL4BIM\Terminals.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL4BIMinterpreter.QL4BIM.QLEntity" Collapsed="true">
+    <Position X="33.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAQAAACAAAAEAAAAAAQEACAEAAAAAAAACAACCAA=</HashCode>
+      <FileName>Parser\QL4BIM\Terminals.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL4BIMinterpreter.QL4BIM.QLEntityExtension" Collapsed="true">
+    <Position X="35.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAJAABAQAAAAAAAAgAAAAAAAAAAAAAEAAAAAAAI=</HashCode>
+      <FileName>Parser\QL4BIM\Terminals.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL4BIMinterpreter.QL4BIM.QLExchangeFile" Collapsed="true">
+    <Position X="28.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAgAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Parser\QL4BIM\Terminals.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL4BIMinterpreter.QL4BIM.QLPart" Collapsed="true">
+    <Position X="31.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAAAAAAgAEQABIAABAAAAABACIAgAAAAAAAEA=</HashCode>
+      <FileName>Parser\QL4BIM\Terminals.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL4BIMinterpreter.QL4BIM.QLProperty" Collapsed="true">
+    <Position X="33.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAQAAAAAAAAAAIAAAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Parser\QL4BIM\Terminals.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="QL4BIMinterpreter.ILogger" Collapsed="true">
+    <Position X="28.25" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAggAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAEEAAAI=</HashCode>
+      <FileName>ILogger.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="QL4BIMinterpreter.IAttributeFilterOperator" Collapsed="true">
+    <Position X="26.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAg=</HashCode>
+      <FileName>Interfaces\IAttributeFilterOperator.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="QL4BIMinterpreter.IContext" Collapsed="true">
+    <Position X="28.25" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\IContext.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="QL4BIMinterpreter.IDeassociaterOperator" Collapsed="true">
+    <Position X="30" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAEAAARAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\IDeassociaterOperator.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="QL4BIMinterpreter.IDereferenceOperator" Collapsed="true">
+    <Position X="31.75" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACACAAAAEAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\IDereferenceOperator.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="QL4BIMinterpreter.IExecutionVisitor" Collapsed="true">
+    <Position X="33.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\IExecutionVisitor.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="QL4BIMinterpreter.IFuncVisitor" Collapsed="true">
+    <Position X="35.25" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\IFuncVisitor.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="QL4BIMinterpreter.IImportModelOperator" Collapsed="true">
+    <Position X="37" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\IGetModelOperator.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="QL4BIMinterpreter.IInterpreterRepository" Collapsed="true">
+    <Position X="26.5" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAgAAAAAAAAAEAAAAAAAAAQAAQAAAiAAAAAAAAAAAQ=</HashCode>
+      <FileName>Interfaces\IInterpreterRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="QL4BIMinterpreter.IMaximumOperator" Collapsed="true">
+    <Position X="30" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\IMaximumOperator.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="QL4BIMinterpreter.IOperatorValidator" Collapsed="true">
+    <Position X="11.5" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\IOperatorValidator.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="QL4BIMinterpreter.IArgumentFilterValidator" Collapsed="true">
+    <Position X="3.75" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\IOperatorValidator.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="QL4BIMinterpreter.IImportModelValidator" Collapsed="true">
+    <Position X="6" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\IOperatorValidator.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="QL4BIMinterpreter.ITypeFilterValidator" Collapsed="true">
+    <Position X="8.25" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\IOperatorValidator.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="QL4BIMinterpreter.IProjectorValidator" Collapsed="true">
+    <Position X="10.5" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\IOperatorValidator.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="QL4BIMinterpreter.IDereferencerValidator" Collapsed="true">
+    <Position X="12.75" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\IOperatorValidator.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="QL4BIMinterpreter.IDeaccociaterValidator" Collapsed="true">
+    <Position X="15" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\IOperatorValidator.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="QL4BIMinterpreter.IPropertyFilterValidator" Collapsed="true">
+    <Position X="17.25" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\IOperatorValidator.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="QL4BIMinterpreter.ISpatialTopoValidator" Collapsed="true">
+    <Position X="19.5" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\IOperatorValidator.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="QL4BIMinterpreter.ITaskTimerValidator" Collapsed="true">
+    <Position X="21.75" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\IOperatorValidator.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="QL4BIMinterpreter.IMaximumValidator" Collapsed="true">
+    <Position X="1.5" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\IOperatorValidator.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="QL4BIMinterpreter.IP21Reader" Collapsed="true">
+    <Position X="31.75" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAACAAAAAAAAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\IP21Reader.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="QL4BIMinterpreter.IP21Repository" Collapsed="true">
+    <Position X="33.5" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACgIAAAAAABAAAAAAAAAABAAAABAAQAEAAAAAMAAA=</HashCode>
+      <FileName>Interfaces\IP21Repository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="QL4BIMinterpreter.IProjectorOperator" Collapsed="true">
+    <Position X="35.25" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAAAAAAAAAgAAACAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\IProjectorOperator.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="QL4BIMinterpreter.IPropertyFilterOperator" Collapsed="true">
+    <Position X="37" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\IPropertyFilterOperator.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="QL4BIMinterpreter.IQueryReader" Collapsed="true">
+    <Position X="26.5" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\IQueryReader.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="QL4BIMinterpreter.ISpatialQueryInterpreter" Collapsed="true">
+    <Position X="28.25" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\ISpatialQueryInterpreter.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="QL4BIMinterpreter.ITaskTimerOperator" Collapsed="true">
+    <Position X="31.75" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\ITaskTimerOperator.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="QL4BIMinterpreter.ITypeFilterOperator" Collapsed="true">
+    <Position X="33.5" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAgAA=</HashCode>
+      <FileName>Interfaces\ITypeFilterOperator.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="QL4BIMinterpreter.ISymbolVisitor" Collapsed="true">
+    <Position X="30" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\IVisitor.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="QL4BIMinterpreter.SyUseVal" Collapsed="true">
+    <Position X="28.25" Y="10.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAABgAAQEAAAAACIAgIAACEAAAAgAAgAEQ=</HashCode>
+      <FileName>OperatorValidator\OperatorValidator.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="QL4BIMinterpreter.QL4BIM.Schema" Collapsed="true">
+    <Position X="26.5" Y="10.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAABAACAAAAA=</HashCode>
+      <FileName>Parser\QL4BIM\Terminals.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

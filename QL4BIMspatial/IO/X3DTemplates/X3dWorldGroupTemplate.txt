@@ -1,0 +1,15 @@
+<Transform DEF="{0}"
+			translation="0.000000 -0.000000 -0.000000"
+			scale="1.000000 1.000000 1.000000"
+			rotation="0.000000 0.000000 -0.000000 0.000000"
+			>
+		<Group>
+			<Shape>
+				<IndexedFaceSet solid="true"
+								coordIndex="{1}">
+					<Coordinate DEF="coords_ME_Cube"
+								point="{2}" />
+				</IndexedFaceSet>
+			</Shape>
+		</Group>
+</Transform>

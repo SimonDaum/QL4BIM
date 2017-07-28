@@ -1,0 +1,8 @@
+﻿<Transform >
+	<Shape>
+	<PointSet>
+	<Color color="0.5 0.5 0.8"/> 
+	<Coordinate point= "{0}"/>
+	</PointSet>
+	</Shape>
+</Transform>
