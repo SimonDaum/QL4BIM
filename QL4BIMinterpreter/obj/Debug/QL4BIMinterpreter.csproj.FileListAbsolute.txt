@@ -45,3 +45,7 @@ C:\Users\Simon\Documents\Projekte\Dev\QLOS\QL4OS\QL4BIMinterpreter\bin\Debug\Mat
 C:\Users\Simon\Documents\Projekte\Dev\QLOS\QL4OS\QL4BIMinterpreter\obj\Debug\QL4BIMinterpreter.csprojResolveAssemblyReference.cache
 C:\Users\Simon\Documents\Projekte\Dev\QLOS\QL4OS\QL4BIMinterpreter\obj\Debug\QL4BIMinterpreter.exe
 C:\Users\Simon\Documents\Projekte\Dev\QLOS\QL4OS\QL4BIMinterpreter\obj\Debug\QL4BIMinterpreter.pdb
+C:\Users\Simon\Documents\Projekte\Dev\QLOS\QL4OS\QL4BIMinterpreter\bin\Debug\IFC2X3_TC1.exp
+C:\Users\Simon\Documents\Projekte\Dev\QLOS\QL4OS\QL4BIMinterpreter\bin\Debug\IFC4.exp
+C:\Users\Simon\Documents\Projekte\Dev\QLOS\QL4OS\QL4BIMinterpreter\bin\Debug\IFC2X3-Settings.xml
+C:\Users\Simon\Documents\Projekte\Dev\QLOS\QL4OS\QL4BIMinterpreter\bin\Debug\IFC4-Settings.xml

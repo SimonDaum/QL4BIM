@@ -24,6 +24,7 @@ TOKENS
 	upString = up {low | up  | digit}.
 	string_ = '\"' { str | specials } '\"'.
 	minust = minus.
+	alias = ":" (up | low)(up | low | digit)[up | low | digit].
 
 COMMENTS FROM "/*" TO "*/" NESTED
 COMMENTS FROM "//" TO lf
@@ -33,9 +34,9 @@ PRODUCTIONS
 
 	QL4BIM												
 	= 		
-	{ 
-		statement_			
-	}.						
+	( statement_ {statement_} {func_})
+	|
+	( func_ {func_}).						
 	/*=====================================================*/
 
 	statement_														
@@ -101,11 +102,17 @@ PRODUCTIONS
 
 	setRelAttLongShort = lowString [ relAtt ] | relAtt.
 	/*=====================================================*/
+
+	setRelFormalArg = lowString [ "[" lowString "|" lowString {"|" lowString}  "]" ].
+	/*=====================================================*/
 	
 
 	setRelAttPredEnd = setRelAttLongShort exAtt.
 	/*=====================================================*/
 
+	func_ = "func" upString [alias] 
+			"(" setRelFormalArg {"," setRelFormalArg } ")" 
+			"(" statement_ {statement_} ")".
 
 	numericOrSetRelAtt = number | float | setRelAttPredEnd.
 END QL4BIM.
