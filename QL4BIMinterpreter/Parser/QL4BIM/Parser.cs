@@ -11,7 +11,7 @@ public class Parser {
 	public const int _number = 2;
 	public const int _lowString = 3;
 	public const int _upString = 4;
-	public const int _conststring = 5;
+	public const int _string_ = 5;
 	public const int _minust = 6;
 	public const int maxT = 25;
 
@@ -129,17 +129,19 @@ public FuncNode GlobalFunc { get; private set; }
 	void argument() {
 		if (la.kind == 3 || la.kind == 8) {
 			setRelAttLongShort();
-			if (la.kind == 18 || la.kind == 19) {
-				if (la.kind == 19) {
+			if (StartOf(1)) {
+				if (la.kind == 24) {
 					exType();
-				} else {
+				} else if (la.kind == 23) {
 					exAtt();
-					if (StartOf(1)) {
-						predicate();
+					if (StartOf(2)) {
+						attPredicate();
 					}
+				} else {
+					countPredicate();
 				}
 			}
-		} else if (StartOf(2)) {
+		} else if (StartOf(3)) {
 			constant();
 		} else SynErr(26);
 	}
@@ -156,7 +158,7 @@ public FuncNode GlobalFunc { get; private set; }
 	}
 
 	void exType() {
-		Expect(19);
+		Expect(24);
 		if (la.kind == 3) {
 			Get();
 		} else if (la.kind == 4) {
@@ -165,7 +167,7 @@ public FuncNode GlobalFunc { get; private set; }
 	}
 
 	void exAtt() {
-		Expect(18);
+		Expect(23);
 		if (la.kind == 3) {
 			Get();
 		} else if (la.kind == 4) {
@@ -173,14 +175,49 @@ public FuncNode GlobalFunc { get; private set; }
 		} else SynErr(29);
 	}
 
-	void predicate() {
-		compare();
-		if (StartOf(2)) {
-			constant();
-		} else if (la.kind == 3 || la.kind == 8) {
-			setRelAttLongShort();
-			exAtt();
-		} else SynErr(30);
+	void attPredicate() {
+		switch (la.kind) {
+		case 11: {
+			equalsPred();
+			break;
+		}
+		case 18: {
+			inPred();
+			break;
+		}
+		case 19: {
+			morePred();
+			break;
+		}
+		case 20: {
+			moreEqulPred();
+			break;
+		}
+		case 21: {
+			lessPred();
+			break;
+		}
+		case 22: {
+			lessEqulPred();
+			break;
+		}
+		default: SynErr(30); break;
+		}
+	}
+
+	void countPredicate() {
+		if (la.kind == 19) {
+			Get();
+		} else if (la.kind == 20) {
+			Get();
+		} else if (la.kind == 21) {
+			Get();
+		} else if (la.kind == 22) {
+			Get();
+		} else if (la.kind == 11) {
+			Get();
+		} else SynErr(31);
+		Expect(2);
 	}
 
 	void constant() {
@@ -192,7 +229,7 @@ public FuncNode GlobalFunc { get; private set; }
 			Get();
 		} else if (la.kind == 15 || la.kind == 16 || la.kind == 17) {
 			bool_();
-		} else SynErr(31);
+		} else SynErr(32);
 	}
 
 	void bool_() {
@@ -202,37 +239,60 @@ public FuncNode GlobalFunc { get; private set; }
 			Get();
 		} else if (la.kind == 17) {
 			Get();
-		} else SynErr(32);
+		} else SynErr(33);
 	}
 
-	void compare() {
-		switch (la.kind) {
-		case 11: {
+	void equalsPred() {
+		Expect(11);
+		if (StartOf(3)) {
+			constant();
+		} else if (la.kind == 3 || la.kind == 8) {
+			setRelAttPredEnd();
+		} else SynErr(34);
+	}
+
+	void inPred() {
+		Expect(18);
+		if (la.kind == 5) {
 			Get();
-			break;
-		}
-		case 20: {
+		} else if (la.kind == 3 || la.kind == 8) {
+			setRelAttPredEnd();
+		} else SynErr(35);
+	}
+
+	void morePred() {
+		Expect(19);
+		numericOrSetRelAtt();
+	}
+
+	void moreEqulPred() {
+		Expect(20);
+		numericOrSetRelAtt();
+	}
+
+	void lessPred() {
+		Expect(21);
+		numericOrSetRelAtt();
+	}
+
+	void lessEqulPred() {
+		Expect(22);
+		numericOrSetRelAtt();
+	}
+
+	void setRelAttPredEnd() {
+		setRelAttLongShort();
+		exAtt();
+	}
+
+	void numericOrSetRelAtt() {
+		if (la.kind == 2) {
 			Get();
-			break;
-		}
-		case 21: {
+		} else if (la.kind == 1) {
 			Get();
-			break;
-		}
-		case 22: {
-			Get();
-			break;
-		}
-		case 23: {
-			Get();
-			break;
-		}
-		case 24: {
-			Get();
-			break;
-		}
-		default: SynErr(33); break;
-		}
+		} else if (la.kind == 3 || la.kind == 8) {
+			setRelAttPredEnd();
+		} else SynErr(36);
 	}
 
 	void relAtt() {
@@ -254,7 +314,8 @@ public FuncNode GlobalFunc { get; private set; }
 	
 	static readonly bool[,] set = {
 		{T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x},
-		{x,x,x,x, x,x,x,x, x,x,x,T, x,x,x,x, x,x,x,x, T,T,T,T, T,x,x},
+		{x,x,x,x, x,x,x,x, x,x,x,T, x,x,x,x, x,x,x,T, T,T,T,T, T,x,x},
+		{x,x,x,x, x,x,x,x, x,x,x,T, x,x,x,x, x,x,T,T, T,T,T,x, x,x,x},
 		{x,T,T,x, x,T,x,x, x,x,x,x, x,x,x,T, T,T,x,x, x,x,x,x, x,x,x}
 
 	};
@@ -274,7 +335,7 @@ public class Errors {
 			case 2: s = "number expected"; break;
 			case 3: s = "lowString expected"; break;
 			case 4: s = "upString expected"; break;
-			case 5: s = "conststring expected"; break;
+			case 5: s = "string_ expected"; break;
 			case 6: s = "minust expected"; break;
 			case 7: s = "\"[]\" expected"; break;
 			case 8: s = "\"[\" expected"; break;
@@ -287,22 +348,25 @@ public class Errors {
 			case 15: s = "\"true\" expected"; break;
 			case 16: s = "\"false\" expected"; break;
 			case 17: s = "\"unknown\" expected"; break;
-			case 18: s = "\".\" expected"; break;
-			case 19: s = "\"is\" expected"; break;
-			case 20: s = "\"<\" expected"; break;
-			case 21: s = "\">\" expected"; break;
-			case 22: s = "\">=\" expected"; break;
-			case 23: s = "\"<=\" expected"; break;
-			case 24: s = "\"~\" expected"; break;
+			case 18: s = "\"~\" expected"; break;
+			case 19: s = "\">\" expected"; break;
+			case 20: s = "\">=\" expected"; break;
+			case 21: s = "\"<\" expected"; break;
+			case 22: s = "\"<=\" expected"; break;
+			case 23: s = "\".\" expected"; break;
+			case 24: s = "\"is\" expected"; break;
 			case 25: s = "??? expected"; break;
 			case 26: s = "invalid argument"; break;
 			case 27: s = "invalid setRelAttLongShort"; break;
 			case 28: s = "invalid exType"; break;
 			case 29: s = "invalid exAtt"; break;
-			case 30: s = "invalid predicate"; break;
-			case 31: s = "invalid constant"; break;
-			case 32: s = "invalid bool_"; break;
-			case 33: s = "invalid compare"; break;
+			case 30: s = "invalid attPredicate"; break;
+			case 31: s = "invalid countPredicate"; break;
+			case 32: s = "invalid constant"; break;
+			case 33: s = "invalid bool_"; break;
+			case 34: s = "invalid equalsPred"; break;
+			case 35: s = "invalid inPred"; break;
+			case 36: s = "invalid numericOrSetRelAtt"; break;
 
 			default: s = "error " + n; break;
 		}

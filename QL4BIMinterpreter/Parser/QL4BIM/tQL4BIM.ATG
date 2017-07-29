@@ -22,7 +22,7 @@ TOKENS
 	number = [add|minus] digit {digit}.
 	lowString = low {low | up | digit}.
 	upString = up {low | up  | digit}.
-	conststring = '\"' { str | specials } '\"'.
+	string_ = '\"' { str | specials } '\"'.
 	minust = minus.
 
 COMMENTS FROM "/*" TO "*/" NESTED
@@ -64,18 +64,29 @@ PRODUCTIONS
 
 	argument			
 	=
-	setRelAttLongShort [exType | exAtt [predicate] ] 			
+	setRelAttLongShort [exType | exAtt [attPredicate]  | countPredicate ] 					
 	|																				
 	constant.
 	/*=====================================================*/
 
-	constant =  conststring | number | float | bool_.
+	constant =  string_ | number | float | bool_.
 	/*=====================================================*/
 
 	bool_ = "true" | "false" | "unknown".
 	/*=====================================================*/
 
-	predicate = compare (constant | (setRelAttLongShort exAtt)).
+	attPredicate = equalsPred | inPred | morePred | moreEqulPred | lessPred | lessEqulPred.
+	/*=====================================================*/
+
+	equalsPred = "=" (constant | setRelAttPredEnd).
+	inPred = "~" (string_ | setRelAttPredEnd).
+	morePred = ">"  numericOrSetRelAtt.
+	moreEqulPred = ">="  numericOrSetRelAtt.
+	lessPred = "<"  numericOrSetRelAtt.
+	lessEqulPred = "<="  numericOrSetRelAtt.
+
+	countPredicate = (">" | ">=" | "<" | "<=" | "=") number.
+
 	/*=====================================================*/
 
 	relAtt = "[" lowString "]".
@@ -87,9 +98,14 @@ PRODUCTIONS
 	exType = "is" (lowString | upString).
 	/*=====================================================*/
 
-	compare = "=" | "<" | ">" | ">=" | "<=" | "~".
 
 	setRelAttLongShort = lowString [ relAtt ] | relAtt.
-
+	/*=====================================================*/
 	
+
+	setRelAttPredEnd = setRelAttLongShort exAtt.
+	/*=====================================================*/
+
+
+	numericOrSetRelAtt = number | float | setRelAttPredEnd.
 END QL4BIM.

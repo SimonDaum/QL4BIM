@@ -240,10 +240,10 @@ public class Scanner {
 		start[40] = 16; 
 		start[44] = 17; 
 		start[41] = 18; 
-		start[46] = 19; 
-		start[60] = 24; 
-		start[62] = 25; 
-		start[126] = 22; 
+		start[126] = 19; 
+		start[62] = 24; 
+		start[60] = 25; 
+		start[46] = 22; 
 		start[Buffer.EOF] = -1;
 
 	}
@@ -359,7 +359,7 @@ public class Scanner {
 			case "true": t.kind = 15; break;
 			case "false": t.kind = 16; break;
 			case "unknown": t.kind = 17; break;
-			case "is": t.kind = 19; break;
+			case "is": t.kind = 24; break;
 			default: break;
 		}
 	}
@@ -446,22 +446,22 @@ public class Scanner {
 			case 19:
 				{t.kind = 18; break;}
 			case 20:
-				{t.kind = 22; break;}
+				{t.kind = 20; break;}
 			case 21:
-				{t.kind = 23; break;}
+				{t.kind = 22; break;}
 			case 22:
-				{t.kind = 24; break;}
+				{t.kind = 23; break;}
 			case 23:
 				recEnd = pos; recKind = 8;
 				if (ch == ']') {AddCh(); goto case 12;}
 				else {t.kind = 8; break;}
 			case 24:
-				recEnd = pos; recKind = 20;
-				if (ch == '=') {AddCh(); goto case 21;}
-				else {t.kind = 20; break;}
+				recEnd = pos; recKind = 19;
+				if (ch == '=') {AddCh(); goto case 20;}
+				else {t.kind = 19; break;}
 			case 25:
 				recEnd = pos; recKind = 21;
-				if (ch == '=') {AddCh(); goto case 20;}
+				if (ch == '=') {AddCh(); goto case 21;}
 				else {t.kind = 21; break;}
 
 		}
