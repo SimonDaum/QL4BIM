@@ -142,6 +142,7 @@
     <Compile Include="Parser\P21\P21Reader.cs" />
     <Compile Include="Interfaces\IDereferenceOperator.cs" />
     <Compile Include="Interfaces\ISpatialQueryInterpreter.cs" />
+    <Compile Include="Parser\QL4BIM\PartParsedEventArgs.cs" />
     <Compile Include="SpatialQueryInterpreter.cs" />
     <Compile Include="Interfaces\IExecutionVisitor.cs" />
     <Compile Include="Interfaces\IQueryReader.cs" />

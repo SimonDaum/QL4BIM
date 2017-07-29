@@ -1,8 +1,14 @@
 COMPILER QL4BIM
+public delegate void PartParsedEventHandler(object sender, PartParsedEventArgs e);
+public event PartParsedEventHandler PartParsed;
+ 
+protected virtual void OnParsed(PartParsedEventArgs e) 
+{	
+     Console.WriteLine(e.ToString());
+    PartParsed?.Invoke(this, e);
+}
 
-public FuncNode GlobalFunc { get; private set; }
- 
- 
+
 CHARACTERS
 
 	digit = "0123456789".
@@ -34,14 +40,15 @@ PRODUCTIONS
 
 	QL4BIM												
 	= 		
-	( statement_ {statement_} {func_})
+	(																(.  OnParsed(new PartParsedEventArgs("global statements")); .)
+	statement_ {statement_} {func_})
 	|
 	( func_ {func_}).						
 	/*=====================================================*/
 
 	statement_														
 	=											
-	lowString																						
+	lowString														(.  OnParsed(new PartParsedEventArgs("variable")); .)							
 	{													
 	"[]" |
 	"[" lowString											
@@ -53,7 +60,7 @@ PRODUCTIONS
 	expression.						
 	/*=====================================================*/
 
-	expression					
+	expression														(.  OnParsed(new PartParsedEventArgs("Operator")); .)
 	= 
 	upString											
 	"("													
@@ -67,7 +74,8 @@ PRODUCTIONS
 	=
 	setRelAttLongShort [exType | exAtt [attPredicate]  | countPredicate ] 					
 	|																				
-	constant.
+	constant												(.  OnParsed(new PartParsedEventArgs("Const Argument")); .)	
+	.
 	/*=====================================================*/
 
 	constant =  string_ | number | float | bool_.

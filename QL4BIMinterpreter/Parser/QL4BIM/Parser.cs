@@ -27,9 +27,16 @@ public class Parser {
 	public Token la;   // lookahead token
 	int errDist = minErrDist;
 
-public FuncNode GlobalFunc { get; private set; }
+public delegate void PartParsedEventHandler(object sender, PartParsedEventArgs e);
+public event PartParsedEventHandler PartParsed;
  
- 
+protected virtual void OnParsed(PartParsedEventArgs e) 
+{	
+     Console.WriteLine(e.ToString());
+    PartParsed?.Invoke(this, e);
+}
+
+
 
 
 	public Parser(Scanner scanner) {
@@ -91,6 +98,7 @@ public FuncNode GlobalFunc { get; private set; }
 	
 	void QL4BIM() {
 		if (la.kind == 3) {
+			OnParsed(new PartParsedEventArgs("global statements")); 
 			statement_();
 			while (la.kind == 3) {
 				statement_();
@@ -108,6 +116,7 @@ public FuncNode GlobalFunc { get; private set; }
 
 	void statement_() {
 		Expect(3);
+		OnParsed(new PartParsedEventArgs("variable")); 
 		while (la.kind == 8 || la.kind == 9) {
 			if (la.kind == 8) {
 				Get();
@@ -149,6 +158,7 @@ public FuncNode GlobalFunc { get; private set; }
 	}
 
 	void expression() {
+		OnParsed(new PartParsedEventArgs("Operator")); 
 		Expect(4);
 		Expect(13);
 		argument();
@@ -176,6 +186,7 @@ public FuncNode GlobalFunc { get; private set; }
 			}
 		} else if (StartOf(3)) {
 			constant();
+			OnParsed(new PartParsedEventArgs("Const Argument")); 
 		} else SynErr(29);
 	}
 

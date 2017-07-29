@@ -33,7 +33,8 @@ namespace QL4BIMinterpreter.QL4BIM
             if(parser.errors.count > 0)
                 throw new QueryException("Errors in func statement(s): " + parser.errors.count);
 
-            return parser.GlobalFunc;
+            //return parser.GlobalFunc;
+            return null;
         }
 
 
