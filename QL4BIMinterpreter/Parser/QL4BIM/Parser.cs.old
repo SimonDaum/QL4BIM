@@ -8,15 +8,12 @@ namespace QL4BIMinterpreter.QL4BIM {
 public class Parser {
 	public const int _EOF = 0;
 	public const int _float = 1;
-	public const int _exAtt = 2;
-	public const int _exType = 3;
-	public const int _number = 4;
-	public const int _literal = 5;
-	public const int _operator = 6;
-	public const int _conststring = 7;
-	public const int _compare = 8;
-	public const int _minust = 9;
-	public const int maxT = 21;
+	public const int _number = 2;
+	public const int _lowString = 3;
+	public const int _upString = 4;
+	public const int _conststring = 5;
+	public const int _minust = 6;
+	public const int maxT = 25;
 
 	const bool T = true;
 	const bool x = false;
@@ -92,115 +89,147 @@ public FuncNode GlobalFunc { get; private set; }
 
 	
 	void QL4BIM() {
-		while (la.kind == 5) {
+		while (la.kind == 3) {
 			statement_();
 		}
 	}
 
 	void statement_() {
-		Expect(5);
-		while (la.kind == 10 || la.kind == 11) {
-			if (la.kind == 10) {
+		Expect(3);
+		while (la.kind == 7 || la.kind == 8) {
+			if (la.kind == 7) {
 				Get();
 			} else {
 				Get();
-				Expect(5);
-				Expect(12);
-				Expect(5);
-				while (la.kind == 12) {
+				Expect(3);
+				Expect(9);
+				Expect(3);
+				while (la.kind == 9) {
 					Get();
-					Expect(5);
+					Expect(3);
 				}
-				Expect(13);
+				Expect(10);
 			}
 		}
-		Expect(14);
+		Expect(11);
 		expression();
 	}
 
 	void expression() {
-		Expect(6);
-		Expect(15);
+		Expect(4);
+		Expect(12);
 		argument();
-		while (la.kind == 16) {
+		while (la.kind == 13) {
 			Get();
 			argument();
 		}
-		Expect(17);
+		Expect(14);
 	}
 
 	void argument() {
-		if (la.kind == 5) {
-			Get();
-			if (la.kind == 11) {
-				Get();
-				Expect(5);
-				Expect(13);
-			}
-			if (la.kind == 2) {
-				Get();
-				if (la.kind == 3 || la.kind == 16 || la.kind == 17) {
-					if (la.kind == 3) {
-						Get();
+		if (la.kind == 3 || la.kind == 8) {
+			setRelAttLongShort();
+			if (la.kind == 18 || la.kind == 19) {
+				if (la.kind == 19) {
+					exType();
+				} else {
+					exAtt();
+					if (StartOf(1)) {
+						compare();
+						constant();
 					}
-				} else if (la.kind == 8) {
-					predicate();
-				} else SynErr(22);
+				}
 			}
-		} else if (la.kind == 11) {
-			Get();
-			Expect(5);
-			Expect(13);
-			if (la.kind == 2) {
-				Get();
-				if (la.kind == 3 || la.kind == 16 || la.kind == 17) {
-					if (la.kind == 3) {
-						Get();
-					}
-				} else if (la.kind == 8) {
-					predicate();
-				} else SynErr(23);
-			}
-		} else if (StartOf(1)) {
+		} else if (StartOf(2)) {
 			constant();
-		} else SynErr(24);
-	}
-
-	void predicate() {
-		Expect(8);
-		if (StartOf(1)) {
-			constant();
-		} else if (la.kind == 5) {
-			Get();
-			if (la.kind == 11) {
-				Get();
-				Expect(5);
-				Expect(13);
-			}
-			Expect(2);
-		} else SynErr(25);
-	}
-
-	void constant() {
-		if (la.kind == 7) {
-			Get();
-		} else if (la.kind == 4) {
-			Get();
-		} else if (la.kind == 1) {
-			Get();
-		} else if (la.kind == 18 || la.kind == 19 || la.kind == 20) {
-			bool_();
 		} else SynErr(26);
 	}
 
-	void bool_() {
-		if (la.kind == 18) {
+	void setRelAttLongShort() {
+		if (la.kind == 3) {
 			Get();
-		} else if (la.kind == 19) {
-			Get();
-		} else if (la.kind == 20) {
-			Get();
+			if (la.kind == 8) {
+				relAtt();
+			}
+		} else if (la.kind == 8) {
+			relAtt();
 		} else SynErr(27);
+	}
+
+	void exType() {
+		Expect(19);
+		if (la.kind == 3) {
+			Get();
+		} else if (la.kind == 4) {
+			Get();
+		} else SynErr(28);
+	}
+
+	void exAtt() {
+		Expect(18);
+		if (la.kind == 3) {
+			Get();
+		} else if (la.kind == 4) {
+			Get();
+		} else SynErr(29);
+	}
+
+	void compare() {
+		switch (la.kind) {
+		case 11: {
+			Get();
+			break;
+		}
+		case 20: {
+			Get();
+			break;
+		}
+		case 21: {
+			Get();
+			break;
+		}
+		case 22: {
+			Get();
+			break;
+		}
+		case 23: {
+			Get();
+			break;
+		}
+		case 24: {
+			Get();
+			break;
+		}
+		default: SynErr(30); break;
+		}
+	}
+
+	void constant() {
+		if (la.kind == 5) {
+			Get();
+		} else if (la.kind == 2) {
+			Get();
+		} else if (la.kind == 1) {
+			Get();
+		} else if (la.kind == 15 || la.kind == 16 || la.kind == 17) {
+			bool_();
+		} else SynErr(31);
+	}
+
+	void bool_() {
+		if (la.kind == 15) {
+			Get();
+		} else if (la.kind == 16) {
+			Get();
+		} else if (la.kind == 17) {
+			Get();
+		} else SynErr(32);
+	}
+
+	void relAtt() {
+		Expect(8);
+		Expect(3);
+		Expect(10);
 	}
 
 
@@ -215,8 +244,9 @@ public FuncNode GlobalFunc { get; private set; }
 	}
 	
 	static readonly bool[,] set = {
-		{T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x},
-		{x,T,x,x, T,x,x,T, x,x,x,x, x,x,x,x, x,x,T,T, T,x,x}
+		{T,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x,x, x,x,x},
+		{x,x,x,x, x,x,x,x, x,x,x,T, x,x,x,x, x,x,x,x, T,T,T,T, T,x,x},
+		{x,T,T,x, x,T,x,x, x,x,x,x, x,x,x,T, T,T,x,x, x,x,x,x, x,x,x}
 
 	};
 } // end Parser
@@ -232,32 +262,37 @@ public class Errors {
 		switch (n) {
 			case 0: s = "EOF expected"; break;
 			case 1: s = "float expected"; break;
-			case 2: s = "exAtt expected"; break;
-			case 3: s = "exType expected"; break;
-			case 4: s = "number expected"; break;
-			case 5: s = "literal expected"; break;
-			case 6: s = "operator expected"; break;
-			case 7: s = "conststring expected"; break;
-			case 8: s = "compare expected"; break;
-			case 9: s = "minust expected"; break;
-			case 10: s = "\"[]\" expected"; break;
-			case 11: s = "\"[\" expected"; break;
-			case 12: s = "\"|\" expected"; break;
-			case 13: s = "\"]\" expected"; break;
-			case 14: s = "\"=\" expected"; break;
-			case 15: s = "\"(\" expected"; break;
-			case 16: s = "\",\" expected"; break;
-			case 17: s = "\")\" expected"; break;
-			case 18: s = "\"true\" expected"; break;
-			case 19: s = "\"false\" expected"; break;
-			case 20: s = "\"unknown\" expected"; break;
-			case 21: s = "??? expected"; break;
-			case 22: s = "invalid argument"; break;
-			case 23: s = "invalid argument"; break;
-			case 24: s = "invalid argument"; break;
-			case 25: s = "invalid predicate"; break;
-			case 26: s = "invalid constant"; break;
-			case 27: s = "invalid bool_"; break;
+			case 2: s = "number expected"; break;
+			case 3: s = "lowString expected"; break;
+			case 4: s = "upString expected"; break;
+			case 5: s = "conststring expected"; break;
+			case 6: s = "minust expected"; break;
+			case 7: s = "\"[]\" expected"; break;
+			case 8: s = "\"[\" expected"; break;
+			case 9: s = "\"|\" expected"; break;
+			case 10: s = "\"]\" expected"; break;
+			case 11: s = "\"=\" expected"; break;
+			case 12: s = "\"(\" expected"; break;
+			case 13: s = "\",\" expected"; break;
+			case 14: s = "\")\" expected"; break;
+			case 15: s = "\"true\" expected"; break;
+			case 16: s = "\"false\" expected"; break;
+			case 17: s = "\"unknown\" expected"; break;
+			case 18: s = "\".\" expected"; break;
+			case 19: s = "\"is\" expected"; break;
+			case 20: s = "\"<\" expected"; break;
+			case 21: s = "\">\" expected"; break;
+			case 22: s = "\">=\" expected"; break;
+			case 23: s = "\"<=\" expected"; break;
+			case 24: s = "\"~\" expected"; break;
+			case 25: s = "??? expected"; break;
+			case 26: s = "invalid argument"; break;
+			case 27: s = "invalid setRelAttLongShort"; break;
+			case 28: s = "invalid exType"; break;
+			case 29: s = "invalid exAtt"; break;
+			case 30: s = "invalid compare"; break;
+			case 31: s = "invalid constant"; break;
+			case 32: s = "invalid bool_"; break;
 
 			default: s = "error " + n; break;
 		}

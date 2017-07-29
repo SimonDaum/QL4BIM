@@ -15,22 +15,16 @@ CHARACTERS
 	str = up + low + digit.
 	add = '+'.
 	minus = '-'.
-
+ 
 
 TOKENS
 	float = [add|minus] digit {digit} '.' {digit} ['E' [add|minus] digit {digit}].
-	exAtt = '.' {str}.
-	exType = '#' {str}.
 	number = [add|minus] digit {digit}.
-	literal = low {low | up | digit}.
-	operator = up {low | up  | digit}.
+	lowString = low {low | up | digit}.
+	upString = up {low | up  | digit}.
 	conststring = '\"' { str | specials } '\"'.
-	compare = '<' | '>' | ">=" | "<=" | "~".
-
 	minust = minus.
 
-
-	
 COMMENTS FROM "/*" TO "*/" NESTED
 COMMENTS FROM "//" TO lf
 IGNORE cr + lf + tab
@@ -43,41 +37,59 @@ PRODUCTIONS
 		statement_			
 	}.						
 	/*=====================================================*/
+
 	statement_														
 	=											
-	literal																						
+	lowString																						
 	{													
 	"[]" |
-	"[" literal											
-	 "|" literal										
-	{"|" literal}										
+	"[" lowString											
+	 "|" lowString										
+	{"|" lowString}										
 	"]"
 	}
 	"="													
 	expression.						
 	/*=====================================================*/
+
 	expression					
 	= 
-	operator											
+	upString											
 	"("													
 		argument							
 	{ ","										
 		argument								
 	} ")".
 	/*=====================================================*/
+
 	argument			
 	=
-	literal [ relAtt ] [exAtt ([exType] | predicate)] 																								
-	|			
-	"[" literal	"]" [exAtt ([exType] | predicate)] 		
-	|	
+	setRelAttLongShort [exType | exAtt [predicate] ] 			
+	|																				
 	constant.
 	/*=====================================================*/
+
 	constant =  conststring | number | float | bool_.
 	/*=====================================================*/
+
 	bool_ = "true" | "false" | "unknown".
 	/*=====================================================*/
-	predicate = compare (constant |  ( (literal [relAtt]) | relAtt )  exAtt).
+
+	predicate = compare (constant | (setRelAttLongShort exAtt)).
 	/*=====================================================*/
-	relAtt = "[" literal "]".
+
+	relAtt = "[" lowString "]".
+	/*=====================================================*/
+
+	exAtt = "." (lowString | upString).
+	/*=====================================================*/
+
+	exType = "is" (lowString | upString).
+	/*=====================================================*/
+
+	compare = "=" | "<" | ">" | ">=" | "<=" | "~".
+
+	setRelAttLongShort = lowString [ relAtt ] | relAtt.
+
+	
 END QL4BIM.
