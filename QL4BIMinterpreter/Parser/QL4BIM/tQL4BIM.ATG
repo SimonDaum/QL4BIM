@@ -53,9 +53,11 @@ PRODUCTIONS
 	lowString														(.  OnParsed(ParserParts.Variable, t.val); .)						
 	{																
 	"[]"															(.  OnParsed(ParserParts.EmptyRelAtt); .)
-	|"[" lowString													(.  OnParsed(ParserParts.RelAtt); .)			
-	 "|" lowString													(.  OnParsed(ParserParts.RelAtt); .)
-	{"|" lowString}													(.  OnParsed(ParserParts.RelAtt); .)
+	|"[" lowString													(.  OnParsed(ParserParts.RelAtt, t.val); .)			
+	 "|" lowString													(.  OnParsed(ParserParts.RelAtt, t.val); .)
+	{
+	"|" lowString													(.  OnParsed(ParserParts.RelAtt, t.val); .)
+	}													
 	"]"
 	}
 	"="													
@@ -74,9 +76,18 @@ PRODUCTIONS
 	.
 	/*=====================================================*/
 
-	argument			
+	argument													(.  OnParsed(ParserParts.Arguement); .)
 	=
-	setRelAttLongShort [exType | exAtt [attPredicate]  | countPredicate ] 					
+	setRelAttLongShort 
+	[
+	exType													(.  OnParsed(ParserParts.TypePrdicate); .)	
+	| exAtt 
+	[														(.  OnParsed(ParserParts.AttPredicate); .)	
+	attPredicate											
+	]  
+	|														(.  OnParsed(ParserParts.CountPredicate); .)	
+	countPredicate 
+	] 					
 	|																				
 	constant												
 	.
@@ -98,7 +109,7 @@ PRODUCTIONS
 	.
 	/*=====================================================*/
 
-	attPredicate											(.  OnParsed(ParserParts.AttPredicate); .)	
+	attPredicate											
 	=
 	 equalsPred | inPred | morePred | moreEqulPred | lessPred | lessEqulPred
 	 .
@@ -108,7 +119,9 @@ PRODUCTIONS
 	= "=" (constant | setRelAttPredEnd).
 
 	inPred													(.  OnParsed(ParserParts.InPred); .)	
-	= "~" (string_ | setRelAttPredEnd).
+	= "~" 
+	(string_												(.  OnParsed(ParserParts.String, t.val); .)	
+	| setRelAttPredEnd).
 
 	morePred												(.  OnParsed(ParserParts.MorePred); .)	
 	= ">"  numericOrSetRelAtt.
@@ -123,7 +136,14 @@ PRODUCTIONS
 	= "<="  numericOrSetRelAtt.
 
 	countPredicate											
-	= (">" | ">=" | "<" | "<=" | "=") number
+	= (
+	">"														(.  OnParsed(ParserParts.MorePred); .)
+	| ">=" 													(.  OnParsed(ParserParts.MoreEqualPred); .)
+	| "<"													(.  OnParsed(ParserParts.LessPred); .)
+	| "<="													(.  OnParsed(ParserParts.LessEqualPred); .)
+	| "="													(.  OnParsed(ParserParts.EqualsPred); .)
+	) 
+	number													(.  OnParsed(ParserParts.Number, t.val); .)	
 	.
 	/*=====================================================*/
 
@@ -147,31 +167,39 @@ PRODUCTIONS
 	setRelAttLongShort =
 	 lowString												(.  OnParsed(ParserParts.SetRelArg, t.val); .)
 	 [ 
-	 relAtt													(.  OnParsed(ParserParts.RelAtt, t.val); .)
+	 relAtt													
 	 ]												
-	 | relAtt												(.  OnParsed(ParserParts.RelAtt, t.val); .)
+	 | relAtt												
 	 .
 	/*=====================================================*/
 
-	setRelFormalArg = 
-	lowString 
-	[ "[" lowString "|" lowString {"|" lowString}  "]" ].
+	setRelFormalArg =										(.  OnParsed(ParserParts.SetRelFormalArg); .)
+	lowString												(.  OnParsed(ParserParts.SetRelArg, t.val); .)
+	[ "[" lowString											(.  OnParsed(ParserParts.RelAtt, t.val); .)	
+	 "|" lowString											(.  OnParsed(ParserParts.RelAtt, t.val); .)	
+	 {"|" 
+	 lowString												(.  OnParsed(ParserParts.RelAtt, t.val); .)	
+	 }  
+	 "]" ].
 	/*=====================================================*/
 
 	func_ =													(.  OnParsed(ParserParts.FuncDefBlock); .)
-	"func" upString [alias]							
+	"func" 
+	upString												(.  OnParsed(ParserParts.DefOp,t.val); .)
+	[alias													(.  OnParsed(ParserParts.DefAlias,t.val); .)
+	]
 	"(" setRelFormalArg {"," setRelFormalArg } ")" 
 	"(" statement_ {statement_} ")".
 	/*=====================================================*/
 
 	numericOrSetRelAtt										(.  OnParsed(ParserParts.NumericOrSetRelAtt); .)
 	= 
-	number | 
-	float | 
-	setRelAttPredEnd.
+	number 													(.  OnParsed(ParserParts.Number, t.val); .)	
+	| float													(.  OnParsed(ParserParts.Float, t.val); .)	
+	| setRelAttPredEnd.
 	/*=====================================================*/
 	
 	setRelAttPredEnd										(.  OnParsed(ParserParts.SetRelAttPredEnd); .)
 	= setRelAttLongShort exAtt.
 
-END QL4BIM.
+END QL4BIM.  

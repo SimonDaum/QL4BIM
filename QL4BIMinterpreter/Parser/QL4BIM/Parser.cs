@@ -126,15 +126,15 @@ protected virtual void OnParsed(ParserParts context, string currentToken = "", s
 			} else {
 				Get();
 				Expect(3);
-				OnParsed(ParserParts.RelAtt); 
+				OnParsed(ParserParts.RelAtt, t.val); 
 				Expect(10);
 				Expect(3);
-				OnParsed(ParserParts.RelAtt); 
+				OnParsed(ParserParts.RelAtt, t.val); 
 				while (la.kind == 10) {
 					Get();
 					Expect(3);
+					OnParsed(ParserParts.RelAtt, t.val); 
 				}
-				OnParsed(ParserParts.RelAtt); 
 				Expect(11);
 			}
 		}
@@ -146,8 +146,10 @@ protected virtual void OnParsed(ParserParts context, string currentToken = "", s
 		OnParsed(ParserParts.FuncDefBlock); 
 		Expect(26);
 		Expect(4);
+		OnParsed(ParserParts.DefOp,t.val); 
 		if (la.kind == 7) {
 			Get();
+			OnParsed(ParserParts.DefAlias,t.val); 
 		}
 		Expect(13);
 		setRelFormalArg();
@@ -177,17 +179,21 @@ protected virtual void OnParsed(ParserParts context, string currentToken = "", s
 	}
 
 	void argument() {
+		OnParsed(ParserParts.Arguement); 
 		if (la.kind == 3 || la.kind == 9) {
 			setRelAttLongShort();
 			if (StartOf(1)) {
 				if (la.kind == 25) {
 					exType();
+					OnParsed(ParserParts.TypePrdicate); 
 				} else if (la.kind == 24) {
 					exAtt();
 					if (StartOf(2)) {
+						OnParsed(ParserParts.AttPredicate); 
 						attPredicate();
 					}
 				} else {
+					OnParsed(ParserParts.CountPredicate); 
 					countPredicate();
 				}
 			}
@@ -202,11 +208,9 @@ protected virtual void OnParsed(ParserParts context, string currentToken = "", s
 			OnParsed(ParserParts.SetRelArg, t.val); 
 			if (la.kind == 9) {
 				relAtt();
-				OnParsed(ParserParts.RelAtt, t.val); 
 			}
 		} else if (la.kind == 9) {
 			relAtt();
-			OnParsed(ParserParts.RelAtt, t.val); 
 		} else SynErr(30);
 	}
 
@@ -231,7 +235,6 @@ protected virtual void OnParsed(ParserParts context, string currentToken = "", s
 	}
 
 	void attPredicate() {
-		OnParsed(ParserParts.AttPredicate); 
 		switch (la.kind) {
 		case 12: {
 			equalsPred();
@@ -264,16 +267,22 @@ protected virtual void OnParsed(ParserParts context, string currentToken = "", s
 	void countPredicate() {
 		if (la.kind == 20) {
 			Get();
+			OnParsed(ParserParts.MorePred); 
 		} else if (la.kind == 21) {
 			Get();
+			OnParsed(ParserParts.MoreEqualPred); 
 		} else if (la.kind == 22) {
 			Get();
+			OnParsed(ParserParts.LessPred); 
 		} else if (la.kind == 23) {
 			Get();
+			OnParsed(ParserParts.LessEqualPred); 
 		} else if (la.kind == 12) {
 			Get();
+			OnParsed(ParserParts.EqualsPred); 
 		} else SynErr(34);
 		Expect(2);
+		OnParsed(ParserParts.Number, t.val); 
 	}
 
 	void constant() {
@@ -319,6 +328,7 @@ protected virtual void OnParsed(ParserParts context, string currentToken = "", s
 		Expect(19);
 		if (la.kind == 5) {
 			Get();
+			OnParsed(ParserParts.String, t.val); 
 		} else if (la.kind == 3 || la.kind == 9) {
 			setRelAttPredEnd();
 		} else SynErr(38);
@@ -358,8 +368,10 @@ protected virtual void OnParsed(ParserParts context, string currentToken = "", s
 		OnParsed(ParserParts.NumericOrSetRelAtt); 
 		if (la.kind == 2) {
 			Get();
+			OnParsed(ParserParts.Number, t.val); 
 		} else if (la.kind == 1) {
 			Get();
+			OnParsed(ParserParts.Float, t.val); 
 		} else if (la.kind == 3 || la.kind == 9) {
 			setRelAttPredEnd();
 		} else SynErr(39);
@@ -373,15 +385,20 @@ protected virtual void OnParsed(ParserParts context, string currentToken = "", s
 	}
 
 	void setRelFormalArg() {
+		OnParsed(ParserParts.SetRelFormalArg); 
 		Expect(3);
+		OnParsed(ParserParts.SetRelArg, t.val); 
 		if (la.kind == 9) {
 			Get();
 			Expect(3);
+			OnParsed(ParserParts.RelAtt, t.val); 
 			Expect(10);
 			Expect(3);
+			OnParsed(ParserParts.RelAtt, t.val); 
 			while (la.kind == 10) {
 				Get();
 				Expect(3);
+				OnParsed(ParserParts.RelAtt, t.val); 
 			}
 			Expect(11);
 		}
