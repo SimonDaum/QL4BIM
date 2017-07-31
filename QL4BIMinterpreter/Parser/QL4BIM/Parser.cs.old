@@ -30,9 +30,10 @@ public class Parser {
 public delegate void PartParsedEventHandler(object sender, PartParsedEventArgs e);
 public event PartParsedEventHandler PartParsed;
  
-protected virtual void OnParsed(PartParsedEventArgs e) 
-{
-
+protected virtual void OnParsed(ParserParts context, string currentToken = "", string lookAhead = "") 
+{	
+	var e = new PartParsedEventArgs(context, currentToken, lookAhead);
+    Console.WriteLine(e.ToString());
     PartParsed?.Invoke(this, e);
 }
 
@@ -98,7 +99,7 @@ protected virtual void OnParsed(PartParsedEventArgs e)
 	
 	void QL4BIM() {
 		if (la.kind == 3) {
-			OnParsed(new PartParsedEventArgs("global statements")); 
+			OnParsed(ParserParts.GlobalBlock); 
 			statement_();
 			while (la.kind == 3) {
 				statement_();
@@ -115,20 +116,25 @@ protected virtual void OnParsed(PartParsedEventArgs e)
 	}
 
 	void statement_() {
+		OnParsed(ParserParts.Statement); 
 		Expect(3);
-		OnParsed(new PartParsedEventArgs("variable")); 
+		OnParsed(ParserParts.Variable, t.val); 
 		while (la.kind == 8 || la.kind == 9) {
 			if (la.kind == 8) {
 				Get();
+				OnParsed(ParserParts.EmptyRelAtt); 
 			} else {
 				Get();
 				Expect(3);
+				OnParsed(ParserParts.RelAtt); 
 				Expect(10);
 				Expect(3);
+				OnParsed(ParserParts.RelAtt); 
 				while (la.kind == 10) {
 					Get();
 					Expect(3);
 				}
+				OnParsed(ParserParts.RelAtt); 
 				Expect(11);
 			}
 		}
@@ -137,6 +143,7 @@ protected virtual void OnParsed(PartParsedEventArgs e)
 	}
 
 	void func_() {
+		OnParsed(ParserParts.FuncDefBlock); 
 		Expect(26);
 		Expect(4);
 		if (la.kind == 7) {
@@ -158,8 +165,8 @@ protected virtual void OnParsed(PartParsedEventArgs e)
 	}
 
 	void expression() {
-		OnParsed(new PartParsedEventArgs("Operator")); 
 		Expect(4);
+		OnParsed(ParserParts.Operator, t.val); 
 		Expect(13);
 		argument();
 		while (la.kind == 14) {
@@ -186,18 +193,20 @@ protected virtual void OnParsed(PartParsedEventArgs e)
 			}
 		} else if (StartOf(3)) {
 			constant();
-			OnParsed(new PartParsedEventArgs("Const Argument")); 
 		} else SynErr(29);
 	}
 
 	void setRelAttLongShort() {
 		if (la.kind == 3) {
 			Get();
+			OnParsed(ParserParts.SetRelArg, t.val); 
 			if (la.kind == 9) {
 				relAtt();
+				OnParsed(ParserParts.RelAtt, t.val); 
 			}
 		} else if (la.kind == 9) {
 			relAtt();
+			OnParsed(ParserParts.RelAtt, t.val); 
 		} else SynErr(30);
 	}
 
@@ -208,6 +217,7 @@ protected virtual void OnParsed(PartParsedEventArgs e)
 		} else if (la.kind == 4) {
 			Get();
 		} else SynErr(31);
+		OnParsed(ParserParts.ExType, t.val); 
 	}
 
 	void exAtt() {
@@ -217,9 +227,11 @@ protected virtual void OnParsed(PartParsedEventArgs e)
 		} else if (la.kind == 4) {
 			Get();
 		} else SynErr(32);
+		OnParsed(ParserParts.ExAtt, t.val); 
 	}
 
 	void attPredicate() {
+		OnParsed(ParserParts.AttPredicate); 
 		switch (la.kind) {
 		case 12: {
 			equalsPred();
@@ -267,10 +279,13 @@ protected virtual void OnParsed(PartParsedEventArgs e)
 	void constant() {
 		if (la.kind == 5) {
 			Get();
+			OnParsed(ParserParts.String, t.val); 
 		} else if (la.kind == 2) {
 			Get();
+			OnParsed(ParserParts.Number, t.val); 
 		} else if (la.kind == 1) {
 			Get();
+			OnParsed(ParserParts.Float, t.val); 
 		} else if (la.kind == 16 || la.kind == 17 || la.kind == 18) {
 			bool_();
 		} else SynErr(35);
@@ -280,13 +295,17 @@ protected virtual void OnParsed(PartParsedEventArgs e)
 		if (la.kind == 16) {
 			Get();
 		} else if (la.kind == 17) {
+			OnParsed(ParserParts.Bool,t.val); 
 			Get();
 		} else if (la.kind == 18) {
+			OnParsed(ParserParts.Bool,t.val); 
 			Get();
+			OnParsed(ParserParts.Bool,t.val); 
 		} else SynErr(36);
 	}
 
 	void equalsPred() {
+		OnParsed(ParserParts.EqualsPred); 
 		Expect(12);
 		if (StartOf(3)) {
 			constant();
@@ -296,6 +315,7 @@ protected virtual void OnParsed(PartParsedEventArgs e)
 	}
 
 	void inPred() {
+		OnParsed(ParserParts.InPred); 
 		Expect(19);
 		if (la.kind == 5) {
 			Get();
@@ -305,31 +325,37 @@ protected virtual void OnParsed(PartParsedEventArgs e)
 	}
 
 	void morePred() {
+		OnParsed(ParserParts.MorePred); 
 		Expect(20);
 		numericOrSetRelAtt();
 	}
 
 	void moreEqulPred() {
+		OnParsed(ParserParts.MoreEqualPred); 
 		Expect(21);
 		numericOrSetRelAtt();
 	}
 
 	void lessPred() {
+		OnParsed(ParserParts.LessPred); 
 		Expect(22);
 		numericOrSetRelAtt();
 	}
 
 	void lessEqulPred() {
+		OnParsed(ParserParts.LessEqualPred); 
 		Expect(23);
 		numericOrSetRelAtt();
 	}
 
 	void setRelAttPredEnd() {
+		OnParsed(ParserParts.SetRelAttPredEnd); 
 		setRelAttLongShort();
 		exAtt();
 	}
 
 	void numericOrSetRelAtt() {
+		OnParsed(ParserParts.NumericOrSetRelAtt); 
 		if (la.kind == 2) {
 			Get();
 		} else if (la.kind == 1) {
@@ -342,6 +368,7 @@ protected virtual void OnParsed(PartParsedEventArgs e)
 	void relAtt() {
 		Expect(9);
 		Expect(3);
+		OnParsed(ParserParts.RelAtt, t.val); 
 		Expect(11);
 	}
 

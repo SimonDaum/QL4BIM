@@ -2,9 +2,10 @@ COMPILER QL4BIM
 public delegate void PartParsedEventHandler(object sender, PartParsedEventArgs e);
 public event PartParsedEventHandler PartParsed;
  
-protected virtual void OnParsed(PartParsedEventArgs e) 
+protected virtual void OnParsed(ParserParts context, string currentToken = "", string lookAhead = "") 
 {	
-     Console.WriteLine(e.ToString());
+	var e = new PartParsedEventArgs(context, currentToken, lookAhead);
+    Console.WriteLine(e.ToString());
     PartParsed?.Invoke(this, e);
 }
 
@@ -40,87 +41,137 @@ PRODUCTIONS
 
 	QL4BIM												
 	= 		
-	(																(.  OnParsed(new PartParsedEventArgs("global statements")); .)
+	(																(.  OnParsed(ParserParts.GlobalBlock); .)
 	statement_ {statement_} {func_})
 	|
-	( func_ {func_}).						
+	( func_ {func_})
+	.						
 	/*=====================================================*/
 
-	statement_														
-	=											
-	lowString														(.  OnParsed(new PartParsedEventArgs("variable")); .)							
-	{													
-	"[]" |
-	"[" lowString											
-	 "|" lowString										
-	{"|" lowString}										
+	statement_														(.  OnParsed(ParserParts.Statement); .)	
+	=																
+	lowString														(.  OnParsed(ParserParts.Variable, t.val); .)						
+	{																
+	"[]"															(.  OnParsed(ParserParts.EmptyRelAtt); .)
+	|"[" lowString													(.  OnParsed(ParserParts.RelAtt); .)			
+	 "|" lowString													(.  OnParsed(ParserParts.RelAtt); .)
+	{"|" lowString}													(.  OnParsed(ParserParts.RelAtt); .)
 	"]"
 	}
 	"="													
-	expression.						
+	expression
+	.						
 	/*=====================================================*/
 
-	expression														(.  OnParsed(new PartParsedEventArgs("Operator")); .)
+	expression														
 	= 
-	upString											
+	upString														(.  OnParsed(ParserParts.Operator, t.val); .)
 	"("													
-		argument							
+		argument													
 	{ ","										
 		argument								
-	} ")".
+	} ")"
+	.
 	/*=====================================================*/
 
 	argument			
 	=
 	setRelAttLongShort [exType | exAtt [attPredicate]  | countPredicate ] 					
 	|																				
-	constant												(.  OnParsed(new PartParsedEventArgs("Const Argument")); .)	
+	constant												
 	.
 	/*=====================================================*/
 
-	constant =  string_ | number | float | bool_.
+	constant =  
+	string_ 												(.  OnParsed(ParserParts.String, t.val); .)	
+	| number 												(.  OnParsed(ParserParts.Number, t.val); .)	
+	| float 												(.  OnParsed(ParserParts.Float, t.val); .)	
+	| bool_														
+	.
 	/*=====================================================*/
 
-	bool_ = "true" | "false" | "unknown".
+	bool_ 
+	=														
+	"true" 													(.  OnParsed(ParserParts.Bool,t.val); .)
+	| "false" 												(.  OnParsed(ParserParts.Bool,t.val); .)
+	| "unknown"												(.  OnParsed(ParserParts.Bool,t.val); .)
+	.
 	/*=====================================================*/
 
-	attPredicate = equalsPred | inPred | morePred | moreEqulPred | lessPred | lessEqulPred.
+	attPredicate											(.  OnParsed(ParserParts.AttPredicate); .)	
+	=
+	 equalsPred | inPred | morePred | moreEqulPred | lessPred | lessEqulPred
+	 .
 	/*=====================================================*/
 
-	equalsPred = "=" (constant | setRelAttPredEnd).
-	inPred = "~" (string_ | setRelAttPredEnd).
-	morePred = ">"  numericOrSetRelAtt.
-	moreEqulPred = ">="  numericOrSetRelAtt.
-	lessPred = "<"  numericOrSetRelAtt.
-	lessEqulPred = "<="  numericOrSetRelAtt.
+	equalsPred												(.  OnParsed(ParserParts.EqualsPred); .)	
+	= "=" (constant | setRelAttPredEnd).
 
-	countPredicate = (">" | ">=" | "<" | "<=" | "=") number.
+	inPred													(.  OnParsed(ParserParts.InPred); .)	
+	= "~" (string_ | setRelAttPredEnd).
 
+	morePred												(.  OnParsed(ParserParts.MorePred); .)	
+	= ">"  numericOrSetRelAtt.
+
+	moreEqulPred											(.  OnParsed(ParserParts.MoreEqualPred); .)	
+	= ">="  numericOrSetRelAtt.
+
+	lessPred												(.  OnParsed(ParserParts.LessPred); .)	
+	= "<"  numericOrSetRelAtt.
+
+	lessEqulPred											(.  OnParsed(ParserParts.LessEqualPred); .)	
+	= "<="  numericOrSetRelAtt.
+
+	countPredicate											
+	= (">" | ">=" | "<" | "<=" | "=") number
+	.
 	/*=====================================================*/
 
-	relAtt = "[" lowString "]".
+	relAtt = 
+	"["		
+	lowString												(.  OnParsed(ParserParts.RelAtt, t.val); .)	
+	"]"
+	.								
 	/*=====================================================*/
 
-	exAtt = "." (lowString | upString).
+	exAtt = 
+	"." (lowString | upString)								(.  OnParsed(ParserParts.ExAtt, t.val); .)	
+	.
 	/*=====================================================*/
 
-	exType = "is" (lowString | upString).
+	exType = "is" (lowString | upString)					(.  OnParsed(ParserParts.ExType, t.val); .)	
+	.
 	/*=====================================================*/
 
 
-	setRelAttLongShort = lowString [ relAtt ] | relAtt.
+	setRelAttLongShort =
+	 lowString												(.  OnParsed(ParserParts.SetRelArg, t.val); .)
+	 [ 
+	 relAtt													(.  OnParsed(ParserParts.RelAtt, t.val); .)
+	 ]												
+	 | relAtt												(.  OnParsed(ParserParts.RelAtt, t.val); .)
+	 .
 	/*=====================================================*/
 
-	setRelFormalArg = lowString [ "[" lowString "|" lowString {"|" lowString}  "]" ].
+	setRelFormalArg = 
+	lowString 
+	[ "[" lowString "|" lowString {"|" lowString}  "]" ].
+	/*=====================================================*/
+
+	func_ =													(.  OnParsed(ParserParts.FuncDefBlock); .)
+	"func" upString [alias]							
+	"(" setRelFormalArg {"," setRelFormalArg } ")" 
+	"(" statement_ {statement_} ")".
+	/*=====================================================*/
+
+	numericOrSetRelAtt										(.  OnParsed(ParserParts.NumericOrSetRelAtt); .)
+	= 
+	number | 
+	float | 
+	setRelAttPredEnd.
 	/*=====================================================*/
 	
+	setRelAttPredEnd										(.  OnParsed(ParserParts.SetRelAttPredEnd); .)
+	= setRelAttLongShort exAtt.
 
-	setRelAttPredEnd = setRelAttLongShort exAtt.
-	/*=====================================================*/
-
-	func_ = "func" upString [alias] 
-			"(" setRelFormalArg {"," setRelFormalArg } ")" 
-			"(" statement_ {statement_} ")".
-
-	numericOrSetRelAtt = number | float | setRelAttPredEnd.
 END QL4BIM.
