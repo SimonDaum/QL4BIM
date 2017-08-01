@@ -2,14 +2,19 @@ COMPILER QL4BIM
 public delegate void PartParsedEventHandler(object sender, PartParsedEventArgs e);
 public event PartParsedEventHandler PartParsed;
  
-protected virtual void OnParsed(ParserParts context, string currentToken = "", string lookAhead = "") 
-{	
-	var e = new PartParsedEventArgs(context, currentToken, lookAhead);
+protected virtual void OnParsed(ParserParts parsePart, string currentToken = "")
+{
+    var e = new PartParsedEventArgs(parsePart, ParserContext.NoChange, currentToken);
     Console.WriteLine(e.ToString());
     PartParsed?.Invoke(this, e);
 }
 
-public FunctionNode GlobalBlock { get; set; }
+protected virtual void OnParsed(ParserContext context)
+{
+    var e = new PartParsedEventArgs(ParserParts.NoChange, context, String.Empty );
+    Console.WriteLine(e.ToString());
+    PartParsed?.Invoke(this, e);
+}
 
 CHARACTERS
 
@@ -40,36 +45,37 @@ IGNORE cr + lf + tab
 
 PRODUCTIONS
 
-	QL4BIM												
+
+QL4BIM												
 	= 		
-	(																(.  OnParsed(ParserParts.GlobalBlock); .)
+	(																(.  OnParsed(ParserContext.GlobalBlock); .)
 	statement_ {statement_} {func_})
 	|
 	( func_ {func_})
 	.						
 	/*=====================================================*/
 
-	statement_														(.  OnParsed(ParserParts.Statement); .)	
-	=																
-	lowString														(.  OnParsed(ParserParts.VariableBegin, t.val); .)						
+	statement_														(.  OnParsed(ParserContext.Statement); .)
+	=																(.  OnParsed(ParserContext.Variable); .)
+	lowString														(.  OnParsed(ParserParts.SetRelVar, t.val); .)						
 	{																
-	"[]"															(.  OnParsed(ParserParts.VariableEmptyRelAtt); .)
-	|"[" lowString													(.  OnParsed(ParserParts.VariableRelAtt, t.val); .)			
-	 "|" lowString													(.  OnParsed(ParserParts.VariableRelAtt, t.val); .)
+	"[]"															(.  OnParsed(ParserParts.EmptyRelAtt); .)
+	|"[" lowString													(.  OnParsed(ParserParts.RelAtt, t.val); .)			
+	 "|" lowString													(.  OnParsed(ParserParts.RelAtt, t.val); .)
 	{
-	"|" lowString													(.  OnParsed(ParserParts.VariableRelAtt, t.val); .)
+	"|" lowString													(.  OnParsed(ParserParts.RelAtt, t.val); .)
 	}													
 	"]"
-	}																(.  OnParsed(ParserParts.VariableEnd, t.val); .)	
+	}
 	"="													
 	expression
 	.						
 	/*=====================================================*/
 
 	expression														
-	= 
-	upString														(.  OnParsed(ParserParts.Operator, t.val); .)
-	"("													
+	=																(.  OnParsed(ParserContext.Operator ); .)
+	upString														(.  OnParsed(ParserParts.NoChange, t.val); .)
+	"("																(.  OnParsed(ParserContext.Argument); .)
 		argument													
 	{ ","										
 		argument								
@@ -77,16 +83,16 @@ PRODUCTIONS
 	.
 	/*=====================================================*/
 
-	argument													(.  OnParsed(ParserParts.Arguement); .)
+	argument													(.  OnParsed(ParserContext.Argument); .)
 	=
 	setRelAttLongShort 
 	[
-	exType													(.  OnParsed(ParserParts.TypePrdicate); .)	
+	exType													(.  OnParsed(ParserContext.TypePrdicate); .)	
 	| exAtt 
-	[														(.  OnParsed(ParserParts.AttPredicate); .)	
+	[														(.  OnParsed(ParserContext.AttPredicate); .)	
 	attPredicate											
 	]  
-	|														(.  OnParsed(ParserParts.CountPredicate); .)	
+	|														(.  OnParsed(ParserContext.CountPredicate); .)	
 	countPredicate 
 	] 					
 	|																				
@@ -150,7 +156,7 @@ PRODUCTIONS
 
 	relAtt = 
 	"["		
-	lowString												(.  OnParsed(ParserParts.ArguementRelAtt, t.val); .)	
+	lowString												(.  OnParsed(ParserParts.RelAtt, t.val); .)	
 	"]"
 	.								
 	/*=====================================================*/
@@ -166,7 +172,7 @@ PRODUCTIONS
 
 
 	setRelAttLongShort =
-	 lowString												(.  OnParsed(ParserParts.ArguementSetRelBegin, t.val); .)
+	 lowString												(.  OnParsed(ParserParts.SetRelArg, t.val); .)
 	 [ 
 	 relAtt													
 	 ]												
@@ -175,18 +181,16 @@ PRODUCTIONS
 	/*=====================================================*/
 
 	setRelFormalArg =										(.  OnParsed(ParserParts.SetRelFormalArg); .)
-	lowString												(.  OnParsed(ParserParts.ArguementSetRelBegin, t.val); .)
-	[ "[" lowString											(.  OnParsed(ParserParts.ArguementRelAtt, t.val); .)	
-	 "|" lowString											(.  OnParsed(ParserParts.ArguementRelAtt, t.val); .)	
+	lowString												(.  OnParsed(ParserParts.SetRelArg, t.val); .)
+	[ "[" lowString											(.  OnParsed(ParserParts.RelAtt, t.val); .)	
+	 "|" lowString											(.  OnParsed(ParserParts.RelAtt, t.val); .)	
 	 {"|" 
-	 lowString												(.  OnParsed(ParserParts.ArguementRelAtt, t.val); .)	
+	 lowString												(.  OnParsed(ParserParts.RelAtt, t.val); .)	
 	 }  
-	 "]" 
-	 ]														(.  OnParsed(ParserParts.ArgumentRelSetEnd, t.val); .)
-	 .
+	 "]" ].
 	/*=====================================================*/
 
-	func_ =													(.  OnParsed(ParserParts.FuncDefBlock); .)
+	func_ =													(.  OnParsed(ParserContext.FuncDefBlock); .)
 	"func" 
 	upString												(.  OnParsed(ParserParts.DefOp,t.val); .)
 	[alias													(.  OnParsed(ParserParts.DefAlias,t.val); .)
@@ -204,5 +208,6 @@ PRODUCTIONS
 	
 	setRelAttPredEnd										(.  OnParsed(ParserParts.SetRelAttPredEnd); .)
 	= setRelAttLongShort exAtt.
+
 
 END QL4BIM.  

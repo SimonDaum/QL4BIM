@@ -5,19 +5,19 @@ namespace QL4BIMinterpreter.QL4BIM
     public class PartParsedEventArgs : EventArgs
     {
         public string CurrentToken { get; set; }
-        public string LookAhead { get; set; }
-        public ParserParts Context { get; set; }
+        public ParserContext Context { get; set; }
+        public ParserParts ParsePart { get; set; }
 
-        public PartParsedEventArgs(ParserParts context, string currentToken = "", string lookAhead = "")
+        public PartParsedEventArgs(ParserParts parsePart, ParserContext context, string currentToken = "")
         {
             CurrentToken = currentToken;
-            LookAhead = lookAhead;
             Context = context;
+            ParsePart = parsePart;
         }
 
         public override string ToString()
         {
-            var outString = "Context: " + Context;
+            var outString = "ParsePart: " + ParsePart;
             if (CurrentToken != String.Empty)
                 outString += " " + CurrentToken;
 
@@ -25,16 +25,24 @@ namespace QL4BIMinterpreter.QL4BIM
         }
     }
 
-    public enum ParserParts { GlobalBlock, FuncDefBlock, Statement,
-                              VariableBegin, VariableEnd,
-                              VariableEmptyRelAtt, VariableRelAtt, Expression, Operator, Arguement,
-                              ArguementSetRelBegin, ArgumentRelSetEnd,
-                              ExType, ExAtt, NumericOrSetRelAtt, SetRelAttPredEnd,
-                              ArguementRelAtt, 
-                              TypePrdicate, AttPredicate, CountPredicate,
-                              Constant, String, Number, Float, Bool,
-                              EqualsPred, InPred, MorePred, MoreEqualPred, LessPred, LessEqualPred,
-                              SetRelFormalArg, DefOp, DefAlias
+    public enum ParserParts {
+        NoChange,
+        SetRelVar,
+        EmptyRelAtt, RelAtt, 
+        SetRelArg,
+        ExType, ExAtt, NumericOrSetRelAtt, SetRelAttPredEnd,
+        Constant, String, Number, Float, Bool,
+        EqualsPred, InPred, MorePred, MoreEqualPred, LessPred, LessEqualPred,
+        SetRelFormalArg, DefOp, DefAlias
+    }
+
+    public enum ParserContext
+    {   
+        NoChange,
+        GlobalBlock, FuncDefBlock,
+        Statement,  Variable, Operator,
+        Argument, SimpleSetRelParameter,
+        TypePrdicate, AttPredicate, CountPredicate 
     }
 
     public delegate void PartParsedEventHandler(object sender, PartParsedEventArgs e);

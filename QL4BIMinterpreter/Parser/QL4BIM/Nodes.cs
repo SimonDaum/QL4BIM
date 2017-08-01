@@ -37,8 +37,7 @@ namespace QL4BIMinterpreter.QL4BIM
 
         public FunctionNode Copy()
         {
-            var copy = new FunctionNode();
-            copy.Value = Value;
+            var copy = new FunctionNode(Value);
             copy.SymbolTable = new SymbolTable(SymbolTable);
             copy.Arguments = Arguments.ToList();
             copy.Next = Next;
@@ -62,22 +61,11 @@ namespace QL4BIMinterpreter.QL4BIM
         public FunctionNode Previous { get; private set; }
 
 
-        public FunctionNode(FunctionNode previousNode = null)
+        public FunctionNode(string value)
         {
             SymbolTable = new SymbolTable();
-      
-
-            if (previousNode == null)
-            {
-                Value = "Global";
-                SymbolTable.Name = Value;
-                return;
-            }
-
-            SymbolTable.Name = Value;
-
-            Previous = previousNode;
-            previousNode.Next = this;
+            SymbolTable.Name = value;
+            Value = value;
         }
 
         public override string Value

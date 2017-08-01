@@ -30,14 +30,19 @@ public class Parser {
 public delegate void PartParsedEventHandler(object sender, PartParsedEventArgs e);
 public event PartParsedEventHandler PartParsed;
  
-protected virtual void OnParsed(ParserParts context, string currentToken = "", string lookAhead = "") 
-{	
-	var e = new PartParsedEventArgs(context, currentToken, lookAhead);
+protected virtual void OnParsed(ParserParts parsePart, string currentToken = "")
+{
+    var e = new PartParsedEventArgs(parsePart, ParserContext.NoChange, currentToken);
     Console.WriteLine(e.ToString());
     PartParsed?.Invoke(this, e);
 }
 
-public FunctionNode GlobalBlock { get; set; }
+protected virtual void OnParsed(ParserContext context)
+{
+    var e = new PartParsedEventArgs(ParserParts.NoChange, context, String.Empty );
+    Console.WriteLine(e.ToString());
+    PartParsed?.Invoke(this, e);
+}
 
 
 
@@ -100,7 +105,7 @@ public FunctionNode GlobalBlock { get; set; }
 	
 	void QL4BIM() {
 		if (la.kind == 3) {
-			OnParsed(ParserParts.GlobalBlock); 
+			OnParsed(ParserContext.GlobalBlock); 
 			statement_();
 			while (la.kind == 3) {
 				statement_();
@@ -117,35 +122,35 @@ public FunctionNode GlobalBlock { get; set; }
 	}
 
 	void statement_() {
-		OnParsed(ParserParts.Statement); 
+		OnParsed(ParserContext.Statement); 
+		OnParsed(ParserContext.Variable); 
 		Expect(3);
-		OnParsed(ParserParts.VariableBegin, t.val); 
+		OnParsed(ParserParts.SetRelVar, t.val); 
 		while (la.kind == 8 || la.kind == 9) {
 			if (la.kind == 8) {
 				Get();
-				OnParsed(ParserParts.VariableEmptyRelAtt); 
+				OnParsed(ParserParts.EmptyRelAtt); 
 			} else {
 				Get();
 				Expect(3);
-				OnParsed(ParserParts.VariableRelAtt, t.val); 
+				OnParsed(ParserParts.RelAtt, t.val); 
 				Expect(10);
 				Expect(3);
-				OnParsed(ParserParts.VariableRelAtt, t.val); 
+				OnParsed(ParserParts.RelAtt, t.val); 
 				while (la.kind == 10) {
 					Get();
 					Expect(3);
-					OnParsed(ParserParts.VariableRelAtt, t.val); 
+					OnParsed(ParserParts.RelAtt, t.val); 
 				}
 				Expect(11);
 			}
 		}
-		OnParsed(ParserParts.VariableEnd, t.val); 
 		Expect(12);
 		expression();
 	}
 
 	void func_() {
-		OnParsed(ParserParts.FuncDefBlock); 
+		OnParsed(ParserContext.FuncDefBlock); 
 		Expect(26);
 		Expect(4);
 		OnParsed(ParserParts.DefOp,t.val); 
@@ -169,9 +174,11 @@ public FunctionNode GlobalBlock { get; set; }
 	}
 
 	void expression() {
+		OnParsed(ParserContext.Operator ); 
 		Expect(4);
-		OnParsed(ParserParts.Operator, t.val); 
+		OnParsed(ParserContext.NoChange, t.val); 
 		Expect(13);
+		OnParsed(ParserContext.Argument); 
 		argument();
 		while (la.kind == 14) {
 			Get();
@@ -181,21 +188,21 @@ public FunctionNode GlobalBlock { get; set; }
 	}
 
 	void argument() {
-		OnParsed(ParserParts.Arguement); 
+		OnParsed(ParserContext.Argument); 
 		if (la.kind == 3 || la.kind == 9) {
 			setRelAttLongShort();
 			if (StartOf(1)) {
 				if (la.kind == 25) {
 					exType();
-					OnParsed(ParserParts.TypePrdicate); 
+					OnParsed(ParserContext.TypePrdicate); 
 				} else if (la.kind == 24) {
 					exAtt();
 					if (StartOf(2)) {
-						OnParsed(ParserParts.AttPredicate); 
+						OnParsed(ParserContext.AttPredicate); 
 						attPredicate();
 					}
 				} else {
-					OnParsed(ParserParts.CountPredicate); 
+					OnParsed(ParserContext.CountPredicate); 
 					countPredicate();
 				}
 			}
@@ -207,7 +214,7 @@ public FunctionNode GlobalBlock { get; set; }
 	void setRelAttLongShort() {
 		if (la.kind == 3) {
 			Get();
-			OnParsed(ParserParts.ArguementSetRel, t.val); 
+			OnParsed(ParserParts.SetRelArg, t.val); 
 			if (la.kind == 9) {
 				relAtt();
 			}
@@ -382,29 +389,28 @@ public FunctionNode GlobalBlock { get; set; }
 	void relAtt() {
 		Expect(9);
 		Expect(3);
-		OnParsed(ParserParts.ArguementRelAtt, t.val); 
+		OnParsed(ParserParts.RelAtt, t.val); 
 		Expect(11);
 	}
 
 	void setRelFormalArg() {
 		OnParsed(ParserParts.SetRelFormalArg); 
 		Expect(3);
-		OnParsed(ParserParts.ArguementSetRelBegin, t.val); 
+		OnParsed(ParserParts.SetRelArg, t.val); 
 		if (la.kind == 9) {
 			Get();
 			Expect(3);
-			OnParsed(ParserParts.ArguementRelAtt, t.val); 
+			OnParsed(ParserParts.RelAtt, t.val); 
 			Expect(10);
 			Expect(3);
-			OnParsed(ParserParts.ArguementRelAtt, t.val); 
+			OnParsed(ParserParts.RelAtt, t.val); 
 			while (la.kind == 10) {
 				Get();
 				Expect(3);
-				OnParsed(ParserParts.ArguementRelAtt, t.val); 
+				OnParsed(ParserParts.RelAtt, t.val); 
 			}
 			Expect(11);
 		}
-		OnParsed(ParserParts.ArgumentRelSetEnd, t.val); 
 	}
 
 
