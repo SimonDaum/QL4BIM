@@ -19,19 +19,19 @@ namespace QL4BIMinterpreter
         {
             var isSetAttribute = IsSetAttribute(statement, 0);
 
-            if (isSetAttribute && statement.ReturnLiteralNode == null)
+            if (isSetAttribute && statement.ReturnSetNode == null)
                 throw new QueryException($"{Name}: If a set is used as first parameter, a set is returned ");
 
             if(isSetAttribute)
                 return;
 
-            if (statement.ReturnCompLitNode == null)
+            if (statement.ReturnRelationNode == null)
                 throw new QueryException($"{Name}: If a relation is used as first parameter, a relation is returned ");
 
-            var attributeCountOfRelation = ReferencedRelationAttributeCount(statement.Arguments[0] as LiteralNode);
+            var attributeCountOfRelation = ReferencedRelationAttributeCount(statement.Arguments[0] as SetNode);
 
 
-            if (statement.ReturnCompLitNode.Literals.Count != attributeCountOfRelation)
+            if (statement.ReturnRelationNode.Attributes.Count != attributeCountOfRelation)
                 throw new QueryException($"{Name}: If a relation attribute is used as first parameter, a relation with the same number of attributes is returned ");
         }
     }

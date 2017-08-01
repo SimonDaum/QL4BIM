@@ -25,10 +25,12 @@ namespace QL4BIMinterpreter.QL4BIM
         }
     }
 
-    public enum ParserParts { GlobalBlock, FuncDefBlock, Statement, Variable,
-                              EmptyRelAtt, RelAtt, Expression, Operator, Arguement,
-                              SetRelArg, 
+    public enum ParserParts { GlobalBlock, FuncDefBlock, Statement,
+                              VariableBegin, VariableEnd,
+                              VariableEmptyRelAtt, VariableRelAtt, Expression, Operator, Arguement,
+                              ArguementSetRelBegin, ArgumentRelSetEnd,
                               ExType, ExAtt, NumericOrSetRelAtt, SetRelAttPredEnd,
+                              ArguementRelAtt, 
                               TypePrdicate, AttPredicate, CountPredicate,
                               Constant, String, Number, Float, Bool,
                               EqualsPred, InPred, MorePred, MoreEqualPred, LessPred, LessEqualPred,

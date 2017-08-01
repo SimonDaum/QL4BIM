@@ -6,7 +6,7 @@ namespace QL4BIMinterpreter
     public interface ISymbolVisitor
     {
         void Visit(StatementNode statementNode);
-        void Visit(FuncNode funcNode);
+        void Visit(FunctionNode functionNode);
 
     }
 }

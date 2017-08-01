@@ -20,7 +20,7 @@ namespace QL4BIMinterpreter
 
         public void Visit(StatementNode statementNode)
         {
-            var symbolTable = ((FuncNode) statementNode.Parent).SymbolTable;
+            var symbolTable = ((FunctionNode) statementNode.Parent).SymbolTable;
 
             var relsWithAttributes =  symbolTable.Symbols.Values.Where(s => s is RelationSymbol).Cast<RelationSymbol>().
                 Select(r => new Tuple<string, List<string>>(r.Value, r.Attributes)).ToList();
@@ -37,41 +37,41 @@ namespace QL4BIMinterpreter
             AddSymbolsFromStatments(statementNode);
         }
 
-        public void Visit(FuncNode funcNode)
+        public void Visit(FunctionNode functionNode)
         {
-            if (funcNode?.FirstStatement == null)
+            if (functionNode?.FirstStatement == null)
                 return;
 
-            if (funcNode.Previous == null)
+            if (functionNode.Previous == null)
             {   
-                interpreterRepository.GlobalSymbolTable =  funcNode.SymbolTable ;
+                interpreterRepository.GlobalSymbolTable =  functionNode.SymbolTable ;
             }
             else
             {
 
-                AddSymbolsFromFunc(funcNode);
+                AddSymbolsFromFunc(functionNode);
             }
 
-            var statement = funcNode.FirstStatement;
+            var statement = functionNode.FirstStatement;
             do
             {
                 statement.Accept(this);
                 statement = statement.Next;
             } while (statement != null);
 
-            Visit(funcNode.Next);
+            Visit(functionNode.Next);
 
         }
 
-        private void AddSymbolsFromFunc(FuncNode funcNode)
+        private void AddSymbolsFromFunc(FunctionNode functionNode)
         {
-            foreach (var funcNodeArgument in funcNode.Arguments)
+            foreach (var funcNodeArgument in functionNode.Arguments)
             {
-                var compLitNode = funcNodeArgument as CompLitNode;
+                var compLitNode = funcNodeArgument as RelationNode;
                 if(compLitNode != null)
-                    funcNode.SymbolTable.AddRelSymbol(compLitNode);
+                    functionNode.SymbolTable.AddRelSymbol(compLitNode);
                 else
-                    funcNode.SymbolTable.AddSetSymbol((LiteralNode)funcNodeArgument);
+                    functionNode.SymbolTable.AddSetSymbol((SetNode)funcNodeArgument);
             }
         }
 
@@ -84,7 +84,7 @@ namespace QL4BIMinterpreter
 
         private void SetAttributesUsage(StatementNode statementNode)
         {
-            var literalArgs = statementNode.Arguments.Where(a => a is LiteralNode).Cast<LiteralNode>();
+            var literalArgs = statementNode.Arguments.Where(a => a is SetNode).Cast<SetNode>();
 
             var nodeForBackwardTraversal = statementNode;
 
@@ -92,16 +92,16 @@ namespace QL4BIMinterpreter
             {
                 do 
                 {
-                    if (nodeForBackwardTraversal.ReturnLiteralNode != null &&
-                        nodeForBackwardTraversal.ReturnLiteralNode.Value == literalArg.Value)
+                    if (nodeForBackwardTraversal.ReturnSetNode != null &&
+                        nodeForBackwardTraversal.ReturnSetNode.Value == literalArg.Value)
                     {
-                        literalArg.Usage = LiteralNode.SymbolUsage.Set;
+                        literalArg.Usage = SetNode.SymbolUsage.Set;
                         break; 
                     }
-                    else if (nodeForBackwardTraversal.ReturnCompLitNode != null &&
-                             nodeForBackwardTraversal.ReturnCompLitNode.Literals.Contains(literalArg.Value))
+                    else if (nodeForBackwardTraversal.ReturnRelationNode != null &&
+                             nodeForBackwardTraversal.ReturnRelationNode.Attributes.Contains(literalArg.Value))
                     {
-                       literalArg.Usage = LiteralNode.SymbolUsage.RelAtt;
+                       literalArg.Usage = SetNode.SymbolUsage.RelAtt;
                        break;
                     }
                         
@@ -113,9 +113,9 @@ namespace QL4BIMinterpreter
 
         private void CheckSymbolExistance(StatementNode statementNode, List<string> allAttributes)
         {
-            var symbolTable = ((FuncNode)statementNode.Parent).SymbolTable;
+            var symbolTable = ((FunctionNode)statementNode.Parent).SymbolTable;
 
-            var literalArgs = statementNode.Arguments.Where(a => a is LiteralNode).Cast<LiteralNode>();
+            var literalArgs = statementNode.Arguments.Where(a => a is SetNode).Cast<SetNode>();
             foreach (var literalArg in literalArgs)
             {   
                 //sets
@@ -132,24 +132,24 @@ namespace QL4BIMinterpreter
 
         private void AddSymbolsFromStatments(StatementNode statementNode)
         {
-            var symbolTable = ((FuncNode)statementNode.Parent).SymbolTable;
+            var symbolTable = ((FunctionNode)statementNode.Parent).SymbolTable;
 
-            if (statementNode.ReturnCompLitNode != null && statementNode.ReturnLiteralNode != null)
+            if (statementNode.ReturnRelationNode != null && statementNode.ReturnSetNode != null)
                 throw new InvalidOperationException();
 
-            if(statementNode.ReturnCompLitNode != null)
+            if(statementNode.ReturnRelationNode != null)
             {
-                if (symbolTable.Symbols.ContainsKey(statementNode.ReturnCompLitNode.Value))
+                if (symbolTable.Symbols.ContainsKey(statementNode.ReturnRelationNode.Value))
                     return;
 
-                symbolTable.AddRelSymbol(statementNode.ReturnCompLitNode);
+                symbolTable.AddRelSymbol(statementNode.ReturnRelationNode);
             }
-            else if (statementNode.ReturnLiteralNode != null)
+            else if (statementNode.ReturnSetNode != null)
             {
-                if (symbolTable.Symbols.ContainsKey(statementNode.ReturnLiteralNode.Value))
+                if (symbolTable.Symbols.ContainsKey(statementNode.ReturnSetNode.Value))
                     return;
 
-                symbolTable.AddSetSymbol(statementNode.ReturnLiteralNode);
+                symbolTable.AddSetSymbol(statementNode.ReturnSetNode);
             }
         }
     }

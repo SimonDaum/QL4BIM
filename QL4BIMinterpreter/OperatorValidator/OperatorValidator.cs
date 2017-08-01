@@ -24,9 +24,9 @@ namespace QL4BIMinterpreter
             return attributeList == null;
         }
 
-        protected int ReferencedRelationAttributeCount(LiteralNode literalNode)
+        protected int ReferencedRelationAttributeCount(SetNode setNode)
         {
-            var attributeList = AllAttributes.First(l => l.Contains(literalNode.Value));
+            var attributeList = AllAttributes.First(l => l.Contains(setNode.Value));
             return attributeList.Count;
         }
 
@@ -58,10 +58,10 @@ namespace QL4BIMinterpreter
                 if (!argumentTypesOkay)
                     continue;
 
-                if(functionSignatur.ReturnSymbol == SyUseVal.Rel && statement.ReturnCompLitNode == null)
+                if(functionSignatur.ReturnSymbol == SyUseVal.Rel && statement.ReturnRelationNode == null)
                     continue; 
 
-                if (functionSignatur.ReturnSymbol == SyUseVal.Set && statement.ReturnLiteralNode == null)
+                if (functionSignatur.ReturnSymbol == SyUseVal.Set && statement.ReturnSetNode == null)
                     continue;
 
                 //var predicateOkay = true;
@@ -181,16 +181,16 @@ namespace QL4BIMinterpreter
             if (node is ExTypeNode && symbolUsage == SyUseVal.ExType)
                 return true;
 
-            if (node is CompLitNode && symbolUsage == SyUseVal.Rel)
+            if (node is RelationNode && symbolUsage == SyUseVal.Rel)
                 return true;
 
-            var node1 = node as LiteralNode;
+            var node1 = node as SetNode;
             if (node1 != null)
             {
                 var literalNode = node1;
-                if (literalNode.Usage == LiteralNode.SymbolUsage.RelAtt && symbolUsage == SyUseVal.RelAtt)
+                if (literalNode.Usage == SetNode.SymbolUsage.RelAtt && symbolUsage == SyUseVal.RelAtt)
                     return true;
-                if (literalNode.Usage == LiteralNode.SymbolUsage.Set && symbolUsage == SyUseVal.Set)
+                if (literalNode.Usage == SetNode.SymbolUsage.Set && symbolUsage == SyUseVal.Set)
                     return true;
             }
 

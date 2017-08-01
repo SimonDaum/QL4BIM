@@ -16,7 +16,7 @@ namespace QL4BIMinterpreter.QL4BIM
 
         public QLEntity this[int index, bool fake] => entityDic.ContainsKey(index) ? entityDic[index] : null;
 
-        public SetSymbol(LiteralNode node) : base(node)
+        public SetSymbol(SetNode node) : base(node)
         {
             Header = "Set->";
             entites = new List<QLEntity>();

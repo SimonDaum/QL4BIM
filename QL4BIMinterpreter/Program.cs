@@ -56,6 +56,8 @@ namespace QL4BIMinterpreter
             container.RegisterType<ITaskTimerValidator, TaskTimerValidator>();
             container.RegisterType<IMaximumValidator, MaximumValidator>();
 
+            container.RegisterType<IAstBuilder, AstBuilder>();
+
             container.RegisterType<ISpatialTopoValidator, SpatialTopoValidator>();
 
             container.RegisterType<IContext, Context>();

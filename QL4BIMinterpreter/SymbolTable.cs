@@ -38,33 +38,33 @@ namespace QL4BIMinterpreter
             Symbols.Clear();
         }
 
-        public void AddSetSymbol(LiteralNode literalNode)
+        public void AddSetSymbol(SetNode setNode)
         {
-            Symbol symbol = new SetSymbol(literalNode);
+            Symbol symbol = new SetSymbol(setNode);
 
-            symbols.Add(literalNode.Value, symbol);
+            symbols.Add(setNode.Value, symbol);
 
         }
 
-        public void AddRelSymbol(CompLitNode compLitNode)
+        public void AddRelSymbol(RelationNode relationNode)
         {
-            Symbol symbol = new RelationSymbol(compLitNode);
+            Symbol symbol = new RelationSymbol(relationNode);
 
-            symbols.Add(compLitNode.Value, symbol);
+            symbols.Add(relationNode.Value, symbol);
 
         }
 
-        public SetSymbol GetSetSymbol(LiteralNode node)
+        public SetSymbol GetSetSymbol(SetNode node)
         {
             return (SetSymbol)symbols[node.Value];
         }
 
-        public RelationSymbol GetRelationSymbol(CompLitNode node)
+        public RelationSymbol GetRelationSymbol(RelationNode node)
         {
             return (RelationSymbol) symbols[node.Value];
         }
 
-        public IEnumerable<int> GetIndices(IEnumerable<LiteralNode> nodes)
+        public IEnumerable<int> GetIndices(IEnumerable<SetNode> nodes)
         {   
             foreach (var literalNode in nodes)
             {
@@ -73,7 +73,7 @@ namespace QL4BIMinterpreter
                 statementNode = statementNode.Previous;
                 while (statementNode != null)
                 {
-                    var indexOfAttribute = statementNode.ReturnCompLitNode.Literals.IndexOf(literalNode.Value);
+                    var indexOfAttribute = statementNode.ReturnRelationNode.Attributes.IndexOf(literalNode.Value);
                     if (indexOfAttribute != -1)
                         yield return indexOfAttribute;
                     statementNode = statementNode.Previous;
@@ -85,7 +85,7 @@ namespace QL4BIMinterpreter
 
         }
 
-        public RelationSymbol GetNearestRelationSymbolFromAttribute(LiteralNode node)
+        public RelationSymbol GetNearestRelationSymbolFromAttribute(SetNode node)
         {
             var statementNode = (StatementNode) node.Parent;
 
@@ -94,10 +94,10 @@ namespace QL4BIMinterpreter
 
             while (statementNode != null)
             {
-                var indexOfAttribute = statementNode.ReturnCompLitNode.Literals.IndexOf(node.Value);
+                var indexOfAttribute = statementNode.ReturnRelationNode.Attributes.IndexOf(node.Value);
                 if (indexOfAttribute != -1)
                 {
-                    var symbol = GetRelationSymbol(statementNode.ReturnCompLitNode);
+                    var symbol = GetRelationSymbol(statementNode.ReturnRelationNode);
                     symbol.Index = indexOfAttribute;
                     return symbol;
                 }

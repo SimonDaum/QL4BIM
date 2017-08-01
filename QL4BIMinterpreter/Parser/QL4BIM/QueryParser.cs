@@ -7,12 +7,14 @@ namespace QL4BIMinterpreter.QL4BIM
     public class QueryReader : IQueryReader
     {
         private readonly IInterpreterRepository interpreterRepository;
+        private readonly IAstBuilder astBuilder;
         private Scanner scanner;
         private Parser parser;
 
-        public QueryReader(IInterpreterRepository interpreterRepository)
+        public QueryReader(IInterpreterRepository interpreterRepository, IAstBuilder astBuilder)
         {
             this.interpreterRepository = interpreterRepository;
+            this.astBuilder = astBuilder;
         }
 
         public void Reset()
@@ -20,12 +22,13 @@ namespace QL4BIMinterpreter.QL4BIM
 
         }
 
-        public FuncNode Parse(string queryText)
+        public FunctionNode Parse(string queryText)
         {
             using (var stream = queryText.ToStream())
             {
                 scanner = new Scanner(stream);
                 parser = new Parser(scanner);
+                astBuilder.RegisterParseEvent(parser);
                 parser.Parse();
             }
 
@@ -33,8 +36,7 @@ namespace QL4BIMinterpreter.QL4BIM
             if(parser.errors.count > 0)
                 throw new QueryException("Errors in func statement(s): " + parser.errors.count);
 
-            //return parser.GlobalFunc;
-            return null;
+            return astBuilder.GlobalBlock;
         }
 
 

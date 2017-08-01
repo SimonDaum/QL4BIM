@@ -23,15 +23,15 @@ namespace QL4BIMinterpreter
         {
             var isSet = IsSetAttribute(statement, 0);
 
-            if (isSet && statement.ReturnCompLitNode.Literals.Count != 2)
+            if (isSet && statement.ReturnRelationNode.Attributes.Count != 2)
                 throw new QueryException($"{Name}: If a set is used as first parameter, a relation with 2 attributes is returned ");
 
             if (isSet)
                 return;
 
-            var relAttributCount = symbolTable.GetNearestRelationSymbolFromAttribute((LiteralNode) statement.Arguments[0]);
+            var relAttributCount = symbolTable.GetNearestRelationSymbolFromAttribute((SetNode) statement.Arguments[0]);
 
-            if (statement.ReturnCompLitNode.Literals.Count != (relAttributCount.Attributes.Count + 1))
+            if (statement.ReturnRelationNode.Attributes.Count != (relAttributCount.Attributes.Count + 1))
                 throw new QueryException($"{Name}: If a relation attribute is used as first parameter, a relation with one more attribute is returned ");
         }
     }

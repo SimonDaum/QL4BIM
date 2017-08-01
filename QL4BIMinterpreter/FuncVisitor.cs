@@ -17,29 +17,29 @@ namespace QL4BIMinterpreter
             this.interpreterRepository = interpreterRepository;
         }
 
-        public void Visit(FuncNode funcNode)
+        public void Visit(FunctionNode functionNode)
         {
-            if (funcNode == null)
+            if (functionNode == null)
                 return;
 
-            if (funcNode.Value == "Global")
-                funcNode = funcNode.Next;
+            if (functionNode.Value == "Global")
+                functionNode = functionNode.Next;
 
-            if (funcNode == null)
+            if (functionNode == null)
                 return;
 
-            var funcValidator = new FuncValidator() {Name = funcNode.Value};
+            var funcValidator = new FuncValidator() {Name = functionNode.Value};
 
             var syUsages = new List<SyUseVal>();
-            foreach (var argument in funcNode.Arguments)
+            foreach (var argument in functionNode.Arguments)
             {
-                if (argument is CompLitNode)
+                if (argument is RelationNode)
                 {
                     syUsages.Add(SyUseVal.Rel);
                     continue;
                 }
 
-                if (argument is LiteralNode)
+                if (argument is SetNode)
                 {
                     syUsages.Add(SyUseVal.Set);
                     continue;
@@ -48,15 +48,15 @@ namespace QL4BIMinterpreter
                 throw new QueryException("Only sets and relations supported as function arguments");
             }
 
-            var returnUsage = funcNode.LastStatement.ReturnCompLitNode != null ? SyUseVal.Rel : SyUseVal.Set;
+            var returnUsage = functionNode.LastStatement.ReturnRelationNode != null ? SyUseVal.Rel : SyUseVal.Set;
 
             var sig1 = new FunctionSignatur(returnUsage, new[] { SyUseVal.Set }, null, null);
             funcValidator.FunctionSignaturs.Add(sig1);
 
             interpreterRepository.AddValidator(funcValidator);
 
-            funcNode = funcNode.Next;
-            Visit(funcNode);
+            functionNode = functionNode.Next;
+            Visit(functionNode);
         }
 
         public void Visit(StatementNode statementNode)

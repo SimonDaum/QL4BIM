@@ -9,6 +9,7 @@ protected virtual void OnParsed(ParserParts context, string currentToken = "", s
     PartParsed?.Invoke(this, e);
 }
 
+public FunctionNode GlobalBlock { get; set; }
 
 CHARACTERS
 
@@ -50,16 +51,16 @@ PRODUCTIONS
 
 	statement_														(.  OnParsed(ParserParts.Statement); .)	
 	=																
-	lowString														(.  OnParsed(ParserParts.Variable, t.val); .)						
+	lowString														(.  OnParsed(ParserParts.VariableBegin, t.val); .)						
 	{																
-	"[]"															(.  OnParsed(ParserParts.EmptyRelAtt); .)
-	|"[" lowString													(.  OnParsed(ParserParts.RelAtt, t.val); .)			
-	 "|" lowString													(.  OnParsed(ParserParts.RelAtt, t.val); .)
+	"[]"															(.  OnParsed(ParserParts.VariableEmptyRelAtt); .)
+	|"[" lowString													(.  OnParsed(ParserParts.VariableRelAtt, t.val); .)			
+	 "|" lowString													(.  OnParsed(ParserParts.VariableRelAtt, t.val); .)
 	{
-	"|" lowString													(.  OnParsed(ParserParts.RelAtt, t.val); .)
+	"|" lowString													(.  OnParsed(ParserParts.VariableRelAtt, t.val); .)
 	}													
 	"]"
-	}
+	}																(.  OnParsed(ParserParts.VariableEnd, t.val); .)	
 	"="													
 	expression
 	.						
@@ -149,7 +150,7 @@ PRODUCTIONS
 
 	relAtt = 
 	"["		
-	lowString												(.  OnParsed(ParserParts.RelAtt, t.val); .)	
+	lowString												(.  OnParsed(ParserParts.ArguementRelAtt, t.val); .)	
 	"]"
 	.								
 	/*=====================================================*/
@@ -165,7 +166,7 @@ PRODUCTIONS
 
 
 	setRelAttLongShort =
-	 lowString												(.  OnParsed(ParserParts.SetRelArg, t.val); .)
+	 lowString												(.  OnParsed(ParserParts.ArguementSetRelBegin, t.val); .)
 	 [ 
 	 relAtt													
 	 ]												
@@ -174,13 +175,15 @@ PRODUCTIONS
 	/*=====================================================*/
 
 	setRelFormalArg =										(.  OnParsed(ParserParts.SetRelFormalArg); .)
-	lowString												(.  OnParsed(ParserParts.SetRelArg, t.val); .)
-	[ "[" lowString											(.  OnParsed(ParserParts.RelAtt, t.val); .)	
-	 "|" lowString											(.  OnParsed(ParserParts.RelAtt, t.val); .)	
+	lowString												(.  OnParsed(ParserParts.ArguementSetRelBegin, t.val); .)
+	[ "[" lowString											(.  OnParsed(ParserParts.ArguementRelAtt, t.val); .)	
+	 "|" lowString											(.  OnParsed(ParserParts.ArguementRelAtt, t.val); .)	
 	 {"|" 
-	 lowString												(.  OnParsed(ParserParts.RelAtt, t.val); .)	
+	 lowString												(.  OnParsed(ParserParts.ArguementRelAtt, t.val); .)	
 	 }  
-	 "]" ].
+	 "]" 
+	 ]														(.  OnParsed(ParserParts.ArgumentRelSetEnd, t.val); .)
+	 .
 	/*=====================================================*/
 
 	func_ =													(.  OnParsed(ParserParts.FuncDefBlock); .)

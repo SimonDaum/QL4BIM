@@ -5,6 +5,6 @@ namespace QL4BIMinterpreter
     public interface IFuncVisitor
     {
         void Visit(StatementNode statementNode);
-        void Visit(FuncNode funcNode);
+        void Visit(FunctionNode functionNode);
     }
 }

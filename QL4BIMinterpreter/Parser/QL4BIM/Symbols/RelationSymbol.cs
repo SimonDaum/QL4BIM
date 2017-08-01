@@ -13,9 +13,9 @@ namespace QL4BIMinterpreter.QL4BIM
 
 
 
-        public RelationSymbol(CompLitNode node) : base(node)
+        public RelationSymbol(RelationNode node) : base(node)
         {
-            attributes = node.Literals.ToList();
+            attributes = node.Attributes.ToList();
             attributeCount = attributes.Count;
             tuples = new List<QLEntity[]>();
             Header = "Relation->";

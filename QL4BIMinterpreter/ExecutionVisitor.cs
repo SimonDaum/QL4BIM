@@ -46,19 +46,19 @@ namespace QL4BIMinterpreter
             this.maximumOperator = maximumOperator;
         }
         
-        private readonly IList<FuncNode> userFuncs = new List<FuncNode>();
+        private readonly IList<FunctionNode> userFuncs = new List<FunctionNode>();
 
 
         public void Visit(StatementNode statementNode)
         {
             logger.StatementIndex++;
 
-            var symbolTable = ((FuncNode)statementNode.Parent).SymbolTable;
+            var symbolTable = ((FunctionNode)statementNode.Parent).SymbolTable;
 
             var operatorName = statementNode.OperatorNode.Value;
             if (operatorName == "ImportModel")
             {
-                var returnSymbol = symbolTable.GetSetSymbol(statementNode.ReturnLiteralNode);
+                var returnSymbol = symbolTable.GetSetSymbol(statementNode.ReturnSetNode);
                 importModelOperator.ImportModel(statementNode.Arguments[0].Value, returnSymbol);
                 return;
             }
@@ -69,11 +69,11 @@ namespace QL4BIMinterpreter
             //sig3: Relation   <- Relation, String Var arg
             if (operatorName == "TypeFilter")
             {
-                var isRelationOverload = statementNode.Arguments[0] is CompLitNode;
+                var isRelationOverload = statementNode.Arguments[0] is RelationNode;
                 if (isRelationOverload)
                 {
-                    var returnSymbol = symbolTable.GetRelationSymbol(statementNode.ReturnCompLitNode);
-                    var parameterSymbol1 = symbolTable.GetRelationSymbol((CompLitNode) statementNode.Arguments[0]);
+                    var returnSymbol = symbolTable.GetRelationSymbol(statementNode.ReturnRelationNode);
+                    var parameterSymbol1 = symbolTable.GetRelationSymbol((RelationNode) statementNode.Arguments[0]);
                     var typeNames = statementNode.Arguments.Where(a => a is ExTypeNode).Select(n => n.Value).ToArray();
 
                     logger.LogStart(operatorName, parameterSymbol1.EntityCount);
@@ -82,8 +82,8 @@ namespace QL4BIMinterpreter
                 }
                 else
                 {   
-                    var returnSymbol = symbolTable.GetSetSymbol(statementNode.ReturnLiteralNode);
-                    var parameterSymbol1 = symbolTable.GetSetSymbol(statementNode.Arguments[0] as LiteralNode);
+                    var returnSymbol = symbolTable.GetSetSymbol(statementNode.ReturnSetNode);
+                    var parameterSymbol1 = symbolTable.GetSetSymbol(statementNode.Arguments[0] as SetNode);
 
                     logger.LogStart(operatorName, parameterSymbol1.EntityCount);
                     typeFilterOperator.TypeFilterSet(parameterSymbol1, statementNode.Arguments[1].Value, returnSymbol);
@@ -96,13 +96,13 @@ namespace QL4BIMinterpreter
             //sig2: Relation   <- Relation, Predicate
             if (operatorName == "AttributeFilter")
             {
-                var firstArgument = (LiteralNode)statementNode.Arguments[0];
-                var isRelAttOverload = firstArgument.Usage == LiteralNode.SymbolUsage.RelAtt;
+                var firstArgument = (SetNode)statementNode.Arguments[0];
+                var isRelAttOverload = firstArgument.Usage == SetNode.SymbolUsage.RelAtt;
                 var predData = new AttributeFilterOperator.PredicateData(statementNode.Predicate);
 
                 if (isRelAttOverload)
                 {
-                    var returnSymbol = symbolTable.GetRelationSymbol(statementNode.ReturnCompLitNode);
+                    var returnSymbol = symbolTable.GetRelationSymbol(statementNode.ReturnRelationNode);
                     var parameterRelationSymbol = symbolTable.GetNearestRelationSymbolFromAttribute(firstArgument);
 
                     logger.LogStart(operatorName, parameterRelationSymbol.EntityCount);
@@ -113,7 +113,7 @@ namespace QL4BIMinterpreter
                 //set
                 else
                 {
-                    var returnSymbol = symbolTable.GetSetSymbol(statementNode.ReturnLiteralNode);       
+                    var returnSymbol = symbolTable.GetSetSymbol(statementNode.ReturnSetNode);       
                     var parameterSetSymbol = symbolTable.GetSetSymbol(firstArgument);
 
                     logger.LogStart(operatorName, parameterSetSymbol.EntityCount);
@@ -131,9 +131,9 @@ namespace QL4BIMinterpreter
             //sig3: Relation [+1]   <- Relation, String, String 
             if (operatorName == "Dereferencer")
             {
-                var firstArgument = (LiteralNode)statementNode.Arguments[0];
-                var isRelAttOverload = firstArgument.Usage == LiteralNode.SymbolUsage.RelAtt;
-                var returnSymbol = symbolTable.GetRelationSymbol(statementNode.ReturnCompLitNode);
+                var firstArgument = (SetNode)statementNode.Arguments[0];
+                var isRelAttOverload = firstArgument.Usage == SetNode.SymbolUsage.RelAtt;
+                var returnSymbol = symbolTable.GetRelationSymbol(statementNode.ReturnRelationNode);
                 var refs = statementNode.Arguments.Skip(1).Cast<ExAttNode>().Select(n => n.Value).ToArray();
                 if (isRelAttOverload)
                 {
@@ -164,9 +164,9 @@ namespace QL4BIMinterpreter
             //sig3: Relation [+1]   <- RelAtt, String, String todo
             if (operatorName == "Deassociater")
             {
-                var returnSymbol = symbolTable.GetRelationSymbol(statementNode.ReturnCompLitNode);
-                var isRelationOverload = ((LiteralNode) statementNode.Arguments[0]).Usage ==LiteralNode.SymbolUsage.RelAtt;
-                var literalNode = (LiteralNode) statementNode.Arguments[0];
+                var returnSymbol = symbolTable.GetRelationSymbol(statementNode.ReturnRelationNode);
+                var isRelationOverload = ((SetNode) statementNode.Arguments[0]).Usage ==SetNode.SymbolUsage.RelAtt;
+                var literalNode = (SetNode) statementNode.Arguments[0];
 
                 if (isRelationOverload)
                 {
@@ -179,7 +179,7 @@ namespace QL4BIMinterpreter
                 }
                 else
                 {
-                    var parameterSetSymbol = symbolTable.GetSetSymbol((LiteralNode)statementNode.Arguments[0]);
+                    var parameterSetSymbol = symbolTable.GetSetSymbol((SetNode)statementNode.Arguments[0]);
                     var exAtts = statementNode.Arguments.Skip(1).Cast<ExAttNode>().Select(n => n.Value).ToArray();
 
                     logger.LogStart(operatorName, parameterSetSymbol.EntityCount);
@@ -196,8 +196,8 @@ namespace QL4BIMinterpreter
                 var arguementCount = statementNode.Arguments.Count;
                 if (arguementCount == 1)
                 {
-                    var returnSymbolSet = symbolTable.GetSetSymbol(statementNode.ReturnLiteralNode);
-                    var argument = (LiteralNode)statementNode.Arguments[0];
+                    var returnSymbolSet = symbolTable.GetSetSymbol(statementNode.ReturnSetNode);
+                    var argument = (SetNode)statementNode.Arguments[0];
                     var parameterRelationSymbol1 = symbolTable.GetNearestRelationSymbolFromAttribute(argument);
 
                     logger.LogStart(operatorName, parameterRelationSymbol1.EntityCount);
@@ -206,9 +206,9 @@ namespace QL4BIMinterpreter
                     return;
                 }
 
-                var returnSymbol = symbolTable.GetRelationSymbol(statementNode.ReturnCompLitNode);
+                var returnSymbol = symbolTable.GetRelationSymbol(statementNode.ReturnRelationNode);
 
-                var arguments = statementNode.Arguments.Cast<LiteralNode>().ToList();
+                var arguments = statementNode.Arguments.Cast<SetNode>().ToList();
                 var parameterRelationSymbol = symbolTable.GetNearestRelationSymbolFromAttribute(arguments[0]);
                 var argumentIndices = symbolTable.GetIndices(arguments).ToArray();
 
@@ -220,8 +220,8 @@ namespace QL4BIMinterpreter
 
             if (operatorName == "PropertyFilterOperator")
             {
-                var returnSymbol = symbolTable.GetRelationSymbol(statementNode.ReturnCompLitNode);
-                var firstAttribute = symbolTable.GetSetSymbol(statementNode.Arguments[0] as LiteralNode);
+                var returnSymbol = symbolTable.GetRelationSymbol(statementNode.ReturnRelationNode);
+                var firstAttribute = symbolTable.GetSetSymbol(statementNode.Arguments[0] as SetNode);
                 var parameter2 = statementNode.Arguments[0] as CStringNode;
                 var parameter3 = statementNode.Arguments[1] as CStringNode;
 
@@ -233,8 +233,8 @@ namespace QL4BIMinterpreter
 
             if (operatorName == "TaskTimer")
             {
-                var returnSymbol = symbolTable.GetRelationSymbol(statementNode.ReturnCompLitNode);
-                var parameterRelationSymbol = symbolTable.GetNearestRelationSymbolFromAttribute((LiteralNode)statementNode.Arguments[0] );
+                var returnSymbol = symbolTable.GetRelationSymbol(statementNode.ReturnRelationNode);
+                var parameterRelationSymbol = symbolTable.GetNearestRelationSymbolFromAttribute((SetNode)statementNode.Arguments[0] );
 
                 logger.LogStart(operatorName, parameterRelationSymbol.EntityCount);
                 taskTimerOperator.TaskTimerRelAtt(parameterRelationSymbol, returnSymbol);
@@ -244,8 +244,8 @@ namespace QL4BIMinterpreter
 
             if (operatorName == "Maximum")
             {
-                var returnSymbol = symbolTable.GetRelationSymbol(statementNode.ReturnCompLitNode);
-                var parameterRelationSymbol = symbolTable.GetNearestRelationSymbolFromAttribute( (LiteralNode)statementNode.Arguments[0]);
+                var returnSymbol = symbolTable.GetRelationSymbol(statementNode.ReturnRelationNode);
+                var parameterRelationSymbol = symbolTable.GetNearestRelationSymbolFromAttribute( (SetNode)statementNode.Arguments[0]);
                 var testValue = statementNode.Arguments[1].Value;
 
                 logger.LogStart(operatorName, parameterRelationSymbol.EntityCount);
@@ -256,9 +256,9 @@ namespace QL4BIMinterpreter
 
             if (spatialTopoValidator.TopoOperators.Contains(operatorName))
             {
-                var returnSymbol = symbolTable.GetRelationSymbol(statementNode.ReturnCompLitNode);
-                var parameterSymbol1 = symbolTable.GetSetSymbol(statementNode.Arguments[0] as LiteralNode);
-                var parameterSymbol2 = symbolTable.GetSetSymbol(statementNode.Arguments[1] as LiteralNode);
+                var returnSymbol = symbolTable.GetRelationSymbol(statementNode.ReturnRelationNode);
+                var parameterSymbol1 = symbolTable.GetSetSymbol(statementNode.Arguments[0] as SetNode);
+                var parameterSymbol2 = symbolTable.GetSetSymbol(statementNode.Arguments[1] as SetNode);
 
                 logger.LogStart(operatorName, new int[] { parameterSymbol1.EntityCount, parameterSymbol2.EntityCount});
                 spatialQueryInterpreter.Execute(operatorName, returnSymbol, parameterSymbol1, parameterSymbol2);
@@ -271,9 +271,9 @@ namespace QL4BIMinterpreter
                 return;
 
             var userFuncStacked = userFuncPresent.Copy();
-            var parameterSymbol = symbolTable.GetSetSymbol(statementNode.Arguments[0] as LiteralNode);
+            var parameterSymbol = symbolTable.GetSetSymbol(statementNode.Arguments[0] as SetNode);
 
-            var formalParameterSymbol = userFuncStacked.SymbolTable.GetSetSymbol(userFuncStacked.Arguments[0] as LiteralNode);
+            var formalParameterSymbol = userFuncStacked.SymbolTable.GetSetSymbol(userFuncStacked.Arguments[0] as SetNode);
             formalParameterSymbol.EntityDic = parameterSymbol.Entites.ToDictionary(e => e.Id);
 
             var userFuncStatement = userFuncStacked.FirstStatement;
@@ -283,9 +283,9 @@ namespace QL4BIMinterpreter
                 userFuncStatement = userFuncStatement.Next;
             }
 
-            var returnSymbolFunc = userFuncStacked.SymbolTable.GetRelationSymbol(userFuncStacked.LastStatement.ReturnCompLitNode);
+            var returnSymbolFunc = userFuncStacked.SymbolTable.GetRelationSymbol(userFuncStacked.LastStatement.ReturnRelationNode);
 
-            var formalreturnSymbol = symbolTable.GetRelationSymbol(statementNode.ReturnCompLitNode);
+            var formalreturnSymbol = symbolTable.GetRelationSymbol(statementNode.ReturnRelationNode);
 
             formalreturnSymbol.SetTuples(returnSymbolFunc.Tuples);
 
@@ -294,17 +294,17 @@ namespace QL4BIMinterpreter
 
 
 
-        public void Visit(FuncNode funcNode)
+        public void Visit(FunctionNode functionNode)
         {
             logger.StatementIndex = 0;
 
-            var firstStatement = funcNode.FirstStatement;
+            var firstStatement = functionNode.FirstStatement;
             if (firstStatement == null)
                 return;
 
-            if (funcNode.Value == "Global")
+            if (functionNode.Value == "Global")
             {
-                var tempFunc = funcNode;
+                var tempFunc = functionNode;
                 while (tempFunc.Next != null)
                 {
                     userFuncs.Add(tempFunc.Next);

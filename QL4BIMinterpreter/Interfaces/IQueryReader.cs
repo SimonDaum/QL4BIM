@@ -4,6 +4,6 @@ namespace QL4BIMinterpreter
 {
     public interface IQueryReader
     {
-        FuncNode Parse(string queryText);
+        FunctionNode Parse(string queryText);
     }
 }

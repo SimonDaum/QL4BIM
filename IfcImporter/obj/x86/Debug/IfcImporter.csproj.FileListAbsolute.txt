@@ -26,3 +26,4 @@ C:\Users\Simon\Documents\Projekte\Dev\QLOS\QL4OS\IfcImporter\bin\x86\Debug\IfcIm
 C:\Users\Simon\Documents\Projekte\Dev\QLOS\QL4OS\IfcImporter\bin\x86\Debug\IfcImporter.pdb
 C:\Users\Simon\Documents\Projekte\Dev\QLOS\QL4OS\IfcImporter\obj\x86\Debug\IfcImporter.dll
 C:\Users\Simon\Documents\Projekte\Dev\QLOS\QL4OS\IfcImporter\obj\x86\Debug\IfcImporter.pdb
+C:\Users\Simon\Documents\Projekte\Dev\QLOS\QL4OS\IfcImporter\obj\x86\Debug\IfcImporter.csprojResolveAssemblyReference.cache

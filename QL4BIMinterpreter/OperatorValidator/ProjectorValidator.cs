@@ -19,12 +19,12 @@ namespace QL4BIMinterpreter
 
             AllArgumentsFromOneRelation(statement);
 
-            if (statement.Arguments.Count == 1 && statement.ReturnLiteralNode == null)
+            if (statement.Arguments.Count == 1 && statement.ReturnSetNode == null)
             {
                 throw new QueryException($"{Name}: If one relational attribute is used as parameter, a set is returned");
             }
 
-            if (statement.Arguments.Count > 1 && statement.ReturnCompLitNode.Literals.Count != statement.Arguments.Count)
+            if (statement.Arguments.Count > 1 && statement.ReturnRelationNode.Attributes.Count != statement.Arguments.Count)
                 throw new QueryException($"{Name}: Nummber of relational arguments (attributes) must be identical to number of return attributes.");
 
 

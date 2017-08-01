@@ -31,13 +31,13 @@ namespace QL4BIMinterpreter.QL4BIM
 
     }
 
-    public sealed class FuncNode : Node
+    public sealed class FunctionNode : Node
     {
         private string value;
 
-        public FuncNode Copy()
+        public FunctionNode Copy()
         {
-            var copy = new FuncNode();
+            var copy = new FunctionNode();
             copy.Value = Value;
             copy.SymbolTable = new SymbolTable(SymbolTable);
             copy.Arguments = Arguments.ToList();
@@ -58,11 +58,11 @@ namespace QL4BIMinterpreter.QL4BIM
             symbolVisitor.Visit(this);
         }
 
-        public FuncNode Next { get; private set; }
-        public FuncNode Previous { get; private set; }
+        public FunctionNode Next { get; private set; }
+        public FunctionNode Previous { get; private set; }
 
 
-        public FuncNode(FuncNode previousNode = null)
+        public FunctionNode(FunctionNode previousNode = null)
         {
             SymbolTable = new SymbolTable();
       
@@ -105,7 +105,7 @@ namespace QL4BIMinterpreter.QL4BIM
                 LastStatement.Next = statementNode;
                 statementNode.Previous = LastStatement;
             }
-
+            statementNode.Parent = this;
             LastStatement = statementNode;
         }
 
@@ -126,47 +126,53 @@ namespace QL4BIMinterpreter.QL4BIM
         }
     }
 
-    public class LiteralNode : Node
+    public class SetNode : Node
     {
-        public LiteralNode(string value, bool isReturn)
+        public SetNode(string value)
         {
-            this.IsReturn = isReturn;
             Value = value;
         }
 
-        public bool IsReturn { get; }
 
         public override string ToString()
         {
-            return "LiteralNode: " + Value;
+            return "SetNode: " + Value;
         }
 
         public SymbolUsage Usage { get; set; }
         public enum SymbolUsage { Set, RelAtt }
     }
 
-    public class CompLitNode : Node
+    public class RelationNode : Node
     {
-        public CompLitNode(string literal, bool isReturn)
+        public RelationNode(string literal)
         {
-            AddLiteral(literal);
-            this.IsReturn = isReturn;
+            RelationName = literal;
         }
 
-        public bool IsReturn { get; }
+        public IList<string> Attributes { get; set; }
 
-        public IList<string> Literals { get; } = new List<string>();
+        public string RelationName { get; private set; }
 
-        public void AddLiteral(string literal)
-        {
-            Literals.Add(literal);
-        }
-
-        public override string Value => string.Join("-", Literals);
+        public override string Value => RelationName +  " " + string.Join("-", Attributes);
 
         public override string ToString()
         {
-            return "CompLitNode: " + string.Join(" ", Literals);
+            return "RelationNode: " + string.Join(" ", Attributes);
+        }
+    }
+
+    public sealed class CBoolNode : Node
+    {
+        public CBoolNode(string value)
+        {
+            if (value.StartsWith("\"") && value.EndsWith("\""))
+                Value = value.Substring(1, value.Length - 2);
+            else
+                Value = value;
+
+            if ((Value == "false") || (Value == "true") || (Value == "unknown") )
+                throw new ArgumentException();
         }
     }
 
@@ -224,8 +230,6 @@ namespace QL4BIMinterpreter.QL4BIM
             return "ExTypeNode: " + Value;
         }
     }
-
-
 
     public class CNumberNode : Node
     {
@@ -326,7 +330,7 @@ namespace QL4BIMinterpreter.QL4BIM
 
     public sealed class StatementNode : Node
     {
-        public static bool IsFunctioning;
+        private int statementIndex;
 
         public StatementNode Next { get;  set; }
         public StatementNode Previous { get;  set; }
@@ -335,7 +339,7 @@ namespace QL4BIMinterpreter.QL4BIM
         {
             var sb = new StringBuilder();
             sb.Append(" Operator: " + OperatorNode.Value);
-            sb.Append(" ReturnLiteralNode.SymbolUsage : " + (ReturnLiteralNode != null));
+            sb.Append(" ReturnSetNode.SymbolUsage : " + (ReturnSetNode != null));
             sb.Append(" Arguments.Count : " + Arguments.Count);
             sb.Append(string.Join(" ", Arguments));
 
@@ -349,7 +353,7 @@ namespace QL4BIMinterpreter.QL4BIM
         {
             unchecked
             {
-                return ((ReturnLiteralNode != null ? ReturnLiteralNode.GetHashCode() : 0) * 397) ^
+                return ((ReturnSetNode != null ? ReturnSetNode.GetHashCode() : 0) * 397) ^
                     (OperatorNode != null ? OperatorNode.GetHashCode() : 0);
             }
         }
@@ -359,20 +363,15 @@ namespace QL4BIMinterpreter.QL4BIM
             return (node1.GetType() == node2.GetType());
         }
 
-        public StatementNode(FuncNode func)
-        {
-            Parent = func;
-        }
-
         public OperatorNode OperatorNode { get; private set; }
 
-        public void AddOperator(string operato)
+        public void SetOperator(string @operator)
         {
-            OperatorNode = new OperatorNode(operato) {Parent = this};
+            OperatorNode = new OperatorNode(@operator) {Parent = this};
         }
 
-        public LiteralNode ReturnLiteralNode { get; set; }
-        public CompLitNode ReturnCompLitNode { get; set; }
+        public SetNode ReturnSetNode { get; set; }
+        public RelationNode ReturnRelationNode { get; set; }
 
 
 
@@ -382,50 +381,26 @@ namespace QL4BIMinterpreter.QL4BIM
 
         public void AddArgument(Node argument)
         {
-
-            if (IsFunctioning)
-                return;
-
-
             argument.Parent = this;
             Arguments.Add(argument);
         }
 
-        public void AddLiteralArgumentOrReturn(LiteralNode argument)
-        {
-            if (IsFunctioning)
-                return;
 
-            argument.Parent = this;
-            if (argument.IsReturn)
-            {
-                ReturnLiteralNode = argument;
-                return;
-            }
-            Arguments.Add(argument);
+
+        public void SetSetReturn(SetNode returnSetNode)
+        {
+            returnSetNode.Parent = this;
+            ReturnSetNode = returnSetNode;
         }
 
-
-        public void AddCompLitArgumentOrReturn(CompLitNode argument)
+        public void SetRelationReturn(RelationNode returnRelatioNode)
         {
-            if (IsFunctioning)
-                return;
-
-            argument.Parent = this;
-            if (argument.IsReturn)
-            {
-                ReturnCompLitNode = argument;
-                return;
-            }
-
-            Arguments.Add(argument);
+            returnRelatioNode.Parent = this;
+            ReturnRelationNode = returnRelatioNode;
         }
 
         public void AddPredicate(ExAttNode exAttNode, string compareToken, CFloatNode floatNode)
         {
-            if (IsFunctioning)
-                return;
-
             var predicate = new PredicateNode(exAttNode, compareToken, floatNode);
             exAttNode.Parent = predicate;
             floatNode.Parent = predicate;
@@ -435,9 +410,6 @@ namespace QL4BIMinterpreter.QL4BIM
 
         public void AddPredicate(ExAttNode exAttNode, string compareToken, CStringNode stringNode)
         {
-            if (IsFunctioning)
-                return;
-
             var predicate = new PredicateNode(exAttNode, compareToken, stringNode);
             exAttNode.Parent = predicate;
             stringNode.Parent = predicate;
@@ -447,9 +419,6 @@ namespace QL4BIMinterpreter.QL4BIM
 
         public void AddPredicate(ExAttNode exAttNode, string compareToken, CNumberNode numberNode)
         {
-            if (IsFunctioning)
-                return;
-
             var predicate = new PredicateNode(exAttNode, compareToken, numberNode);
             exAttNode.Parent = predicate;
             numberNode.Parent = predicate;
