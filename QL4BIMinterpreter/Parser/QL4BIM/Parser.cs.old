@@ -27,26 +27,29 @@ public class Parser {
 	public Token la;   // lookahead token
 	int errDist = minErrDist;
 
-public delegate void PartParsedEventHandler(object sender, PartParsedEventArgs e);
+
 public event PartParsedEventHandler PartParsed;
+public event ContextChangedEventHandler ContextChanged;
  
 protected virtual void OnParsed(ParserParts parsePart, string currentToken = "")
 {
-    var e = new PartParsedEventArgs(parsePart, ParserContext.NoChange, currentToken);
+    var e = new PartParsedEventArgs(parsePart, currentToken);
     Console.WriteLine(e.ToString());
     PartParsed?.Invoke(this, e);
 }
 
-protected virtual void OnParsed(ParserContext context)
+protected virtual void OnContextChanged(ParserContext context)
 {
-    var e = new PartParsedEventArgs(ParserParts.NoChange, context, String.Empty );
+    var e = new ContextChangedEventArgs(context);
     Console.WriteLine(e.ToString());
-    PartParsed?.Invoke(this, e);
+    ContextChanged?.Invoke(this, e);
 }
 
 
 
-	public Parser(Scanner scanner) {
+
+
+        public Parser(Scanner scanner) {
 		this.scanner = scanner;
 		errors = new Errors();
 	}
@@ -176,7 +179,7 @@ protected virtual void OnParsed(ParserContext context)
 	void expression() {
 		OnParsed(ParserContext.Operator ); 
 		Expect(4);
-		OnParsed(ParserContext.NoChange, t.val); 
+		OnParsed(ParserParts.NoChange, t.val); 
 		Expect(13);
 		OnParsed(ParserContext.Argument); 
 		argument();

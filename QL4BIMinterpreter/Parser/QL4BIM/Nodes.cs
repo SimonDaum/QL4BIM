@@ -97,11 +97,7 @@ namespace QL4BIMinterpreter.QL4BIM
             LastStatement = statementNode;
         }
 
-        public void AddArgument(Node argument)
-        {
-            argument.Parent = this;
-            Arguments.Add(argument);
-        }
+
     }
 
 
@@ -159,7 +155,7 @@ namespace QL4BIMinterpreter.QL4BIM
             else
                 Value = value;
 
-            if ((Value == "false") || (Value == "true") || (Value == "unknown") )
+            if ((Value != "false") && (Value != "true") && (Value != "unknown") )
                 throw new ArgumentException();
         }
     }

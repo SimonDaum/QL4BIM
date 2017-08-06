@@ -1,19 +1,20 @@
 COMPILER QL4BIM
-public delegate void PartParsedEventHandler(object sender, PartParsedEventArgs e);
+
 public event PartParsedEventHandler PartParsed;
+public event ContextChangedEventHandler ContextChanged;
  
 protected virtual void OnParsed(ParserParts parsePart, string currentToken = "")
 {
-    var e = new PartParsedEventArgs(parsePart, ParserContext.NoChange, currentToken);
-    Console.WriteLine(e.ToString());
+    var e = new PartParsedEventArgs(parsePart, currentToken);
+    //Console.WriteLine(e.ToString());
     PartParsed?.Invoke(this, e);
 }
 
-protected virtual void OnParsed(ParserContext context)
+protected virtual void OnContext(ParserContext context)
 {
-    var e = new PartParsedEventArgs(ParserParts.NoChange, context, String.Empty );
-    Console.WriteLine(e.ToString());
-    PartParsed?.Invoke(this, e);
+    var e = new ContextChangedEventArgs(context);
+    //Console.WriteLine(e.ToString());
+    ContextChanged?.Invoke(this, e);
 }
 
 CHARACTERS
@@ -48,15 +49,15 @@ PRODUCTIONS
 
 QL4BIM												
 	= 		
-	(																(.  OnParsed(ParserContext.GlobalBlock); .)
+	(																(.  OnContext(ParserContext.GlobalBlock); .)
 	statement_ {statement_} {func_})
 	|
 	( func_ {func_})
 	.						
 	/*=====================================================*/
 
-	statement_														(.  OnParsed(ParserContext.Statement); .)
-	=																(.  OnParsed(ParserContext.Variable); .)
+	statement_														(.  OnContext(ParserContext.Statement); .)
+	=																(.  OnContext(ParserContext.Variable); .)
 	lowString														(.  OnParsed(ParserParts.SetRelVar, t.val); .)						
 	{																
 	"[]"															(.  OnParsed(ParserParts.EmptyRelAtt); .)
@@ -73,9 +74,9 @@ QL4BIM
 	/*=====================================================*/
 
 	expression														
-	=																(.  OnParsed(ParserContext.Operator ); .)
-	upString														(.  OnParsed(ParserParts.NoChange, t.val); .)
-	"("																(.  OnParsed(ParserContext.Argument); .)
+	=																(.  OnContext(ParserContext.Operator ); .)
+	upString														(.  OnParsed(ParserParts.Operator, t.val); .)
+	"("																
 		argument													
 	{ ","										
 		argument								
@@ -83,20 +84,20 @@ QL4BIM
 	.
 	/*=====================================================*/
 
-	argument													(.  OnParsed(ParserContext.Argument); .)
+	argument												(.  OnContext(ParserContext.Argument); .)
 	=
 	setRelAttLongShort 
 	[
-	exType													(.  OnParsed(ParserContext.TypePrdicate); .)	
+	exType													(.  OnContext(ParserContext.TypePrdicate); .)	
 	| exAtt 
-	[														(.  OnParsed(ParserContext.AttPredicate); .)	
+	[														(.  OnContext(ParserContext.AttPredicate); .)	
 	attPredicate											
 	]  
-	|														(.  OnParsed(ParserContext.CountPredicate); .)	
+	|														(.  OnContext(ParserContext.CountPredicate); .)	
 	countPredicate 
 	] 					
 	|																				
-	constant												
+	constant												(.  OnContext(ParserContext.ArgumentEnd); .)
 	.
 	/*=====================================================*/
 
@@ -190,7 +191,7 @@ QL4BIM
 	 "]" ].
 	/*=====================================================*/
 
-	func_ =													(.  OnParsed(ParserContext.FuncDefBlock); .)
+	func_ =													(.  OnContext(ParserContext.FuncDefBlock); .)
 	"func" 
 	upString												(.  OnParsed(ParserParts.DefOp,t.val); .)
 	[alias													(.  OnParsed(ParserParts.DefAlias,t.val); .)

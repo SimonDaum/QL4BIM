@@ -27,21 +27,21 @@ public class Parser {
 	public Token la;   // lookahead token
 	int errDist = minErrDist;
 
-public delegate void PartParsedEventHandler(object sender, PartParsedEventArgs e);
 public event PartParsedEventHandler PartParsed;
+public event ContextChangedEventHandler ContextChanged;
  
 protected virtual void OnParsed(ParserParts parsePart, string currentToken = "")
 {
-    var e = new PartParsedEventArgs(parsePart, ParserContext.NoChange, currentToken);
-    Console.WriteLine(e.ToString());
+    var e = new PartParsedEventArgs(parsePart, currentToken);
+    //Console.WriteLine(e.ToString());
     PartParsed?.Invoke(this, e);
 }
 
-protected virtual void OnParsed(ParserContext context)
+protected virtual void OnContext(ParserContext context)
 {
-    var e = new PartParsedEventArgs(ParserParts.NoChange, context, String.Empty );
-    Console.WriteLine(e.ToString());
-    PartParsed?.Invoke(this, e);
+    var e = new ContextChangedEventArgs(context);
+    //Console.WriteLine(e.ToString());
+    ContextChanged?.Invoke(this, e);
 }
 
 
@@ -105,7 +105,7 @@ protected virtual void OnParsed(ParserContext context)
 	
 	void QL4BIM() {
 		if (la.kind == 3) {
-			OnParsed(ParserContext.GlobalBlock); 
+			OnContext(ParserContext.GlobalBlock); 
 			statement_();
 			while (la.kind == 3) {
 				statement_();
@@ -122,8 +122,8 @@ protected virtual void OnParsed(ParserContext context)
 	}
 
 	void statement_() {
-		OnParsed(ParserContext.Statement); 
-		OnParsed(ParserContext.Variable); 
+		OnContext(ParserContext.Statement); 
+		OnContext(ParserContext.Variable); 
 		Expect(3);
 		OnParsed(ParserParts.SetRelVar, t.val); 
 		while (la.kind == 8 || la.kind == 9) {
@@ -150,7 +150,7 @@ protected virtual void OnParsed(ParserContext context)
 	}
 
 	void func_() {
-		OnParsed(ParserContext.FuncDefBlock); 
+		OnContext(ParserContext.FuncDefBlock); 
 		Expect(26);
 		Expect(4);
 		OnParsed(ParserParts.DefOp,t.val); 
@@ -174,11 +174,10 @@ protected virtual void OnParsed(ParserContext context)
 	}
 
 	void expression() {
-		OnParsed(ParserContext.Operator ); 
+		OnContext(ParserContext.Operator ); 
 		Expect(4);
-		OnParsed(ParserParts.NoChange, t.val); 
+		OnParsed(ParserParts.Operator, t.val); 
 		Expect(13);
-		OnParsed(ParserContext.Argument); 
 		argument();
 		while (la.kind == 14) {
 			Get();
@@ -188,21 +187,21 @@ protected virtual void OnParsed(ParserContext context)
 	}
 
 	void argument() {
-		OnParsed(ParserContext.Argument); 
+		OnContext(ParserContext.Argument); 
 		if (la.kind == 3 || la.kind == 9) {
 			setRelAttLongShort();
 			if (StartOf(1)) {
 				if (la.kind == 25) {
 					exType();
-					OnParsed(ParserContext.TypePrdicate); 
+					OnContext(ParserContext.TypePrdicate); 
 				} else if (la.kind == 24) {
 					exAtt();
 					if (StartOf(2)) {
-						OnParsed(ParserContext.AttPredicate); 
+						OnContext(ParserContext.AttPredicate); 
 						attPredicate();
 					}
 				} else {
-					OnParsed(ParserContext.CountPredicate); 
+					OnContext(ParserContext.CountPredicate); 
 					countPredicate();
 				}
 			}
