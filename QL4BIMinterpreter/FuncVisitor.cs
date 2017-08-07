@@ -31,7 +31,7 @@ namespace QL4BIMinterpreter
             var funcValidator = new FuncValidator() {Name = functionNode.Value};
 
             var syUsages = new List<SyUseVal>();
-            foreach (var argument in functionNode.Arguments)
+            foreach (var argument in functionNode.FormalArguments)
             {
                 if (argument is RelationNode)
                 {

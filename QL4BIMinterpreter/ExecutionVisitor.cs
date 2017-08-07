@@ -273,7 +273,7 @@ namespace QL4BIMinterpreter
             var userFuncStacked = userFuncPresent.Copy();
             var parameterSymbol = symbolTable.GetSetSymbol(statementNode.Arguments[0] as SetNode);
 
-            var formalParameterSymbol = userFuncStacked.SymbolTable.GetSetSymbol(userFuncStacked.Arguments[0] as SetNode);
+            var formalParameterSymbol = userFuncStacked.SymbolTable.GetSetSymbol(userFuncStacked.FormalArguments[0] as SetNode);
             formalParameterSymbol.EntityDic = parameterSymbol.Entites.ToDictionary(e => e.Id);
 
             var userFuncStatement = userFuncStacked.FirstStatement;

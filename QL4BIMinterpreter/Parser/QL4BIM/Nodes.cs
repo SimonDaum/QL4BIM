@@ -39,7 +39,7 @@ namespace QL4BIMinterpreter.QL4BIM
         {
             var copy = new FunctionNode(Value);
             copy.SymbolTable = new SymbolTable(SymbolTable);
-            copy.Arguments = Arguments.ToList();
+            copy.FormalArguments = FormalArguments.ToList();
             copy.Next = Next;
             copy.Previous = Previous;
             copy.FirstStatement = FirstStatement;
@@ -50,7 +50,7 @@ namespace QL4BIMinterpreter.QL4BIM
 
         public SymbolTable SymbolTable { get; private set; }
 
-        public IList<Node> Arguments { get; private set; } = new List<Node>();
+        public IList<Node> FormalArguments { get; private set; } = new List<Node>();
 
         public void Accept(ISymbolVisitor symbolVisitor)
         {
@@ -127,6 +127,18 @@ namespace QL4BIMinterpreter.QL4BIM
         public enum SymbolUsage { Set, RelAtt }
     }
 
+    public class RelAttNode : Node
+    {
+        public string Attribute { get; set; }
+        public string RelationName { get; set; }
+
+        public RelAttNode(string attribute, string relationName)
+        {
+            Attribute = attribute;
+            RelationName = relationName;
+        }
+    }
+
     public class RelationNode : Node
     {
         public RelationNode(string literal)
@@ -138,11 +150,11 @@ namespace QL4BIMinterpreter.QL4BIM
 
         public string RelationName { get; private set; }
 
-        public override string Value => RelationName +  " " + string.Join("-", Attributes);
+        public override string Value => RelationName +  "[" + string.Join("|", Attributes) + "]";
 
         public override string ToString()
         {
-            return "RelationNode: " + string.Join(" ", Attributes);
+            return "RelationNode: " + Value;
         }
     }
 
@@ -243,7 +255,7 @@ namespace QL4BIMinterpreter.QL4BIM
 
         public override string ToString()
         {
-            return "CNumberNode: " + Value;
+            return "CFloatNode: " + Value;
         }
     }
 
@@ -324,7 +336,7 @@ namespace QL4BIMinterpreter.QL4BIM
             var sb = new StringBuilder();
             sb.Append(" Operator: " + OperatorNode.Value);
             sb.Append(" ReturnSetNode.SymbolUsage : " + (ReturnSetNode != null));
-            sb.Append(" Arguments.Count : " + Arguments.Count);
+            sb.Append(" FormalArguments.Count : " + Arguments.Count);
             sb.Append(string.Join(" ", Arguments));
 
 

@@ -208,6 +208,7 @@ protected virtual void OnContext(ParserContext context)
 		} else if (StartOf(3)) {
 			constant();
 		} else SynErr(29);
+		OnContext(ParserContext.ArgumentEnd); 
 	}
 
 	void setRelAttLongShort() {

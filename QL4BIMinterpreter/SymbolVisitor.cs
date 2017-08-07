@@ -65,7 +65,7 @@ namespace QL4BIMinterpreter
 
         private void AddSymbolsFromFunc(FunctionNode functionNode)
         {
-            foreach (var funcNodeArgument in functionNode.Arguments)
+            foreach (var funcNodeArgument in functionNode.FormalArguments)
             {
                 var compLitNode = funcNodeArgument as RelationNode;
                 if(compLitNode != null)

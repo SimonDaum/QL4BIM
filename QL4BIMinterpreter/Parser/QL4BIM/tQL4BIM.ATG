@@ -86,7 +86,7 @@ QL4BIM
 
 	argument												(.  OnContext(ParserContext.Argument); .)
 	=
-	setRelAttLongShort 
+	(setRelAttLongShort 
 	[
 	exType													(.  OnContext(ParserContext.TypePrdicate); .)	
 	| exAtt 
@@ -97,7 +97,7 @@ QL4BIM
 	countPredicate 
 	] 					
 	|																				
-	constant												(.  OnContext(ParserContext.ArgumentEnd); .)
+	constant)												(.  OnContext(ParserContext.ArgumentEnd); .)
 	.
 	/*=====================================================*/
 

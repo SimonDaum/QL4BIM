@@ -45,10 +45,11 @@ namespace QL4BIMinterpreter.QL4BIM
                         break;
 
                     case ParserContext.Argument:
-                        contextSwitch = new ParseArgumentContextSwitch() { ParentFuncNode = currentFunctionNode };
+                        if(!(contextSwitch is ParseArgumentContextSwitch))
+                            contextSwitch = new ParseArgumentContextSwitch() { ParentFuncNode = currentFunctionNode };
                         break;
                     case ParserContext.ArgumentEnd:
-                        contextSwitch.BeforeContextSwitch();
+                        contextSwitch?.BeforeContextSwitch();
                         break;
             }
         }
@@ -132,35 +133,6 @@ namespace QL4BIMinterpreter.QL4BIM
             }
         }
 
-
-        class SimpleConstantParameter : ContextSwitch
-        {
-            public override void AddNode(string value, ParserParts parserPart)
-            {
-                switch (parserPart)
-                {
-                    case ParserParts.Float:
-                        ParentFuncNode.LastStatement.AddArgument(new CFloatNode(value));
-                        break;
-                    case ParserParts.Number:
-                        ParentFuncNode.LastStatement.AddArgument(new CNumberNode(value));
-                        break;
-                    case ParserParts.String:
-                        ParentFuncNode.LastStatement.AddArgument(new CStringNode(value));
-                        break;
-                    case ParserParts.Bool:
-                        ParentFuncNode.LastStatement.AddArgument(new CBoolNode(value));
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException(nameof(parserPart), parserPart, null);
-                }
-            }
-
-            public override void BeforeContextSwitch() { }
-
-            public override void InitContext(string value) { }
-        }
-
         abstract class SetRelContextSwitch : ContextSwitch
         {
             protected string PrimeVariable;
@@ -222,16 +194,18 @@ namespace QL4BIMinterpreter.QL4BIM
                     case ParserParts.RelAtt: //ParserParts.EmptyRelAtt
                         SecondaryVariable.Add(value);
                         break;
-                    case ParserParts.String: //ParserParts.EmptyRelAtt
+
+                    //constants
+                    case ParserParts.String: 
                         ParentFuncNode.LastStatement.AddArgument(new CStringNode(value));
                         break;
-                    case ParserParts.Number: //ParserParts.EmptyRelAtt
+                    case ParserParts.Number: 
                         ParentFuncNode.LastStatement.AddArgument(new CNumberNode(value));
                         break;
-                    case ParserParts.Float: //ParserParts.EmptyRelAtt
+                    case ParserParts.Float: 
                         ParentFuncNode.LastStatement.AddArgument(new CFloatNode(value));
                         break;
-                    case ParserParts.Bool: //ParserParts.EmptyRelAtt
+                    case ParserParts.Bool: 
                         ParentFuncNode.LastStatement.AddArgument(new CBoolNode(value));
                         break;
                     default:
@@ -242,18 +216,25 @@ namespace QL4BIMinterpreter.QL4BIM
 
             public override void BeforeContextSwitch()
             {   
-                if(PrimeVariable == null)
-                    return;
-
-                if (SecondaryVariable.Count == 0)
+                //set
+                if (PrimeVariable != null && SecondaryVariable.Count == 0)
+                {
                     ParentFuncNode.LastStatement.AddArgument(new SetNode(PrimeVariable));
+                    PrimeVariable = null;
+                    return;
+                }
                 else
                 {
-                    var relation = new RelationNode(PrimeVariable);
-                    relation.Attributes = SecondaryVariable.ToList();
-                    ParentFuncNode.LastStatement.AddArgument(relation);
+                    var attribut = SecondaryVariable.FirstOrDefault();
+                    if (string.IsNullOrEmpty(attribut))
+                        return;
+
+                    var relAttNode = new RelAttNode(attribut, PrimeVariable);
+                    ParentFuncNode.LastStatement.AddArgument(relAttNode);
                     base.BeforeContextSwitch();
                 }
+
+                PrimeVariable = null;
             }
 
             public override void InitContext(string value) { }
