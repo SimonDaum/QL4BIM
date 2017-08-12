@@ -93,7 +93,7 @@ namespace QL4BIMinterpreter.QL4BIM
             public abstract void TearDownContext();
             public virtual void InitContext() {}
 
-            public void AddArgument(Node node)
+            protected void AddArgument(Node node)
             {
                 ParentFuncNode.LastStatement.Arguments.Add(node);
             }
@@ -192,7 +192,7 @@ namespace QL4BIMinterpreter.QL4BIM
                         PrimeVariable = value;
                         break;
                     case ParserParts.RelAtt: //ParserParts.EmptyRelAtt
-                        SecondaryVariable.Add(value);
+                        SecondaryVariable = value;
                         break;
                     case ParserParts.ExAtt:
                         AttributeAccessNodeEnd = DoExAtt(value);
@@ -224,27 +224,27 @@ namespace QL4BIMinterpreter.QL4BIM
         abstract class SetRelContextSwitch : ContextSwitch
         {
             protected string PrimeVariable;
-            protected readonly List<string> SecondaryVariable = new List<string>();
+            protected string SecondaryVariable;
 
 
             public override void TearDownContext()
             {
                 PrimeVariable = null;
-                SecondaryVariable.Clear();
+                SecondaryVariable = null;
 
             }
 
             protected AttributeAccessNode DoExAtt(string value)
             {
                 AttributeAccessNode attributeAccess = null;
-                if (PrimeVariable != null && SecondaryVariable.Count == 0)
+                if (PrimeVariable != null && SecondaryVariable == null)
                     attributeAccess = new AttributeAccessNode(new SetNode(PrimeVariable), new ExAttNode(value));
-                else
+                else if (SecondaryVariable != null)
                     attributeAccess = new AttributeAccessNode(
-                        new RelAttNode(SecondaryVariable.First(), PrimeVariable), new ExAttNode(value));
+                        new RelAttNode(SecondaryVariable, PrimeVariable), new ExAttNode(value));
 
                 PrimeVariable = null;
-                SecondaryVariable.Clear();
+                SecondaryVariable= null;
 
                 return attributeAccess;
             }
@@ -262,17 +262,20 @@ namespace QL4BIMinterpreter.QL4BIM
             }
         }
 
-        class ParseVariableContextSwitch : SetRelContextSwitch
+        class ParseVariableContextSwitch : ContextSwitch
         {
+            private string primeVariable;
+            private readonly List<string> secondaryVariable = new List<string>();
+
             public override void AddNode(string value, ParserParts parserPart)
             {
                 switch (parserPart)
                 {
                     case ParserParts.SetRelVar: 
-                        PrimeVariable = value;
+                        primeVariable = value;
                         break;
                     case ParserParts.RelAtt: 
-                        SecondaryVariable.Add(value);
+                        secondaryVariable.Add(value);
                         break;
                     default:
                         throw new InvalidOperationException();
@@ -281,16 +284,17 @@ namespace QL4BIMinterpreter.QL4BIM
 
             public override void TearDownContext()
             {
-                if (SecondaryVariable.Count == 0)
-                    ParentFuncNode.LastStatement.SetSetReturn(new SetNode(PrimeVariable));
+                if (secondaryVariable.Count == 0)
+                    ParentFuncNode.LastStatement.SetSetReturn(new SetNode(primeVariable));
                 else
                 {
-                    var relation = new RelationNode(PrimeVariable);
-                    relation.Attributes = SecondaryVariable.ToList();
+                    var relation = new RelationNode(primeVariable);
+                    relation.Attributes = secondaryVariable.ToList();
                     ParentFuncNode.LastStatement.SetRelationReturn(relation);
                 }
 
-                base.TearDownContext();
+                primeVariable = null;
+                secondaryVariable.Clear();
             }
 
         }
@@ -306,7 +310,7 @@ namespace QL4BIMinterpreter.QL4BIM
                         PrimeVariable = value;
                         break;
                     case ParserParts.RelAtt: //ParserParts.EmptyRelAtt
-                        SecondaryVariable.Add(value);
+                        SecondaryVariable = value;
 
                         var predecessorArg = PopLastArguement();
                         if (predecessorArg == null)
@@ -322,24 +326,25 @@ namespace QL4BIMinterpreter.QL4BIM
                         AddArgument(relNameNode);
 
                         break;
-                    //varX =  Op1(var1, [arg1] -> var1 ist kein SetNode und muss relname node werden
+
                     case ParserParts.ExAtt:
                         AddArgument(DoExAtt(value));
-
                         break;
 
                     //Type Predicate
                     case ParserParts.ExType:
                         TypePredNode typePredNode = null;
-                        if (PrimeVariable != null && SecondaryVariable.Count == 0)
+                        if (PrimeVariable != null && SecondaryVariable != null)
                             typePredNode = new TypePredNode(new SetNode(PrimeVariable), value);
                         else
                             typePredNode = new TypePredNode(
-                                new RelAttNode(SecondaryVariable.First(), PrimeVariable), value);
+                                new RelAttNode(SecondaryVariable, PrimeVariable), value);
                         AddArgument(typePredNode);
                         PrimeVariable = null;
-                        SecondaryVariable.Clear();
+                        SecondaryVariable = null;
                         break;
+
+   
 
                     //constants
                     case ParserParts.String: 
@@ -366,16 +371,15 @@ namespace QL4BIMinterpreter.QL4BIM
                 //throw  new ArgumentException("PrimeVariable = null and SecondaryVariable.Count = 0");
 
                 //set
-                if (PrimeVariable != null && SecondaryVariable.Count == 0)
+                if (PrimeVariable != null && SecondaryVariable == null)
                 {
                     AddArgument(new SetNode(PrimeVariable));
                 }
 
                 //rel
-                if (SecondaryVariable.Count > 0)
+                else if (SecondaryVariable != null)
                 {
-                    var attribut = SecondaryVariable.First();
-                    var relAttNode = new RelAttNode(attribut, PrimeVariable);
+                    var relAttNode = new RelAttNode(SecondaryVariable, PrimeVariable);
                     AddArgument(relAttNode);
                 }
 
