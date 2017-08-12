@@ -197,8 +197,8 @@ protected virtual void OnContext(ParserContext context)
 				} else if (la.kind == 24) {
 					exAtt();
 					if (StartOf(2)) {
-						OnContext(ParserContext.AttPredicate); 
 						attPredicate();
+						OnContext(ParserContext.AttPredicate); 
 					}
 				} else {
 					OnContext(ParserContext.CountPredicate); 

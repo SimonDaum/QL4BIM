@@ -13,51 +13,58 @@ namespace QL4BIMinterpreter.QL4BIM
         }
 
         private void Parser_ContextChanged(object sender, ContextChangedEventArgs e)
-        {   
+        {
             Console.WriteLine(e.ToString());
 
             contextSwitch?.BeforeContextSwitch();
 
             switch (e.Context)
-                {
-                    case ParserContext.GlobalBlock:
-                        globalContextSwitch = new GlobalBlockContextSwitch();
-                        contextSwitch = globalContextSwitch;
-                        contextSwitch.AddNode("Global Function", ParserParts.DefOp);
-                        currentFunctionNode = GlobalBlock;
-                        //currentFunctionNode = globalContextSwitch.GlobalFunctionNode; // todo set in func context
-                        break;
+            {
+                case ParserContext.GlobalBlock:
+                    globalContextSwitch = new GlobalBlockContextSwitch();
+                    contextSwitch = globalContextSwitch;
+                    contextSwitch.AddNode("Global Function", ParserParts.DefOp);
+                    currentFunctionNode = GlobalBlock;
+                    //currentFunctionNode = globalContextSwitch.GlobalFunctionNode; // todo set in func context
+                    break;
 
 
-                    case ParserContext.Statement:
-                        contextSwitch = new StatementContextSwitch() { ParentFuncNode = currentFunctionNode };
-                        contextSwitch.AddNode("Statement", ParserParts.NullPart);
-                        break;
+                case ParserContext.Statement:
+                    contextSwitch = new StatementContextSwitch() {ParentFuncNode = currentFunctionNode};
+                    contextSwitch.AddNode("Statement", ParserParts.NullPart);
+                    break;
 
 
-                    case ParserContext.Variable:
-                        contextSwitch = new ParseVariableContextSwitch() { ParentFuncNode = currentFunctionNode };
-                        break;
+                case ParserContext.Variable:
+                    contextSwitch = new ParseVariableContextSwitch() {ParentFuncNode = currentFunctionNode};
+                    break;
 
-                    case ParserContext.Operator:
-                        contextSwitch = new OperatorContextSwitch() { ParentFuncNode = currentFunctionNode };
-                        //contextSwitch.AddNode(partParsedEventArgs.CurrentToken, ParserParts.NoChange);
-                        break;
+                case ParserContext.Operator:
+                    contextSwitch = new OperatorContextSwitch() {ParentFuncNode = currentFunctionNode};
+                    break;
 
-                    case ParserContext.Argument:
-                        if(!(contextSwitch is ParseArgumentContextSwitch))
-                            contextSwitch = new ParseArgumentContextSwitch() { ParentFuncNode = currentFunctionNode };
-                        break;
-                    case ParserContext.ArgumentEnd:
-                        contextSwitch?.BeforeContextSwitch();
-                        break;
+                case ParserContext.Argument:
+                    if (!(contextSwitch is ParseArgumentContextSwitch))
+                        contextSwitch = new ParseArgumentContextSwitch() {ParentFuncNode = currentFunctionNode};
+                    break;
+                case ParserContext.ArgumentEnd:
+                    contextSwitch?.BeforeContextSwitch();
+                    break;
             }
         }
 
         private void ParserOnPartParsed(object sender, PartParsedEventArgs e)
         {
             Console.WriteLine('\t' + e.ToString());
-            contextSwitch.AddNode(e.CurrentToken, e.ParsePart);
+            try
+            {
+                contextSwitch.AddNode(e.CurrentToken, e.ParsePart);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
         }
 
         public FunctionNode GlobalBlock => globalContextSwitch.GlobalFunctionNode;
@@ -148,16 +155,14 @@ namespace QL4BIMinterpreter.QL4BIM
 
         class ParseVariableContextSwitch : SetRelContextSwitch
         {
-
-
             public override void AddNode(string value, ParserParts parserPart)
             {
                 switch (parserPart)
                 {
-                    case ParserParts.SetRelVar: //ParserParts.EmptyRelAtt
+                    case ParserParts.SetRelVar: 
                         PrimeVariable = value;
                         break;
-                    case ParserParts.RelAtt: //ParserParts.EmptyRelAtt
+                    case ParserParts.RelAtt: 
                         SecondaryVariable.Add(value);
                         break;
                     default:
@@ -193,6 +198,51 @@ namespace QL4BIMinterpreter.QL4BIM
                         break;
                     case ParserParts.RelAtt: //ParserParts.EmptyRelAtt
                         SecondaryVariable.Add(value);
+                        if (SecondaryVariable.Count > 0)
+                        {
+                            var predecessorArg = ParentFuncNode.LastStatement.Arguments.LastOrDefault();
+                            if (predecessorArg == null)
+                                throw new ArgumentException("a relational Attribute can only be used after a relational Argument.");
+
+                            if (!String.IsNullOrEmpty(PrimeVariable) && PrimeVariable != predecessorArg.Value)
+                            {
+                                throw new ArgumentException("a relational Attribute can only be used after a relational Argument with the same Name.");
+                            }
+
+                            if (predecessorArg is SetNode)
+                            {
+                                var relNode = new RelNameNode(predecessorArg.Value);
+                            }
+                            else
+                            {
+                                throw new ArgumentException("a relational Attribute can only be used after a relational Argument.");
+                            }
+                        }
+                        break;
+                    //varX =  Op1(var1, [arg1] -> var1 ist kein SetNode und muss relname node werden
+                    case ParserParts.ExAtt:
+                        AttributeAccessNode attributeAccess = null;
+                        if(PrimeVariable != null && SecondaryVariable.Count == 0)
+                            attributeAccess = new AttributeAccessNode(new SetNode(PrimeVariable), new ExAttNode(value));
+                        else
+                            attributeAccess = new AttributeAccessNode(
+                                new RelAttNode(SecondaryVariable.First(), PrimeVariable), new ExAttNode(value));
+                        ParentFuncNode.LastStatement.Arguments.Add(attributeAccess);
+                        PrimeVariable = null;
+                        SecondaryVariable.Clear();
+                        break;
+
+                    //predicates
+                    case ParserParts.ExType:
+                        TypePredNode typePredNode = null;
+                        if (PrimeVariable != null && SecondaryVariable.Count == 0)
+                            typePredNode = new TypePredNode(new SetNode(PrimeVariable), value);
+                        else
+                            typePredNode = new TypePredNode(
+                                new RelAttNode(SecondaryVariable.First(), PrimeVariable), value);
+                        ParentFuncNode.LastStatement.Arguments.Add(typePredNode);
+                        PrimeVariable = null;
+                        SecondaryVariable.Clear();
                         break;
 
                     //constants

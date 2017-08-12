@@ -196,9 +196,10 @@ protected virtual void OnContext(ParserContext context)
 					OnContext(ParserContext.TypePrdicate); 
 				} else if (la.kind == 24) {
 					exAtt();
+					OnParsed(ParserParts.ExAtt, t.val); 
 					if (StartOf(2)) {
-						OnContext(ParserContext.AttPredicate); 
 						attPredicate();
+						OnContext(ParserContext.AttPredicate); 
 					}
 				} else {
 					OnContext(ParserContext.CountPredicate); 
@@ -217,11 +218,9 @@ protected virtual void OnContext(ParserContext context)
 			OnParsed(ParserParts.SetRelArg, t.val); 
 			if (la.kind == 9) {
 				relAtt();
-				OnParsed(ParserParts.RelAtt, t.val); 
 			}
 		} else if (la.kind == 9) {
 			relAtt();
-			OnParsed(ParserParts.RelAtt, t.val); 
 		} else SynErr(30);
 	}
 

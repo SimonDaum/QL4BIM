@@ -110,7 +110,27 @@ namespace QL4BIMinterpreter.QL4BIM
         }
     }
 
-    public class SetNode : Node
+    public sealed class TypePredNode : Node
+    {
+        public RelAttNode RelAttNode { get; set; }
+        public SetNode SetNode { get; set; }
+
+        public String Type { get; set; }
+
+        public TypePredNode(RelAttNode relAttNode, string type)
+        {
+            RelAttNode = relAttNode;
+            Type = type;
+        }
+
+        public TypePredNode(SetNode setNode, string type)
+        {
+            SetNode = setNode;
+            Type = type;
+        }
+    }
+
+    public sealed class SetNode : Node
     {
         public SetNode(string value)
         {
@@ -125,6 +145,20 @@ namespace QL4BIMinterpreter.QL4BIM
 
         public SymbolUsage Usage { get; set; }
         public enum SymbolUsage { Set, RelAtt }
+    }
+
+    public sealed class RelNameNode : Node
+    {
+        public RelNameNode(string value)
+        {
+            Value = value;
+        }
+
+
+        public override string ToString()
+        {
+            return "RelNameNode: " + Value;
+        }
     }
 
     public class RelAttNode : Node
@@ -192,14 +226,12 @@ namespace QL4BIMinterpreter.QL4BIM
         }
     }
 
-    public class ExAttNode : Node
+    public sealed class ExAttNode : Node
     {
         public ExAttNode(string value)
         {
-            if (!value.StartsWith("."))
-                throw new ArgumentException();
 
-            Value = value.Substring(1, value.Length - 1);
+            Value = value;
 
         }
 
@@ -224,6 +256,25 @@ namespace QL4BIMinterpreter.QL4BIM
         public override string ToString()
         {
             return "ExTypeNode: " + Value;
+        }
+    }
+
+    public class AttributeAccessNode : Node
+    {
+        public RelAttNode RelAttNode { get; set; }
+        public SetNode SetNode { get; set; }
+        public ExAttNode ExAttNode { get; set; }
+
+        public AttributeAccessNode(RelAttNode relAttNode, ExAttNode exAttNode)
+        {
+            RelAttNode = relAttNode;
+            ExAttNode = exAttNode;
+        }
+
+        public AttributeAccessNode(SetNode setNode, ExAttNode exAttNode)
+        {
+            SetNode = setNode;
+            ExAttNode = exAttNode;
         }
     }
 

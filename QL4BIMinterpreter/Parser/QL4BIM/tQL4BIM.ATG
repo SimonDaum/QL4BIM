@@ -89,9 +89,10 @@ QL4BIM
 	(setRelAttLongShort 
 	[
 	exType													(.  OnContext(ParserContext.TypePrdicate); .)	
-	| exAtt 
-	[														(.  OnContext(ParserContext.AttPredicate); .)	
-	attPredicate											
+	| 
+	exAtt													
+	[															
+	attPredicate											(.  OnContext(ParserContext.AttPredicate); .)
 	]  
 	|														(.  OnContext(ParserContext.CountPredicate); .)	
 	countPredicate 
