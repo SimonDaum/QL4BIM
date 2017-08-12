@@ -196,7 +196,6 @@ protected virtual void OnContext(ParserContext context)
 					OnContext(ParserContext.TypePrdicate); 
 				} else if (la.kind == 24) {
 					exAtt();
-					OnParsed(ParserParts.ExAtt, t.val); 
 					if (StartOf(2)) {
 						attPredicate();
 						OnContext(ParserContext.AttPredicate); 

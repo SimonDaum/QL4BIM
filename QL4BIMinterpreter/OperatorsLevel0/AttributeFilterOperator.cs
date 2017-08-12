@@ -136,11 +136,12 @@ namespace QL4BIMinterpreter.OperatorsLevel0
 
             public PredicateData(PredicateNode node)
             {
-                PropName = node.AttNode.Value;
-                Compare = node.CompareToken;
-                StringValue = node.ValueStringNode?.Value;
-                IntValue = node.ValueNumberNode?.IntValue;
-                DoubleValue = node.ValueFloatNode?.FloatValue;
+                //PropName = node.AttNode.Value;
+                //Compare = node.CompareToken;
+                //StringValue = node.ValueStringNode?.Value;
+                //IntValue = node.ValueNumberNode?.IntValue;
+                //DoubleValue = node.ValueFloatNode?.FloatValue;
+                throw new ArgumentException();
             }
         }
     }

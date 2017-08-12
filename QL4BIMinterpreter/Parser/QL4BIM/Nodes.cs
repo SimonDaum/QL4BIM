@@ -339,67 +339,22 @@ namespace QL4BIMinterpreter.QL4BIM
 
     public class PredicateNode : Node
     {
-        public string CompareToken { get; }
+        public ParserParts Compare { get; set; }
 
-        public PredicateNode(ExAttNode attNode, string compareToken, CStringNode valueNode)
+        public Node FirstNode { get; set; }
+        public Node SecondNode { get; set; }
+
+        public PredicateNode(Node firstNode, ParserParts compare, Node secondNode)
         {
-            ValueStringNode = valueNode;
-            AttNode = attNode;
-            CompareToken = compareToken;
+            FirstNode = firstNode;
+            Compare = compare;
+            SecondNode = secondNode;
         }
-
-        public PredicateNode(ExAttNode attNode, string compareToken, CNumberNode valueNode)
-        {
-            ValueNumberNode = valueNode;
-            AttNode = attNode;
-            CompareToken = compareToken;
-        }
-
-        public PredicateNode(ExAttNode attNode, string compareToken, CFloatNode valueNode)
-        {
-            ValueFloatNode = valueNode;
-            AttNode = attNode;
-            CompareToken = compareToken;
-        }
-
-        //todos second ExAttNode
-        public ExAttNode AttNode { get; }
-        public CStringNode ValueStringNode { get; }
-        public CNumberNode ValueNumberNode { get; }
-        public CFloatNode ValueFloatNode { get; }
-
-        public Node FirstNode => AttNode;
-
-        public Node SecondNode
-        {
-            get
-            {
-                if (ValueStringNode != null)
-                    return ValueStringNode;
-
-                if (ValueNumberNode != null)
-                    return ValueNumberNode;
-
-                if (ValueFloatNode != null)
-                    return ValueFloatNode;
-
-                throw new InvalidOperationException();
-            }
-        }
-
 
         public override string ToString()
         {
-            if (ValueStringNode != null)
-                return AttNode + " " + ValueStringNode;
-            if (ValueNumberNode != null)
-                return AttNode + " " + ValueNumberNode;
-            if (ValueFloatNode != null)
-                return AttNode + " " + ValueFloatNode;
-
-            throw new InvalidOperationException();
+            return FirstNode.ToString() + " " +  Compare + " " + SecondNode;
         }
-
     }
 
     public sealed class StatementNode : Node
@@ -473,32 +428,7 @@ namespace QL4BIMinterpreter.QL4BIM
             ReturnRelationNode = returnRelatioNode;
         }
 
-        public void AddPredicate(ExAttNode exAttNode, string compareToken, CFloatNode floatNode)
-        {
-            var predicate = new PredicateNode(exAttNode, compareToken, floatNode);
-            exAttNode.Parent = predicate;
-            floatNode.Parent = predicate;
-            Predicate = predicate;
-            Predicate.Parent = this;
-        }
 
-        public void AddPredicate(ExAttNode exAttNode, string compareToken, CStringNode stringNode)
-        {
-            var predicate = new PredicateNode(exAttNode, compareToken, stringNode);
-            exAttNode.Parent = predicate;
-            stringNode.Parent = predicate;
-            Predicate = predicate;
-            Predicate.Parent = this;
-        }
-
-        public void AddPredicate(ExAttNode exAttNode, string compareToken, CNumberNode numberNode)
-        {
-            var predicate = new PredicateNode(exAttNode, compareToken, numberNode);
-            exAttNode.Parent = predicate;
-            numberNode.Parent = predicate;
-            Predicate = predicate;
-            Predicate.Parent = this;
-        }
 
         public void Accept(IExecutionVisitor executionVisitor)
         {   
