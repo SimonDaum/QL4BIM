@@ -52,6 +52,10 @@ namespace QL4BIMinterpreter.QL4BIM
                     contextSwitch = new AttributePredicateSwitch() { ParentFuncNode = currentFunctionNode };
                     break;
 
+                case ParserContext.CountPredicate:
+                    contextSwitch = new CountPredicateContextSwitch() { ParentFuncNode = currentFunctionNode };
+                    break;
+
                 case ParserContext.ArgumentEnd:
                     //contextSwitch?.TearDownContext();
                     break;
@@ -98,6 +102,18 @@ namespace QL4BIMinterpreter.QL4BIM
                 ParentFuncNode.LastStatement.Arguments.Add(node);
             }
 
+            protected Node PopLastArguement()
+            {
+                var argCount = ParentFuncNode.LastStatement.Arguments.Count;
+                var lastArg = ParentFuncNode.LastStatement.Arguments.LastOrDefault();
+
+                if (lastArg == null)
+                    throw new ArgumentException("Argument is missing");
+
+                ParentFuncNode.LastStatement.Arguments.RemoveAt(argCount - 1);
+                return lastArg;
+            }
+
         }
 
         class GlobalBlockContextSwitch : ContextSwitch
@@ -111,8 +127,6 @@ namespace QL4BIMinterpreter.QL4BIM
             }
 
             public override void TearDownContext() {}
-
-
         }
 
         class StatementContextSwitch : ContextSwitch
@@ -142,16 +156,12 @@ namespace QL4BIMinterpreter.QL4BIM
 
         }
 
-        abstract class PredicateSwitch : SetRelContextSwitch
+        class AttributePredicateSwitch : SetRelContextSwitch
         {
             public ParserParts Compare { get; set; }
+            public AttributeAccessNode AttributeAccessNodeStart { get; set; }
+            public Node AttributeAccessNodeEnd { get; set; }
 
-            public AttributeAccessNode AttributeAccessNodeStart { get;  set; }
-            public Node AttributeAccessNodeEnd { get;  set; }
-        }
-
-        class AttributePredicateSwitch : PredicateSwitch
-        {
             public override void AddNode(string value, ParserParts parserPart)
             {
                 switch (parserPart)
@@ -249,17 +259,7 @@ namespace QL4BIMinterpreter.QL4BIM
                 return attributeAccess;
             }
 
-            protected Node PopLastArguement()
-            {
-                var argCount = ParentFuncNode.LastStatement.Arguments.Count;
-                var lastArg = ParentFuncNode.LastStatement.Arguments.LastOrDefault();
 
-                if(lastArg == null)
-                    throw new ArgumentException("Argument is missing");
-
-                ParentFuncNode.LastStatement.Arguments.RemoveAt(argCount - 1);
-                return lastArg;
-            }
         }
 
         class ParseVariableContextSwitch : ContextSwitch
@@ -334,9 +334,9 @@ namespace QL4BIMinterpreter.QL4BIM
                     //Type Predicate
                     case ParserParts.ExType:
                         TypePredNode typePredNode = null;
-                        if (PrimeVariable != null && SecondaryVariable != null)
+                        if (PrimeVariable != null && SecondaryVariable == null)
                             typePredNode = new TypePredNode(new SetNode(PrimeVariable), value);
-                        else
+                        else if (SecondaryVariable != null)
                             typePredNode = new TypePredNode(
                                 new RelAttNode(SecondaryVariable, PrimeVariable), value);
                         AddArgument(typePredNode);
@@ -387,6 +387,59 @@ namespace QL4BIMinterpreter.QL4BIM
 
             }
 
+        }
+
+        class CountPredicateContextSwitch : ContextSwitch
+        {
+            private ParserParts compare;
+            private RelAttNode relAttNode;
+            private CNumberNode cNumberNode;
+
+            public override void InitContext()
+            {
+                var predecessor = PopLastArguement();
+
+                if(!(predecessor is RelAttNode))
+                    throw  new ArgumentException("predecessor arguement must be a RelAtt.");
+
+                relAttNode = predecessor as RelAttNode;
+            }
+
+            public override void AddNode(string value, ParserParts parserPart)
+            {
+                switch (parserPart)
+                {
+                    case ParserParts.EqualsPred:
+                        compare = parserPart;
+                        break;
+                    case ParserParts.MorePred:
+                        compare = parserPart;
+                        break;
+                    case ParserParts.MoreEqualPred:
+                        compare = parserPart;
+                        break;
+                    case ParserParts.LessPred:
+                        compare = parserPart;
+                        break;
+                    case ParserParts.LessEqualPred:
+                        compare = parserPart;
+                        break;
+                    case ParserParts.Number:
+                        cNumberNode = new CNumberNode(value);
+                        break;
+                    default:
+                        throw new InvalidOperationException();
+                }
+            }
+
+            public override void TearDownContext()
+            {   
+                if(relAttNode == null)
+                    return;
+
+                AddArgument(new PredicateNode(relAttNode, compare, cNumberNode));
+                relAttNode = null;
+            }
         }
     }
 }
