@@ -204,19 +204,17 @@ namespace QL4BIMinterpreter.QL4BIM
                             if (predecessorArg == null)
                                 throw new ArgumentException("a relational Attribute can only be used after a relational Argument.");
 
-                            if (!String.IsNullOrEmpty(PrimeVariable) && PrimeVariable != predecessorArg.Value)
-                            {
+                            if (!String.IsNullOrEmpty(PrimeVariable) && PrimeVariable != predecessorArg.Value)     
                                 throw new ArgumentException("a relational Attribute can only be used after a relational Argument with the same Name.");
-                            }
+                            
 
-                            if (predecessorArg is SetNode)
-                            {
-                                var relNode = new RelNameNode(predecessorArg.Value);
-                            }
-                            else
-                            {
+                            if (!(predecessorArg is SetNode))
                                 throw new ArgumentException("a relational Attribute can only be used after a relational Argument.");
-                            }
+                            
+                            var relNameNode = new RelNameNode(predecessorArg.Value);
+                            var argCount = ParentFuncNode.LastStatement.Arguments.Count;
+                            ParentFuncNode.LastStatement.Arguments.RemoveAt(argCount - 1);
+                            ParentFuncNode.LastStatement.Arguments.Add(relNameNode);
                         }
                         break;
                     //varX =  Op1(var1, [arg1] -> var1 ist kein SetNode und muss relname node werden

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace QL4BIMinterpreter.QL4BIM
@@ -128,6 +129,14 @@ namespace QL4BIMinterpreter.QL4BIM
             SetNode = setNode;
             Type = type;
         }
+
+        public override string ToString()
+        {
+            if (SetNode != null)
+                return "TypePredNode: " + SetNode.Value + " is " + Type;
+            else
+                return "TypePredNode: " + RelAttNode.ToShortString() + " is " + Type;
+        }
     }
 
     public sealed class SetNode : Node
@@ -170,6 +179,16 @@ namespace QL4BIMinterpreter.QL4BIM
         {
             Attribute = attribute;
             RelationName = relationName;
+        }
+
+        public override string ToString()
+        {
+            return "RelAttNode: " + ToShortString();
+        }
+
+        public string ToShortString()
+        {
+            return  RelationName + "[" + Attribute + "]";
         }
     }
 
@@ -275,6 +294,14 @@ namespace QL4BIMinterpreter.QL4BIM
         {
             SetNode = setNode;
             ExAttNode = exAttNode;
+        }
+
+        public override string ToString()
+        {   
+            if(SetNode != null)
+                return "AttributeAccessNode: " + SetNode.Value +  "." + ExAttNode.Value;
+            else
+                return "AttributeAccessNode: " + RelAttNode.ToShortString() + "." + ExAttNode.Value;
         }
     }
 
