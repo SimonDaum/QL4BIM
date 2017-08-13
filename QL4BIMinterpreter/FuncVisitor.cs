@@ -17,46 +17,41 @@ namespace QL4BIMinterpreter
             this.interpreterRepository = interpreterRepository;
         }
 
-        public void Visit(FunctionNode functionNode)
+        public void Visit(UserFunctionNode functionNode)
         {
             if (functionNode == null)
                 return;
 
-            if (functionNode.Value == "Global")
-                functionNode = functionNode.Next;
+            //todo user func
+            //var funcValidator = new FuncValidator() {Name = functionNode.Value};
 
-            if (functionNode == null)
-                return;
+            //var syUsages = new List<SyUseVal>();
+            //foreach (var argument in functionNode.FormalArguments)
+            //{
+            //    if (argument is RelationNode)
+            //    {
+            //        syUsages.Add(SyUseVal.Rel);
+            //        continue;
+            //    }
 
-            var funcValidator = new FuncValidator() {Name = functionNode.Value};
+            //    if (argument is SetNode)
+            //    {
+            //        syUsages.Add(SyUseVal.Set);
+            //        continue;
+            //    }
 
-            var syUsages = new List<SyUseVal>();
-            foreach (var argument in functionNode.FormalArguments)
-            {
-                if (argument is RelationNode)
-                {
-                    syUsages.Add(SyUseVal.Rel);
-                    continue;
-                }
+            //    throw new QueryException("Only sets and relations supported as function arguments");
+            //}
 
-                if (argument is SetNode)
-                {
-                    syUsages.Add(SyUseVal.Set);
-                    continue;
-                }
+            //var returnUsage = functionNode.LastStatement.ReturnRelationNode != null ? SyUseVal.Rel : SyUseVal.Set;
 
-                throw new QueryException("Only sets and relations supported as function arguments");
-            }
+            //var sig1 = new FunctionSignatur(returnUsage, new[] { SyUseVal.Set }, null, null);
+            //funcValidator.FunctionSignaturs.Add(sig1);
 
-            var returnUsage = functionNode.LastStatement.ReturnRelationNode != null ? SyUseVal.Rel : SyUseVal.Set;
+            //interpreterRepository.AddValidator(funcValidator);
 
-            var sig1 = new FunctionSignatur(returnUsage, new[] { SyUseVal.Set }, null, null);
-            funcValidator.FunctionSignaturs.Add(sig1);
-
-            interpreterRepository.AddValidator(funcValidator);
-
-            functionNode = functionNode.Next;
-            Visit(functionNode);
+            //functionNode = functionNode.Next;
+            //Visit(functionNode);
         }
 
         public void Visit(StatementNode statementNode)

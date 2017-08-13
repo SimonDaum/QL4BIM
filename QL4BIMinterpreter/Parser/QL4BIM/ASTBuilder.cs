@@ -12,7 +12,11 @@ namespace QL4BIMinterpreter.QL4BIM
             parser.ContextChanged += Parser_ContextChanged;
         }
 
+        public FunctionNode Block { get; } //todo user func
+
         private ContextSwitch CurrentContextSwitch { get; set; }
+
+        private const string GlobalFunctionId = "GlobalFunction";
 
         private void Parser_ContextChanged(object sender, ContextChangedEventArgs e)
         {
@@ -23,37 +27,42 @@ namespace QL4BIMinterpreter.QL4BIM
             switch (e.Context)
             {
                 case ParserContext.GlobalBlock:
-                    globalContextSwitch = new GlobalBlockContextSwitch();
-                    contextSwitch = globalContextSwitch;
-                    contextSwitch.AddNode("Global Function", ParserParts.DefOp);
-                    currentFunctionNode = GlobalBlock;
-                    //currentFunctionNode = globalContextSwitch.GlobalFunctionNode; // todo set in func context
+                    globalContextSwitch = new FunctionContextSwitch();
+                    globalContextSwitch.AddNode(GlobalFunctionId, ParserParts.DefOp);
+                    functionNode = globalContextSwitch.FunctionNode;
+                    userFunctionNode = functionNode;
+                    //currentFunctionNode = globalContextSwitch.FunctionNode; // todo set in func context
                     break;
+
+                case ParserContext.UserFuncBlock:
+                    contextSwitch = new FunctionContextSwitch();
+                    break;
+
                 case ParserContext.Statement:
-                    contextSwitch = new StatementContextSwitch() {ParentFuncNode = currentFunctionNode};
+                    contextSwitch = new StatementContextSwitch() {ParentFuncNode = userFunctionNode };
                     contextSwitch.AddNode("Statement", ParserParts.NullPart);
                     break;
 
 
                 case ParserContext.Variable:
-                    contextSwitch = new ParseVariableContextSwitch() {ParentFuncNode = currentFunctionNode};
+                    contextSwitch = new ParseVariableContextSwitch() {ParentFuncNode = userFunctionNode };
                     break;
 
                 case ParserContext.Operator:
-                    contextSwitch = new OperatorContextSwitch() {ParentFuncNode = currentFunctionNode};
+                    contextSwitch = new OperatorContextSwitch() {ParentFuncNode = userFunctionNode };
                     break;
 
                 case ParserContext.Argument:
                     if (!(contextSwitch is ParseArgumentContextSwitch))
-                        contextSwitch = new ParseArgumentContextSwitch() {ParentFuncNode = currentFunctionNode};
+                        contextSwitch = new ParseArgumentContextSwitch() {ParentFuncNode = userFunctionNode };
                     break;
 
                 case ParserContext.AttPredicate:
-                    contextSwitch = new AttributePredicateSwitch() { ParentFuncNode = currentFunctionNode };
+                    contextSwitch = new AttributePredicateSwitch() { ParentFuncNode = userFunctionNode };
                     break;
 
                 case ParserContext.CountPredicate:
-                    contextSwitch = new CountPredicateContextSwitch() { ParentFuncNode = currentFunctionNode };
+                    contextSwitch = new CountPredicateContextSwitch() { ParentFuncNode = userFunctionNode };
                     break;
 
                 case ParserContext.ArgumentEnd:
@@ -69,9 +78,8 @@ namespace QL4BIMinterpreter.QL4BIM
 
         }
 
-        public FunctionNode GlobalBlock => globalContextSwitch.GlobalFunctionNode;
 
-        private GlobalBlockContextSwitch globalContextSwitch;
+        private FunctionContextSwitch globalContextSwitch;
 
 
         private ContextSwitch contextSwitch
@@ -84,7 +92,9 @@ namespace QL4BIMinterpreter.QL4BIM
             }
         }
 
-        private FunctionNode currentFunctionNode = null;
+        private FunctionNode functionNode;
+        private FunctionNode userFunctionNode;
+
         private ContextSwitch contextSwitch1;
 
 
@@ -116,17 +126,22 @@ namespace QL4BIMinterpreter.QL4BIM
 
         }
 
-        class GlobalBlockContextSwitch : ContextSwitch
+        class FunctionContextSwitch : ContextSwitch
         {
                
-            public FunctionNode GlobalFunctionNode { get; private set; }
+            public FunctionNode FunctionNode { get; private set; }
 
             public override void AddNode(string value, ParserParts parserPart)
-            {
-                GlobalFunctionNode = new FunctionNode(value);
+            {   
+                if(GlobalFunctionId == value)
+                    FunctionNode = new FunctionNode(value);
+                else
+                    FunctionNode.UserFunctions.Add(new UserFunctionNode(value));
             }
 
             public override void TearDownContext() {}
+
+
         }
 
         class StatementContextSwitch : ContextSwitch

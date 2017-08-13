@@ -5,6 +5,6 @@ namespace QL4BIMinterpreter
     public interface IAstBuilder
     {
         void RegisterParseEvent(Parser parser);
-        FunctionNode GlobalBlock { get; }
+        FunctionNode Block { get; }
     }
 }

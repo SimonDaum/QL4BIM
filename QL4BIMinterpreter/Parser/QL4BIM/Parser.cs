@@ -150,7 +150,7 @@ protected virtual void OnContext(ParserContext context)
 	}
 
 	void func_() {
-		OnContext(ParserContext.FuncDefBlock); 
+		OnContext(ParserContext.UserFuncBlock); 
 		Expect(26);
 		Expect(4);
 		OnParsed(ParserParts.DefOp,t.val); 

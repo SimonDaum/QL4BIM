@@ -284,7 +284,7 @@ namespace QL4BIMinterpreter
                 {
                     Console.WriteLine("Performance testing cycle " + i + ", query " + j);
                     var queryNode = queryReader.Parse(query);
-                    funcVisitor.Visit(queryNode);
+                    //funcVisitor.Visit(queryNode); todo user func
                     symbolVisitor.Visit(queryNode);
                     executionVisitor.Visit(queryNode);
                     Reset();
@@ -327,7 +327,7 @@ namespace QL4BIMinterpreter
             try
             {   
                 var queryNode = queryReader.Parse(Repository.Query);
-                funcVisitor.Visit(queryNode);
+                //funcVisitor.Visit(queryNode); todo user func
                 symbolVisitor.Visit(queryNode);
                 executionVisitor.Visit(queryNode);
             }

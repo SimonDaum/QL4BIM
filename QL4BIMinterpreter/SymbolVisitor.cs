@@ -11,8 +11,6 @@ namespace QL4BIMinterpreter
 
         private readonly IInterpreterRepository interpreterRepository;
 
-
-
         public SymbolSymbolVisitor(IInterpreterRepository interpreterRepository)
         {
             this.interpreterRepository = interpreterRepository;
@@ -42,15 +40,16 @@ namespace QL4BIMinterpreter
             if (functionNode?.FirstStatement == null)
                 return;
 
-            if (functionNode.Previous == null)
-            {   
-                interpreterRepository.GlobalSymbolTable =  functionNode.SymbolTable ;
-            }
-            else
-            {
+            //todo user func
+            //if (functionNode.Previous == null)
+            //{   
+            //    interpreterRepository.GlobalSymbolTable =  functionNode.SymbolTable ;
+            //}
+            //else
+            //{
 
-                AddSymbolsFromFunc(functionNode);
-            }
+            //    AddSymbolsFromFunc(functionNode);
+            //}
 
             var statement = functionNode.FirstStatement;
             do
@@ -59,20 +58,22 @@ namespace QL4BIMinterpreter
                 statement = statement.Next;
             } while (statement != null);
 
-            Visit(functionNode.Next);
+            //todo user func
+            //Visit(functionNode.Next);
 
         }
 
         private void AddSymbolsFromFunc(FunctionNode functionNode)
-        {
-            foreach (var funcNodeArgument in functionNode.FormalArguments)
-            {
-                var compLitNode = funcNodeArgument as RelationNode;
-                if(compLitNode != null)
-                    functionNode.SymbolTable.AddRelSymbol(compLitNode);
-                else
-                    functionNode.SymbolTable.AddSetSymbol((SetNode)funcNodeArgument);
-            }
+        {   
+            //todo user func
+            //foreach (var funcNodeArgument in functionNode.FormalArguments)
+            //{
+            //    var compLitNode = funcNodeArgument as RelationNode;
+            //    if(compLitNode != null)
+            //        functionNode.SymbolTable.AddRelSymbol(compLitNode);
+            //    else
+            //        functionNode.SymbolTable.AddSetSymbol((SetNode)funcNodeArgument);
+            //}
         }
 
         private void Validate(SymbolTable symbolTable, StatementNode statementNode, List<List<string>> relsWithAttributes)

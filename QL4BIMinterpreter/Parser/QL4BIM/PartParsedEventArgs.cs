@@ -52,7 +52,7 @@ namespace QL4BIMinterpreter.QL4BIM
 
     public enum ParserContext
     {   
-        GlobalBlock, FuncDefBlock,
+        GlobalBlock, UserFuncBlock,
         Statement,  Variable, Operator, 
         Argument, ArgumentEnd, SimpleSetRelParameter,
         TypePrdicate, AttPredicate, CountPredicate 

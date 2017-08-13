@@ -32,34 +32,37 @@ namespace QL4BIMinterpreter.QL4BIM
 
     }
 
-    public sealed class FunctionNode : Node
+    public sealed class UserFunctionNode : FunctionNode
     {
-        private string value;
-
-        public FunctionNode Copy()
+        public UserFunctionNode(string value) : base(value)
         {
-            var copy = new FunctionNode(Value);
+        }
+
+        public IList<Node> FormalArguments { get; private set; } = new List<Node>();
+
+        public UserFunctionNode Copy()
+        {
+            var copy = new UserFunctionNode(Value);
             copy.SymbolTable = new SymbolTable(SymbolTable);
             copy.FormalArguments = FormalArguments.ToList();
-            copy.Next = Next;
-            copy.Previous = Previous;
             copy.FirstStatement = FirstStatement;
             copy.LastStatement = LastStatement;
 
             return copy;
         }
+    }
 
-        public SymbolTable SymbolTable { get; private set; }
+    public class FunctionNode : Node
+    {
+        private string value;
 
-        public IList<Node> FormalArguments { get; private set; } = new List<Node>();
+        public SymbolTable SymbolTable { get; protected set; }
+
 
         public void Accept(ISymbolVisitor symbolVisitor)
         {
             symbolVisitor.Visit(this);
         }
-
-        public FunctionNode Next { get; private set; }
-        public FunctionNode Previous { get; private set; }
 
 
         public FunctionNode(string value)
@@ -79,10 +82,12 @@ namespace QL4BIMinterpreter.QL4BIM
             }
         }
 
+        public IList<UserFunctionNode> UserFunctions { get; private set; } = new List<UserFunctionNode>();
 
-        public StatementNode FirstStatement { get; private set; }
 
-        public StatementNode LastStatement { get; private set; }
+        public StatementNode FirstStatement { get; protected set; }
+
+        public StatementNode LastStatement { get; protected set; }
 
         public void AddStatement(StatementNode statementNode)
         {
@@ -97,6 +102,7 @@ namespace QL4BIMinterpreter.QL4BIM
             statementNode.Parent = this;
             LastStatement = statementNode;
         }
+
 
 
     }

@@ -266,28 +266,29 @@ namespace QL4BIMinterpreter
                 return;
             }
 
-            var userFuncPresent = userFuncs.FirstOrDefault(f => f.Value == operatorName);
-            if(userFuncPresent == null)
-                return;
+            // user func
+            //var userFuncPresent = userFuncs.FirstOrDefault(f => f.Value == operatorName);
+            //if(userFuncPresent == null)
+            //    return;
 
-            var userFuncStacked = userFuncPresent.Copy();
-            var parameterSymbol = symbolTable.GetSetSymbol(statementNode.Arguments[0] as SetNode);
+            //var userFuncStacked = userFuncPresent.Copy();
+            //var parameterSymbol = symbolTable.GetSetSymbol(statementNode.Arguments[0] as SetNode);
 
-            var formalParameterSymbol = userFuncStacked.SymbolTable.GetSetSymbol(userFuncStacked.FormalArguments[0] as SetNode);
-            formalParameterSymbol.EntityDic = parameterSymbol.Entites.ToDictionary(e => e.Id);
+            //var formalParameterSymbol = userFuncStacked.SymbolTable.GetSetSymbol(userFuncStacked.FormalArguments[0] as SetNode);
+            //formalParameterSymbol.EntityDic = parameterSymbol.Entites.ToDictionary(e => e.Id);
 
-            var userFuncStatement = userFuncStacked.FirstStatement;
-            while (userFuncStatement != null)
-            {
-                Visit(userFuncStatement);
-                userFuncStatement = userFuncStatement.Next;
-            }
+            //var userFuncStatement = userFuncStacked.FirstStatement;
+            //while (userFuncStatement != null)
+            //{
+            //    Visit(userFuncStatement);
+            //    userFuncStatement = userFuncStatement.Next;
+            //}
 
-            var returnSymbolFunc = userFuncStacked.SymbolTable.GetRelationSymbol(userFuncStacked.LastStatement.ReturnRelationNode);
+            //var returnSymbolFunc = userFuncStacked.SymbolTable.GetRelationSymbol(userFuncStacked.LastStatement.ReturnRelationNode);
 
-            var formalreturnSymbol = symbolTable.GetRelationSymbol(statementNode.ReturnRelationNode);
+            //var formalreturnSymbol = symbolTable.GetRelationSymbol(statementNode.ReturnRelationNode);
 
-            formalreturnSymbol.SetTuples(returnSymbolFunc.Tuples);
+            //formalreturnSymbol.SetTuples(returnSymbolFunc.Tuples);
 
 
         }
@@ -302,16 +303,17 @@ namespace QL4BIMinterpreter
             if (firstStatement == null)
                 return;
 
-            if (functionNode.Value == "Global")
-            {
-                var tempFunc = functionNode;
-                while (tempFunc.Next != null)
-                {
-                    userFuncs.Add(tempFunc.Next);
-                    tempFunc = tempFunc.Next;
-                }
+            //todo user func
+            //if (functionNode.Value == "Global")
+            //{
+            //    var tempFunc = functionNode;
+            //    while (tempFunc.Next != null)
+            //    {
+            //        userFuncs.Add(tempFunc.Next);
+            //        tempFunc = tempFunc.Next;
+            //    }
 
-            }
+            //}
 
             var statement = firstStatement;
             do
