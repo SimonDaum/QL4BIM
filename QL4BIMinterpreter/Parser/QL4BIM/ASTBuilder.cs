@@ -12,9 +12,8 @@ namespace QL4BIMinterpreter.QL4BIM
             parser.ContextChanged += Parser_ContextChanged;
         }
 
-        public FunctionNode Block { get; } //todo user func
+        public FunctionNode GlobalFunctionNode => functionNode; //todo user func
 
-        private ContextSwitch CurrentContextSwitch { get; set; }
 
         private const string GlobalFunctionId = "GlobalFunction";
 
@@ -27,34 +26,30 @@ namespace QL4BIMinterpreter.QL4BIM
             switch (e.Context)
             {
                 case ParserContext.GlobalBlock:
-                    globalContextSwitch = new FunctionContextSwitch();
+                    globalContextSwitch = new FunctionContextSwitch(this);
                     globalContextSwitch.AddNode(GlobalFunctionId, ParserParts.DefOp);
-                    functionNode = globalContextSwitch.FunctionNode;
-                    userFunctionNode = functionNode;
-                    //currentFunctionNode = globalContextSwitch.FunctionNode; // todo set in func context
                     break;
 
                 case ParserContext.UserFuncBlock:
-                    contextSwitch = new FunctionContextSwitch();
+                    contextSwitch = new FunctionContextSwitch(this);
                     break;
 
                 case ParserContext.Statement:
-                    contextSwitch = new StatementContextSwitch() {ParentFuncNode = userFunctionNode };
+                    contextSwitch = new StatementContextSwitch() { ParentFuncNode = userFunctionNode };
                     contextSwitch.AddNode("Statement", ParserParts.NullPart);
                     break;
 
-
                 case ParserContext.Variable:
-                    contextSwitch = new ParseVariableContextSwitch() {ParentFuncNode = userFunctionNode };
+                    contextSwitch = new ParseVariableContextSwitch() { ParentFuncNode = userFunctionNode };
                     break;
 
                 case ParserContext.Operator:
-                    contextSwitch = new OperatorContextSwitch() {ParentFuncNode = userFunctionNode };
+                    contextSwitch = new OperatorContextSwitch() { ParentFuncNode = userFunctionNode };
                     break;
 
                 case ParserContext.Argument:
                     if (!(contextSwitch is ParseArgumentContextSwitch))
-                        contextSwitch = new ParseArgumentContextSwitch() {ParentFuncNode = userFunctionNode };
+                        contextSwitch = new ParseArgumentContextSwitch() { ParentFuncNode = userFunctionNode };
                     break;
 
                 case ParserContext.AttPredicate:
@@ -75,7 +70,6 @@ namespace QL4BIMinterpreter.QL4BIM
         {
             Console.WriteLine('\t' + e.ToString());
             contextSwitch.AddNode(e.CurrentToken, e.ParsePart);
-
         }
 
 
@@ -128,20 +122,33 @@ namespace QL4BIMinterpreter.QL4BIM
 
         class FunctionContextSwitch : ContextSwitch
         {
-               
+            private AstBuilder astBuilder;
             public FunctionNode FunctionNode { get; private set; }
 
             public override void AddNode(string value, ParserParts parserPart)
-            {   
-                if(GlobalFunctionId == value)
-                    FunctionNode = new FunctionNode(value);
-                else
-                    FunctionNode.UserFunctions.Add(new UserFunctionNode(value));
+            {
+                switch (parserPart)
+                {
+                    case ParserParts.DefOp:
+                        astBuilder.functionNode = new FunctionNode(value);
+                        if (GlobalFunctionId == value)
+                            astBuilder.userFunctionNode = astBuilder.functionNode;
+                        else
+                            astBuilder.functionNode.UserFunctions.Add(astBuilder.userFunctionNode as UserFunctionNode);
+                        break;
+                    case ParserParts.:
+                }
+
+                
+   
             }
 
             public override void TearDownContext() {}
 
-
+            public FunctionContextSwitch(AstBuilder astBuilder)
+            {
+                this.astBuilder = astBuilder;
+            }
         }
 
         class StatementContextSwitch : ContextSwitch

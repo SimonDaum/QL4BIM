@@ -36,7 +36,7 @@ namespace QL4BIMinterpreter.QL4BIM
             if(parser.errors.count > 0)
                 throw new QueryException("Errors in func statement(s): " + parser.errors.count);
 
-            return astBuilder.Block;
+            return astBuilder.GlobalFunctionNode;
         }
 
 
