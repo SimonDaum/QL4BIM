@@ -38,13 +38,19 @@ namespace QL4BIMinterpreter.QL4BIM
         {
         }
 
-        public IList<Node> FormalArguments { get; private set; } = new List<Node>();
+        public IList<Node> FormalArguments { get; } = new List<Node>();
+        public string Alias { get;  set; }
+
+        public void AddArguement(Node node)
+        {
+            FormalArguments.Add(node);
+        }
 
         public UserFunctionNode Copy()
         {
             var copy = new UserFunctionNode(Value);
             copy.SymbolTable = new SymbolTable(SymbolTable);
-            copy.FormalArguments = FormalArguments.ToList();
+            //copy.FormalArguments = FormalArguments.ToList();
             copy.FirstStatement = FirstStatement;
             copy.LastStatement = LastStatement;
 
@@ -83,7 +89,6 @@ namespace QL4BIMinterpreter.QL4BIM
         }
 
         public IList<UserFunctionNode> UserFunctions { get; private set; } = new List<UserFunctionNode>();
-
 
         public StatementNode FirstStatement { get; protected set; }
 

@@ -189,10 +189,11 @@ QL4BIM
 	 {"|" 
 	 lowString												(.  OnParsed(ParserParts.RelAtt, t.val); .)	
 	 }  
-	 "]" ].
+	 "]" ]													(.  OnParsed(ParserParts.SetRelFormalArgEnd); .)
+	 .
 	/*=====================================================*/
 
-	func_ =													(.  OnContext(ParserContext.FuncDefBlock); .)
+	func_ =													(.  OnContext(ParserContext.UserFuncBlock); .)
 	"func" 
 	upString												(.  OnParsed(ParserParts.DefOp,t.val); .)
 	[alias													(.  OnParsed(ParserParts.DefAlias,t.val); .)

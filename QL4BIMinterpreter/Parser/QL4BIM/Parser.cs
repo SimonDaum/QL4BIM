@@ -411,6 +411,7 @@ protected virtual void OnContext(ParserContext context)
 			}
 			Expect(11);
 		}
+		OnParsed(ParserParts.SetRelFormalArgEnd); 
 	}
 
 

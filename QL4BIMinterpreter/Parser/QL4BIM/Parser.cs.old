@@ -150,7 +150,7 @@ protected virtual void OnContext(ParserContext context)
 	}
 
 	void func_() {
-		OnContext(ParserContext.FuncDefBlock); 
+		OnContext(ParserContext.UserFuncBlock); 
 		Expect(26);
 		Expect(4);
 		OnParsed(ParserParts.DefOp,t.val); 
@@ -197,8 +197,8 @@ protected virtual void OnContext(ParserContext context)
 				} else if (la.kind == 24) {
 					exAtt();
 					if (StartOf(2)) {
-						attPredicate();
 						OnContext(ParserContext.AttPredicate); 
+						attPredicate();
 					}
 				} else {
 					OnContext(ParserContext.CountPredicate); 

@@ -47,7 +47,7 @@ namespace QL4BIMinterpreter.QL4BIM
         ExType, ExAtt, NumericOrSetRelAtt, SetRelAttPredEnd,
         Constant, String, Number, Float, Bool,
         EqualsPred, InPred, MorePred, MoreEqualPred, LessPred, LessEqualPred,
-        SetRelFormalArg, DefOp, DefAlias
+        SetRelFormalArg, SetRelFormalArgEnd, DefOp, DefAlias
     }
 
     public enum ParserContext

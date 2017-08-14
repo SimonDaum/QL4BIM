@@ -12,7 +12,7 @@ namespace QL4BIMinterpreter.QL4BIM
             parser.ContextChanged += Parser_ContextChanged;
         }
 
-        public FunctionNode GlobalFunctionNode => functionNode; //todo user func
+        public FunctionNode GlobalFunctionNode => globalFunctionNode; //todo user func
 
 
         private const string GlobalFunctionId = "GlobalFunction";
@@ -35,29 +35,29 @@ namespace QL4BIMinterpreter.QL4BIM
                     break;
 
                 case ParserContext.Statement:
-                    contextSwitch = new StatementContextSwitch() { ParentFuncNode = userFunctionNode };
+                    contextSwitch = new StatementContextSwitch() { ParentFuncNode = currentFunctionNode };
                     contextSwitch.AddNode("Statement", ParserParts.NullPart);
                     break;
 
                 case ParserContext.Variable:
-                    contextSwitch = new ParseVariableContextSwitch() { ParentFuncNode = userFunctionNode };
+                    contextSwitch = new ParseVariableContextSwitch() { ParentFuncNode = currentFunctionNode };
                     break;
 
                 case ParserContext.Operator:
-                    contextSwitch = new OperatorContextSwitch() { ParentFuncNode = userFunctionNode };
+                    contextSwitch = new OperatorContextSwitch() { ParentFuncNode = currentFunctionNode };
                     break;
 
                 case ParserContext.Argument:
                     if (!(contextSwitch is ParseArgumentContextSwitch))
-                        contextSwitch = new ParseArgumentContextSwitch() { ParentFuncNode = userFunctionNode };
+                        contextSwitch = new ParseArgumentContextSwitch() { ParentFuncNode = currentFunctionNode };
                     break;
 
                 case ParserContext.AttPredicate:
-                    contextSwitch = new AttributePredicateSwitch() { ParentFuncNode = userFunctionNode };
+                    contextSwitch = new AttributePredicateSwitch() { ParentFuncNode = currentFunctionNode };
                     break;
 
                 case ParserContext.CountPredicate:
-                    contextSwitch = new CountPredicateContextSwitch() { ParentFuncNode = userFunctionNode };
+                    contextSwitch = new CountPredicateContextSwitch() { ParentFuncNode = currentFunctionNode };
                     break;
 
                 case ParserContext.ArgumentEnd:
@@ -86,8 +86,8 @@ namespace QL4BIMinterpreter.QL4BIM
             }
         }
 
-        private FunctionNode functionNode;
-        private FunctionNode userFunctionNode;
+        private FunctionNode globalFunctionNode;
+        private FunctionNode currentFunctionNode;
 
         private ContextSwitch contextSwitch1;
 
@@ -123,20 +123,58 @@ namespace QL4BIMinterpreter.QL4BIM
         class FunctionContextSwitch : ContextSwitch
         {
             private AstBuilder astBuilder;
-            public FunctionNode FunctionNode { get; private set; }
+
+            private List<Node> Arguments = new List<Node>();
+
+            private string primeVariable;
+            private readonly List<string> secondaryVariable = new List<string>();
 
             public override void AddNode(string value, ParserParts parserPart)
             {
                 switch (parserPart)
                 {
                     case ParserParts.DefOp:
-                        astBuilder.functionNode = new FunctionNode(value);
                         if (GlobalFunctionId == value)
-                            astBuilder.userFunctionNode = astBuilder.functionNode;
+                        {   
+                            astBuilder.globalFunctionNode = new FunctionNode(value);
+                            astBuilder.currentFunctionNode = astBuilder.globalFunctionNode;
+                        }
                         else
-                            astBuilder.functionNode.UserFunctions.Add(astBuilder.userFunctionNode as UserFunctionNode);
+                        {
+                            var userFuncNode = new UserFunctionNode(value);
+                            astBuilder.globalFunctionNode.UserFunctions.Add(userFuncNode);
+                            astBuilder.currentFunctionNode = userFuncNode;
+                        }
                         break;
-                    case ParserParts.:
+                    case ParserParts.DefAlias:
+                        if(!value.StartsWith(":"))
+                            throw new ArgumentException("Alias does not start with :");
+                        ((UserFunctionNode)astBuilder.currentFunctionNode).Alias = value.Substring(1, value.Length-1);
+                        break;
+                    case ParserParts.SetRelFormalArg:
+                        //((UserFunctionNode)astBuilder.currentFunctionNode).AddArguement(); = value;
+                        break;
+                    case ParserParts.SetRelArg:
+                        primeVariable = value;
+                        break;
+                    case ParserParts.RelAtt:
+                        secondaryVariable.Add(value);
+                        break;
+                    case ParserParts.SetRelFormalArgEnd:
+                        if (secondaryVariable.Count == 0)
+                            ((UserFunctionNode)astBuilder.currentFunctionNode).AddArguement(new SetNode(primeVariable));
+                        else
+                        {
+                            var relation = new RelationNode(primeVariable);
+                            relation.Attributes = secondaryVariable.ToList();
+                            ((UserFunctionNode)astBuilder.currentFunctionNode).AddArguement(relation);
+                        }
+
+                        primeVariable = null;
+                        secondaryVariable.Clear();
+                        break;
+                    default:
+                        throw new InvalidOperationException();
                 }
 
                 
