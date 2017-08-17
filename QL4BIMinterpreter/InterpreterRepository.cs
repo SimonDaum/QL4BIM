@@ -57,7 +57,6 @@ namespace QL4BIMinterpreter
             //todo reset
             symbolTables = new List<SymbolTable>();
 
-            GlobalSymbolTable = new SymbolTable() {Name = "Global"};
         }
 
         public SymbolTable GlobalSymbolTable { get;  set; }

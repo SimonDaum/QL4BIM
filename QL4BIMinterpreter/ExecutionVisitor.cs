@@ -83,10 +83,12 @@ namespace QL4BIMinterpreter
                 else
                 {   
                     var returnSymbol = symbolTable.GetSetSymbol(statementNode.ReturnSetNode);
-                    var parameterSymbol1 = symbolTable.GetSetSymbol(statementNode.Arguments[0] as SetNode);
+                    var typePred = statementNode.Arguments[0] as TypePredNode;
+                    var setIn = typePred.SetNode;
+                    var parameterSymbol1 = symbolTable.GetSetSymbol(setIn);
 
                     logger.LogStart(operatorName, parameterSymbol1.EntityCount);
-                    typeFilterOperator.TypeFilterSet(parameterSymbol1, statementNode.Arguments[1].Value, returnSymbol);
+                    typeFilterOperator.TypeFilterSet(parameterSymbol1, typePred.Type, returnSymbol);
                     logger.LogStop(returnSymbol.EntityCount);
                 }
             }

@@ -18,19 +18,20 @@ namespace QL4BIMinterpreter
 
         public void Visit(StatementNode statementNode)
         {
-            var symbolTable = ((FunctionNode) statementNode.Parent).SymbolTable;
+            //todo user func
+            //var symbolTable = ((FunctionNode) statementNode.Parent).SymbolTable;
 
-            var relsWithAttributes =  symbolTable.Symbols.Values.Where(s => s is RelationSymbol).Cast<RelationSymbol>().
-                Select(r => new Tuple<string, List<string>>(r.Value, r.Attributes)).ToList();
+            //var relsWithAttributes =  symbolTable.Symbols.Values.Where(s => s is RelationSymbol).Cast<RelationSymbol>().
+            //    Select(r => new Tuple<string, List<string>>(r.Value, r.Attributes)).ToList();
 
-            var allRelAttributes = relsWithAttributes.Select(r => r.Item2).ToList();
-            var allAttributes = allRelAttributes.SelectMany(a => a).ToList();
+            //var allRelAttributes = relsWithAttributes.Select(r => r.Item2).ToList();
+            //var allAttributes = allRelAttributes.SelectMany(a => a).ToList();
 
-            CheckSymbolExistance(statementNode, allAttributes);
+            //CheckSymbolExistance(statementNode, allAttributes);
 
-            SetAttributesUsage(statementNode);
+            //SetAttributesUsage(statementNode);
 
-            Validate(symbolTable, statementNode, allRelAttributes);
+            //Validate(symbolTable, statementNode, allRelAttributes);
 
             AddSymbolsFromStatments(statementNode);
         }

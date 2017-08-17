@@ -330,6 +330,8 @@ namespace QL4BIMinterpreter
                 //funcVisitor.Visit(queryNode); todo user func
                 symbolVisitor.Visit(queryNode);
                 executionVisitor.Visit(queryNode);
+
+                Repository.GlobalSymbolTable = queryNode.SymbolTable;
             }
             catch (QueryException e)
             {   
