@@ -59,7 +59,7 @@ namespace QL4BIMinterpreter
             if (operatorName == "ImportModel")
             {
                 var returnSymbol = symbolTable.GetSetSymbol(statementNode.ReturnSetNode);
-                importModelOperator.ImportModel(statementNode.Arguments[0].Value, returnSymbol);
+                importModelOperator.ImportModel(statementNode.Arguments[0].Value, returnSymbol); 
                 return;
             }
 
@@ -99,7 +99,7 @@ namespace QL4BIMinterpreter
             if (operatorName == "AttributeFilter")
             {
                 var firstArgument = (SetNode)statementNode.Arguments[0];
-                var isRelAttOverload = firstArgument.Usage == SetNode.SymbolUsage.RelAtt;
+                var isRelAttOverload = true; // firstArgument.Usage == SetNode.SymbolUsage.RelAtt;
                 var predData = new AttributeFilterOperator.PredicateData(statementNode.Predicate);
 
                 if (isRelAttOverload)
@@ -134,7 +134,7 @@ namespace QL4BIMinterpreter
             if (operatorName == "Dereferencer")
             {
                 var firstArgument = (SetNode)statementNode.Arguments[0];
-                var isRelAttOverload = firstArgument.Usage == SetNode.SymbolUsage.RelAtt;
+                var isRelAttOverload = true; //firstArgument.Usage == SetNode.SymbolUsage.RelAtt;
                 var returnSymbol = symbolTable.GetRelationSymbol(statementNode.ReturnRelationNode);
                 var refs = statementNode.Arguments.Skip(1).Cast<ExAttNode>().Select(n => n.Value).ToArray();
                 if (isRelAttOverload)
@@ -167,25 +167,27 @@ namespace QL4BIMinterpreter
             if (operatorName == "Deassociater")
             {
                 var returnSymbol = symbolTable.GetRelationSymbol(statementNode.ReturnRelationNode);
-                var isRelationOverload = ((SetNode) statementNode.Arguments[0]).Usage ==SetNode.SymbolUsage.RelAtt;
-                var literalNode = (SetNode) statementNode.Arguments[0];
+                var attributeAccessNode = (AttributeAccessNode)statementNode.Arguments[0];
+                var isRelationOverload = attributeAccessNode.RelAttNode != null;
 
                 if (isRelationOverload)
                 {
-                    var parameterRelationSymbol = symbolTable.GetNearestRelationSymbolFromAttribute(literalNode);
-                    var exAtts = statementNode.Arguments.Skip(1).Cast<ExAttNode>().Select(n => n.Value).ToArray();
+                    var relAttNode = attributeAccessNode.RelAttNode;
+                    var parameterRelationSymbol = symbolTable.GetNearestRelationSymbolFromAttribute(relAttNode);
+                    var exAtts = relAttNode.Attribute;
 
                     logger.LogStart(operatorName, parameterRelationSymbol.EntityCount);
-                    deassociaterOperator.DeassociaterRelAtt(parameterRelationSymbol, exAtts, returnSymbol);
+                    deassociaterOperator.DeassociaterRelAtt(parameterRelationSymbol, new string[] {exAtts}, returnSymbol);
                     logger.LogStop(returnSymbol.EntityCount);
                 }
                 else
                 {
-                    var parameterSetSymbol = symbolTable.GetSetSymbol((SetNode)statementNode.Arguments[0]);
-                    var exAtts = statementNode.Arguments.Skip(1).Cast<ExAttNode>().Select(n => n.Value).ToArray();
+                    var setNode = attributeAccessNode.SetNode;
+                    var parameterSetSymbol = symbolTable.GetSetSymbol(setNode);
+                    var exAtts = attributeAccessNode.ExAttNode.Value;
 
                     logger.LogStart(operatorName, parameterSetSymbol.EntityCount);
-                    deassociaterOperator.DeassociaterSet(parameterSetSymbol, exAtts, returnSymbol);
+                    deassociaterOperator.DeassociaterSet(parameterSetSymbol, new string[] {exAtts}, returnSymbol);
                     logger.LogStop(returnSymbol.EntityCount);
                 }
                     

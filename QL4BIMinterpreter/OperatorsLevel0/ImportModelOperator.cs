@@ -26,7 +26,7 @@ namespace QL4BIMinterpreter.OperatorsLevel0
             if (!File.Exists(path))
                 throw new QueryException("File not found: " + path);
 
-            if (true)
+            if (false) //geo off
             {
                 Console.WriteLine("ImportModel'ing... side effects->");
                 Console.WriteLine("\tGenerating geometry...");

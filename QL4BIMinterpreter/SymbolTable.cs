@@ -85,7 +85,7 @@ namespace QL4BIMinterpreter
 
         }
 
-        public RelationSymbol GetNearestRelationSymbolFromAttribute(SetNode node)
+        public RelationSymbol GetNearestRelationSymbolFromAttribute(Node node)
         {
             var statementNode = (StatementNode) node.Parent;
 

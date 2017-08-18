@@ -92,23 +92,23 @@ namespace QL4BIMinterpreter
 
             foreach (var literalArg in literalArgs)
             {
-                do 
-                {
-                    if (nodeForBackwardTraversal.ReturnSetNode != null &&
-                        nodeForBackwardTraversal.ReturnSetNode.Value == literalArg.Value)
-                    {
-                        literalArg.Usage = SetNode.SymbolUsage.Set;
-                        break; 
-                    }
-                    else if (nodeForBackwardTraversal.ReturnRelationNode != null &&
-                             nodeForBackwardTraversal.ReturnRelationNode.Attributes.Contains(literalArg.Value))
-                    {
-                       literalArg.Usage = SetNode.SymbolUsage.RelAtt;
-                       break;
-                    }
+                //do 
+                //{
+                //    if (nodeForBackwardTraversal.ReturnSetNode != null &&
+                //        nodeForBackwardTraversal.ReturnSetNode.Value == literalArg.Value)
+                //    {
+                //        literalArg.Usage = SetNode.SymbolUsage.Set;
+                //        break; 
+                //    }
+                //    else if (nodeForBackwardTraversal.ReturnRelationNode != null &&
+                //             nodeForBackwardTraversal.ReturnRelationNode.Attributes.Contains(literalArg.Value))
+                //    {
+                //       literalArg.Usage = SetNode.SymbolUsage.RelAtt;
+                //       break;
+                //    }
                         
-                    nodeForBackwardTraversal = nodeForBackwardTraversal.Previous;
-                } while (nodeForBackwardTraversal != null);
+                //    nodeForBackwardTraversal = nodeForBackwardTraversal.Previous;
+                //} while (nodeForBackwardTraversal != null);
             }
         }
 

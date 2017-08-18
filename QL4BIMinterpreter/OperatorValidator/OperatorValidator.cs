@@ -187,11 +187,11 @@ namespace QL4BIMinterpreter
             var node1 = node as SetNode;
             if (node1 != null)
             {
-                var literalNode = node1;
-                if (literalNode.Usage == SetNode.SymbolUsage.RelAtt && symbolUsage == SyUseVal.RelAtt)
-                    return true;
-                if (literalNode.Usage == SetNode.SymbolUsage.Set && symbolUsage == SyUseVal.Set)
-                    return true;
+                //var literalNode = node1;
+                //if (literalNode.Usage == SetNode.SymbolUsage.RelAtt && symbolUsage == SyUseVal.RelAtt)
+                //    return true;
+                //if (literalNode.Usage == SetNode.SymbolUsage.Set && symbolUsage == SyUseVal.Set)
+                //    return true;
             }
 
 

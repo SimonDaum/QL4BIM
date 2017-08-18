@@ -163,8 +163,6 @@ namespace QL4BIMinterpreter.QL4BIM
             return "SetNode: " + Value;
         }
 
-        public SymbolUsage Usage { get; set; }
-        public enum SymbolUsage { Set, RelAtt }
     }
 
     public sealed class RelNameNode : Node
