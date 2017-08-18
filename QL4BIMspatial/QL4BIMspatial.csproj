@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>QL4BIMspatial</RootNamespace>
     <AssemblyName>QL4BIMspatial</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -115,7 +116,6 @@
     <Compile Include="Operators\CoverOperator.cs" />
     <Compile Include="Operators\Interfaces\IVectorDirOperator.cs" />
     <Compile Include="Operators\VectorDirOperator.cs" />
-    <Compile Include="Primitives\Prism.cs" />
     <Compile Include="Intersectors\RayTriangleIntersector.cs" />
     <Compile Include="Intersectors\TriangleIntersector.cs" />
     <Compile Include="IO\IX3DExporter.cs" />
@@ -127,8 +127,6 @@
     <Compile Include="Meshing\PolygonMerger.cs" />
     <Compile Include="Operators\Interfaces\IPointSampler.cs" />
     <Compile Include="Operators\PointSampler.cs" />
-    <Compile Include="Primitives\Polygon.cs" />
-    <Compile Include="Primitives\Ray.cs" />
     <Compile Include="State\ISpatialRepository.cs" />
     <Compile Include="MainInterface.cs" />
     <Compile Include="Operators\DirectionalOperators.cs" />
@@ -139,25 +137,12 @@
     <Compile Include="Operators\Interfaces\ITouchOperator.cs" />
     <Compile Include="Operators\OverlapOperator.cs" />
     <Compile Include="Operators\TouchOperator.cs" />
-    <Compile Include="Primitives\Axis.cs" />
-    <Compile Include="Primitives\IHasBounds.cs" />
     <Compile Include="Meshing\IndexedFaceSet.cs" />
-    <Compile Include="Primitives\Interval.cs" />
-    <Compile Include="Primitives\IVolume.cs" />
-    <Compile Include="Primitives\Point.cs" />
     <Compile Include="Intersectors\PrismTriangleIntersector.cs" />
-    <Compile Include="Primitives\Triangle.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Meshing\TriangleMesh.cs" />
-    <Compile Include="Primitives\VectorExtensions.cs" />
     <Compile Include="State\ISettings.cs" />
     <Compile Include="State\SpatialRepository.cs" />
-    <Compile Include="Primitives\Box.cs" />
-    <Compile Include="RTree\ITreeItem.cs" />
-    <Compile Include="RTree\LeafNode.cs" />
-    <Compile Include="RTree\Node.cs" />
-    <Compile Include="RTree\RStarTree.cs" />
-    <Compile Include="RTree\RTree.cs" />
     <Compile Include="State\Settings.cs" />
     <Compile Include="Stopwatch.cs" />
     <None Include="packages.config" />
@@ -181,6 +166,14 @@
     <ProjectReference Include="..\IfcImporter\IfcImporter.csproj">
       <Project>{597d95a4-bdb8-4a29-b48c-517101dad0c9}</Project>
       <Name>IfcImporter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\QL4BIMindexing\QL4BIMindexing.csproj">
+      <Project>{a80fd724-db5d-43c6-be40-776fa8453099}</Project>
+      <Name>QL4BIMindexing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\QL4BIMprimitives\QL4BIMprimitives.csproj">
+      <Project>{741E2FBB-986C-4A1D-80A8-F568B7276FAC}</Project>
+      <Name>QL4BIMprimitives</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

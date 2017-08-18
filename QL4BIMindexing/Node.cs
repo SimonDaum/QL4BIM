@@ -22,8 +22,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using QL4BIMprimitives;
 
-namespace QL4BIMspatial
+
+namespace QL4BIMindexing
 {
     //import com.infomatiq.jsi.Rectangle;
 

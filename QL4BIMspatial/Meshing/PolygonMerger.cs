@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using MathNet.Numerics.LinearAlgebra.Double;
+using QL4BIMprimitives;
 
 namespace QL4BIMspatial
 {

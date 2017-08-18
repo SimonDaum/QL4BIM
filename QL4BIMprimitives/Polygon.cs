@@ -5,7 +5,7 @@ using System.Dynamic;
 using System.Linq;
 using MathNet.Numerics.LinearAlgebra.Double;
 
-namespace QL4BIMspatial
+namespace QL4BIMprimitives
 {
     public class Polygon : IEnumerable<PolygonPoint>
     {

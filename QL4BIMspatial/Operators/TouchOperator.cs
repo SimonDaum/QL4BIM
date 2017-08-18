@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Practices.Unity.Utility;
+using QL4BIMindexing;
+using QL4BIMprimitives;
 using PairTriangleMesh = Microsoft.Practices.Unity.Utility.Pair<QL4BIMspatial.TriangleMesh, QL4BIMspatial.TriangleMesh>;
 
 namespace QL4BIMspatial

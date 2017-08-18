@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.Utility;
+using QL4BIMindexing;
+using QL4BIMprimitives;
 
 namespace QL4BIMspatial
 {

@@ -1,4 +1,6 @@
-﻿namespace QL4BIMspatial
+﻿using QL4BIMprimitives;
+
+namespace QL4BIMspatial
 {
     internal interface IRayBoxIntersector
     {

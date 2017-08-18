@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Practices.Unity.Utility;
-using NodeDistPair = System.Tuple<QL4BIMspatial.RTree<QL4BIMspatial.Triangle>.Node, QL4BIMspatial.RTree<QL4BIMspatial.Triangle>.Node, bool>;
-using NodePair = System.Tuple<QL4BIMspatial.RTree<QL4BIMspatial.Triangle>.Node, QL4BIMspatial.RTree<QL4BIMspatial.Triangle>.Node>;
+using QL4BIMindexing;
+using QL4BIMprimitives;
+using NodeDistPair = System.Tuple<QL4BIMindexing.RTree<QL4BIMprimitives.Triangle>.Node, QL4BIMindexing.RTree<QL4BIMprimitives.Triangle>.Node, bool>;
+using NodePair = System.Tuple<QL4BIMindexing.RTree<QL4BIMprimitives.Triangle>.Node, QL4BIMindexing.RTree<QL4BIMprimitives.Triangle>.Node>;
 
 namespace QL4BIMspatial
 {

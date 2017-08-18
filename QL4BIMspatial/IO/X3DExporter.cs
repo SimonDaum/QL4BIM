@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using MathNet.Numerics.LinearAlgebra;
+using QL4BIMprimitives;
 
 namespace QL4BIMspatial
 {

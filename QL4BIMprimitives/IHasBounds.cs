@@ -1,5 +1,5 @@
 ﻿
-namespace QL4BIMspatial
+namespace QL4BIMprimitives
 {
     public interface IHasBounds
     {

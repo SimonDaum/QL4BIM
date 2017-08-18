@@ -9,9 +9,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>QL4BIMinterpreter</RootNamespace>
     <AssemblyName>QL4BIMinterpreter</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>x64</PlatformTarget>
@@ -175,6 +176,10 @@
     <None Include="Parser\QL4BIM\tQL4BIM.ATG" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\QL4BIMprimitives\QL4BIMprimitives.csproj">
+      <Project>{741e2fbb-986c-4a1d-80a8-f568b7276fac}</Project>
+      <Name>QL4BIMprimitives</Name>
+    </ProjectReference>
     <ProjectReference Include="..\QL4BIMspatial\QL4BIMspatial.csproj">
       <Project>{d5134bf8-5e58-4625-9893-af72b8f8323d}</Project>
       <Name>QL4BIMspatial</Name>

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using QL4BIMprimitives;
 
-namespace QL4BIMspatial
+namespace QL4BIMindexing
 {
     public partial class RTree<T>
     {

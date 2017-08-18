@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using MathNet.Numerics.LinearAlgebra;
+using QL4BIMprimitives;
 
 namespace QL4BIMspatial
 {

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Globalization;
 using System.Text;
+using QL4BIMindexing;
+using QL4BIMprimitives;
 
 namespace QL4BIMspatial
 {

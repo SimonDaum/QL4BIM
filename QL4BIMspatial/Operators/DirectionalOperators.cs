@@ -5,6 +5,7 @@ using System.Linq;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
 using Microsoft.Practices.Unity.Utility;
+using QL4BIMprimitives;
 
 
 namespace QL4BIMspatial

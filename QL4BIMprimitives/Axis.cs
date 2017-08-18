@@ -1,4 +1,4 @@
-﻿namespace QL4BIMspatial
+﻿namespace QL4BIMprimitives
 {
     public enum Axis
     {

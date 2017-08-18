@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using MathNet.Numerics.LinearAlgebra;
+using QL4BIMprimitives;
 
 namespace QL4BIMspatial
 {

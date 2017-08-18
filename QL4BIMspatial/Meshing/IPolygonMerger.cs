@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using QL4BIMprimitives;
 
 namespace QL4BIMspatial
 {

@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using QL4BIMprimitives;
 
-namespace QL4BIMspatial
+namespace QL4BIMindexing
 {
-    public class RStarTree<T> : RTree<T> where T : IHasBounds
+    public class RStarTree<T> : QL4BIMindexing.RTree<T> where T : IHasBounds
     {
         private const bool forcedReinsert = true;
         private const bool closeReinsert = true;

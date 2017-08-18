@@ -181,9 +181,9 @@ namespace QL4BIMinterpreter
 
         public string Name { get; set; }
 
-        protected void Reset()
+        protected virtual void Reset()//todo check calls
         {
-            Repository.GlobalSymbolTable.Reset();
+            Repository.GlobalSymbolTable.Reset(); 
             Repository.GlobalEntityDictionary.Clear();
             SpatialRepository.Reset();
             GC.Collect();
@@ -471,7 +471,7 @@ namespace QL4BIMinterpreter
             Name = name;
         }
 
-        public void Reset()
+        public new void Reset()
         {
             shownEntites = 0;
             currentEntites = null;

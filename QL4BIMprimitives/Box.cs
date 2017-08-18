@@ -25,7 +25,8 @@ using System.Text;
 using MathNet.Numerics;
 using MathNet.Numerics.LinearAlgebra;
 
-namespace QL4BIMspatial
+
+namespace QL4BIMprimitives
 {
 
     /**

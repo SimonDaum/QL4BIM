@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using QL4BIMindexing;
+using QL4BIMprimitives;
 using PairTriangleMesh = Microsoft.Practices.Unity.Utility.Pair<QL4BIMspatial.TriangleMesh, QL4BIMspatial.TriangleMesh>;
 using PairTriangleMeshDist = System.Tuple<QL4BIMspatial.TriangleMesh, QL4BIMspatial.TriangleMesh, double>;
-using triNode = QL4BIMspatial.RTree<QL4BIMspatial.Triangle>.Node;
+using triNode = QL4BIMindexing.RTree<QL4BIMprimitives.Triangle>.Node;
 
 namespace QL4BIMspatial
 {

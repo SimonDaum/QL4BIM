@@ -1,3 +1,5 @@
+using QL4BIMprimitives;
+
 namespace QL4BIMspatial
 {
     public interface IRayTriangleIntersector

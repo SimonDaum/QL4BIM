@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using MathNet.Numerics.LinearAlgebra;
 
-namespace QL4BIMspatial
+namespace QL4BIMprimitives
 {
     public class Interval
     {
