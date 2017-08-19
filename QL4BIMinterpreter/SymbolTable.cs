@@ -50,7 +50,7 @@ namespace QL4BIMinterpreter
         {
             Symbol symbol = new RelationSymbol(relationNode);
 
-            symbols.Add(relationNode.Value, symbol);
+            symbols.Add(relationNode.RelationName, symbol);
 
         }
 
@@ -59,21 +59,26 @@ namespace QL4BIMinterpreter
             return (SetSymbol)symbols[node.Value];
         }
 
-        public RelationSymbol GetRelationSymbol(RelationNode node)
+        public RelationSymbol GetRelationSymbol(RelNameNode node)
         {
             return (RelationSymbol) symbols[node.Value];
         }
 
-        public IEnumerable<int> GetIndices(IEnumerable<SetNode> nodes)
+        public RelationSymbol GetRelationSymbol(RelationNode node)
+        {
+            return (RelationSymbol)symbols[node.RelationName];
+        }
+
+        public IEnumerable<int> GetIndices(IEnumerable<RelAttNode> nodes)
         {   
-            foreach (var literalNode in nodes)
+            foreach (var att in nodes)
             {
-                var statementNode = (StatementNode)literalNode.Parent;
+                var statementNode = (StatementNode)att.Parent;
                 //dont check me
                 statementNode = statementNode.Previous;
                 while (statementNode != null)
                 {
-                    var indexOfAttribute = statementNode.ReturnRelationNode.Attributes.IndexOf(literalNode.Value);
+                    var indexOfAttribute = statementNode.ReturnRelationNode.Attributes.IndexOf(att.Value);
                     if (indexOfAttribute != -1)
                         yield return indexOfAttribute;
                     statementNode = statementNode.Previous;
@@ -84,34 +89,5 @@ namespace QL4BIMinterpreter
 
 
         }
-
-        public RelationSymbol GetNearestRelationSymbolFromAttribute(Node node)
-        {
-            var statementNode = (StatementNode) node.Parent;
-
-            //dont check me
-            statementNode = statementNode.Previous;
-
-            while (statementNode != null)
-            {
-                var indexOfAttribute = statementNode.ReturnRelationNode.Attributes.IndexOf(node.Value);
-                if (indexOfAttribute != -1)
-                {
-                    var symbol = GetRelationSymbol(statementNode.ReturnRelationNode);
-                    symbol.Index = indexOfAttribute;
-                    return symbol;
-                }
-
-
-                statementNode = statementNode.Previous;
-            }
-
-            return null;
-        }
-
-
-
-
-
     }
 }

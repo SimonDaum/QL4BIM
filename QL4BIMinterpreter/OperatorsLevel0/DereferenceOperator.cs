@@ -35,12 +35,12 @@ namespace QL4BIMinterpreter.OperatorsLevel0
         {
 
             if (referenceValue == null || (referenceValue.QLEntityId == null && referenceValue.QLList == null))
-                return Enumerable.Empty<QLEntity>();
+                return new List<QLEntity>();
 
             if (referenceValue.QLEntityId != null)
             {
                 var referencedEntity = interpreterRepository.GlobalEntityDictionary[referenceValue.QLEntityId.Id];
-                return new QLEntity[] {referencedEntity};
+                return new List<QLEntity>(){referencedEntity};
             }
 
             if (referenceValue.QLList != null && referenceValue.QLList.HasRef)

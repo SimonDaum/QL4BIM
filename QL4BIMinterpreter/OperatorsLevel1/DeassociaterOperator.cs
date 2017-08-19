@@ -61,7 +61,7 @@ namespace QL4BIMinterpreter.OperatorsLevel1
         }
 
 
-        private Dictionary<string, string> mapObjectiviedRelations = new Dictionary<string, string>()
+        private Dictionary<string, string> mapObjectiviedRelations = new Dictionary<string, string>() //todo add reversed
         {
             { "HasOpenings", "RelatedOpeningElement" },
             { "HasFillings", "RelatedBuildingElement" },

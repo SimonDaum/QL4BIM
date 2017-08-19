@@ -39,12 +39,24 @@ namespace QL4BIMinterpreter
 
         public int DirectPropertyIndex(string className, string propName)
         {
-            return classNameToProps[className].First.FindIndex(p => string.Compare(p.PropName, propName, StringComparison.OrdinalIgnoreCase) == 0);
+            var directProps = classNameToProps[className].First;
+            for (int i = 0; i < directProps.Count; i++)
+            {
+                if (directProps[i].PropName == propName)
+                    return i;
+            }
+            return -1;              
         }
 
         public int InversePropertyIndex(string className, string propName)
         {
-            return classNameToProps[className].Second.FindIndex(p => string.Compare(p.PropName, propName, StringComparison.OrdinalIgnoreCase) == 0);
+            var inverseProps = classNameToProps[className].Second;
+            for (int i = 0; i < inverseProps.Count; i++)
+            {
+                if (inverseProps[i].PropName == propName)
+                    return i;
+            }
+            return -1;
         }
 
         public int InversePropertyCount(string className)

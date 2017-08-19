@@ -170,25 +170,25 @@ namespace QL4BIMinterpreter.QL4BIM
 
         public static QLPart GetPropertyValue(this QLEntity entity, string propertyName)
         {   
-            if (_lastProperty == propertyName && _lastClassName == entity.ClassName && _lastIndex != -1)
-                return _lastIsDirect ? entity.QLDirectList[_lastIndex] : entity.QlInverseList[_lastIndex];
+            //if (_lastProperty == propertyName && _lastClassName == entity.ClassName && _lastIndex != -1)
+            //    return _lastIsDirect ? entity.QLDirectList[_lastIndex] : entity.QlInverseList[_lastIndex];
 
-            _lastIndex = Repository.DirectPropertyIndex(entity.ClassName, propertyName);
-            if (_lastIndex != -1)
+            var _lastIndex1 = Repository.DirectPropertyIndex(entity.ClassName, propertyName);
+            if (_lastIndex1 != -1)
             {
                 _lastClassName = entity.ClassName;
                 _lastProperty = propertyName;
                 _lastIsDirect = true;
-                return entity.QLDirectList[_lastIndex];
+                return entity.QLDirectList[_lastIndex1];
             }
 
-            _lastIndex = Repository.InversePropertyIndex(entity.ClassName, propertyName);
-            if (_lastIndex != -1)
+            var _lastIndex2 = Repository.InversePropertyIndex(entity.ClassName, propertyName);
+            if (_lastIndex2 != -1)
             {
                 _lastClassName = entity.ClassName;
                 _lastProperty = propertyName;
                 _lastIsDirect = false;
-                return entity.QlInverseList[_lastIndex];
+                return entity.QlInverseList[_lastIndex2];
             }
 
             return null;
