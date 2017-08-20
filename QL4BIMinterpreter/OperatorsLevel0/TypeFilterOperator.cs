@@ -26,27 +26,30 @@ namespace QL4BIMinterpreter.OperatorsLevel0
             returnSym.EntityDic = typedEntites.ToDictionary(e => e.Id);
         }
 
-        public void TypeFilterRelation(RelationSymbol parameterSym1, string[] typeNames, RelationSymbol returnSym)
+        public void TypeFilterRelation(RelationSymbol parameterSym1, Tuple<int, string>[] indexAndTypeNames, RelationSymbol returnSym)
         {
             Console.WriteLine("TypeFilter'ing...");
 
             var tuples = parameterSym1.Tuples;
-            var tuplesOut = GetTuples(tuples, typeNames);
+            var tuplesOut = GetTuples(tuples, indexAndTypeNames);
 
             returnSym.SetTuples(tuplesOut);
         }
 
-        public IEnumerable<QLEntity[]> GetTuples(IEnumerable<QLEntity[]> tuples, string[] typeNames)
+        public IEnumerable<QLEntity[]> GetTuples(IEnumerable<QLEntity[]> tuples, Tuple<int, string>[] indexAndTypeNames)
         {
-            var typeCount = typeNames.Length;
+            var typeCount = indexAndTypeNames.Length;
 
             for (int i = 0; i < typeCount; i++)
-            {   
-                if(typeNames[i] == string.Empty)
+            {
+                var typeName = indexAndTypeNames[i].Item2;
+                if (String.IsNullOrEmpty(typeName))
                     continue;
 
-                var allTypes = p21Reader.GetAllSubtypNames(typeNames[i]);
-                tuples = tuples.Where(e => allTypes.Any(s => string.Compare(s, e[i].ClassName,
+                var allTypes = p21Reader.GetAllSubtypNames(typeName);
+
+                var index = indexAndTypeNames[i].Item1;
+                tuples = tuples.Where(e => allTypes.Any(s => string.Compare(s, e[index].ClassName,
                                                                  StringComparison.InvariantCultureIgnoreCase) == 0)).ToList();
             }
             return tuples;

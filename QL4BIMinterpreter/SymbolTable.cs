@@ -69,25 +69,5 @@ namespace QL4BIMinterpreter
             return (RelationSymbol)symbols[node.RelationName];
         }
 
-        public IEnumerable<int> GetIndices(IEnumerable<RelAttNode> nodes)
-        {   
-            foreach (var att in nodes)
-            {
-                var statementNode = (StatementNode)att.Parent;
-                //dont check me
-                statementNode = statementNode.Previous;
-                while (statementNode != null)
-                {
-                    var indexOfAttribute = statementNode.ReturnRelationNode.Attributes.IndexOf(att.Value);
-                    if (indexOfAttribute != -1)
-                        yield return indexOfAttribute;
-                    statementNode = statementNode.Previous;
-                }
-
-                throw new InvalidOperationException();
-            }
-
-
-        }
     }
 }

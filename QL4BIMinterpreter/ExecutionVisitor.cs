@@ -69,15 +69,22 @@ namespace QL4BIMinterpreter
             //sig3: Relation   <- Relation, String Var arg
             if (operatorName == "TypeFilter")
             {
-                var isRelationOverload = statementNode.Arguments[0] is RelationNode;
+                var isRelationOverload = statementNode.Arguments[0] is RelNameNode;
                 if (isRelationOverload)
                 {
                     var returnSymbol = symbolTable.GetRelationSymbol(statementNode.ReturnRelationNode);
-                    var parameterSymbol1 = symbolTable.GetRelationSymbol((RelationNode) statementNode.Arguments[0]);
-                    var typeNames = statementNode.Arguments.Where(a => a is ExTypeNode).Select(n => n.Value).ToArray();
+                    var relSymbol = symbolTable.GetRelationSymbol((RelNameNode) statementNode.Arguments[0]);
+                    var typePreds = statementNode.Arguments.Where(a => a is TypePredNode).Cast<TypePredNode>();
 
-                    logger.LogStart(operatorName, parameterSymbol1.EntityCount);
-                    typeFilterOperator.TypeFilterRelation(parameterSymbol1, typeNames, returnSymbol);
+                    var relAttribute = relSymbol.Attributes;
+
+                    var indicesAndTypes = typePreds.Select(tp => new Tuple<int, string>(
+                        relAttribute.FindIndex(ai => string.Compare(ai, tp.RelAttNode.Attribute, StringComparison.OrdinalIgnoreCase) == 0),
+                        tp.Type)).ToArray();
+
+
+                    logger.LogStart(operatorName, relSymbol.EntityCount);
+                    typeFilterOperator.TypeFilterRelation(relSymbol, indicesAndTypes, returnSymbol);
                     logger.LogStop(returnSymbol.EntityCount);
                 }
                 else
@@ -216,11 +223,15 @@ namespace QL4BIMinterpreter
                     var returnSymbol = symbolTable.GetRelationSymbol(statementNode.ReturnRelationNode);
 
                     var relNameNode = (RelNameNode)statementNode.Arguments[0];
-                    var arguments = statementNode.Arguments.Skip(1).Cast<RelAttNode>().ToList();
-                    var argumentIndices = symbolTable.GetIndices(arguments).ToArray();
+                    var argumentsIn = statementNode.Arguments.Skip(1).Cast<RelAttNode>().ToList();
+
                     var parameterRelationSymbol = symbolTable.GetRelationSymbol(relNameNode);
+                    var attributesInRel = parameterRelationSymbol.Attributes;
+                    var indices = argumentsIn.Select( a => attributesInRel.FindIndex(ai => 
+                            string.Compare(ai, a.Attribute, StringComparison.OrdinalIgnoreCase) == 0)).ToArray();
+
                     logger.LogStart(operatorName, parameterRelationSymbol.EntityCount);
-                    projectorOperator.ProjectRelAttRelation(parameterRelationSymbol, argumentIndices, returnSymbol);
+                    projectorOperator.ProjectRelAttRelation(parameterRelationSymbol, indices, returnSymbol);
                     logger.LogStop(returnSymbol.EntityCount);
                     return;
                 }

@@ -33,22 +33,20 @@ namespace QL4BIMinterpreter.OperatorsLevel1
 
             tuples = dereferenceOperator.ResolveReferenceTuplesIn(tuples, lastIndex, true, "TaskTime").ToArray();
 
-            var typeList = new List<string>();
+            var typeList = new List<Tuple<int,string>>();
             for (int i = 0; i < returnSym.Attributes.Count; i++)
             {
                 if (i == index)
                 {
-                    typeList.Add("IfcProduct");
+                    typeList.Add(new Tuple<int, string>(index, "IfcProduct")); //todo index is a guess
                     continue;
                 }
 
-                if (i == returnSym.Attributes.Count - 1)
+                if (i == lastIndex)
                 {
-                    typeList.Add("IfcTaskTime");
+                    typeList.Add(new Tuple<int, string>(lastIndex, "IfcTaskTime")); //todo index is a guess
                     continue;
                 }
-
-                typeList.Add(string.Empty);
             }
 
             //type filtering ifcTask (plus products?)
