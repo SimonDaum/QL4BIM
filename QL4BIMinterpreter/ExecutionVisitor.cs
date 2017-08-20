@@ -106,15 +106,15 @@ namespace QL4BIMinterpreter
             if (operatorName == "AttributeFilter")
             {
                 var relName = statementNode.Arguments[0] as RelNameNode;
-                var predData = new AttributeFilterOperator.PredicateData(statementNode.Predicate);
-
                 if (relName != null)
                 {
                     var returnSymbol = symbolTable.GetRelationSymbol(statementNode.ReturnRelationNode);
                     var parameterRelationSymbol = symbolTable.GetRelationSymbol(relName);
 
+                    var preds = statementNode.Arguments.Where(a => a is PredicateNode).Cast<PredicateNode>().ToArray();
+
                     logger.LogStart(operatorName, parameterRelationSymbol.EntityCount);
-                    attributeFilterOperator.AttributeFilterRelAtt(parameterRelationSymbol, predData, returnSymbol);
+                    attributeFilterOperator.AttributeFilterRelAtt(parameterRelationSymbol, preds, returnSymbol);
                     logger.LogStop(returnSymbol.EntityCount);
                     return;
                 }
@@ -124,9 +124,10 @@ namespace QL4BIMinterpreter
                     var set = statementNode.Arguments[0] as SetNode;
                     var returnSymbol = symbolTable.GetSetSymbol(statementNode.ReturnSetNode);       
                     var parameterSetSymbol = symbolTable.GetSetSymbol(set);
+                    var predNode = statementNode.Arguments[1] as PredicateNode;
 
                     logger.LogStart(operatorName, parameterSetSymbol.EntityCount);
-                    attributeFilterOperator.AttributeFilterSet(parameterSetSymbol, predData, returnSymbol);
+                    attributeFilterOperator.AttributeFilterSet(parameterSetSymbol, predNode, returnSymbol);
                     logger.LogStop(returnSymbol.EntityCount);
                 }
 

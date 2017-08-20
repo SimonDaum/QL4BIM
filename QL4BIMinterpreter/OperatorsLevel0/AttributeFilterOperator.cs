@@ -9,26 +9,35 @@ namespace QL4BIMinterpreter.OperatorsLevel0
 
         //only symbols and simple types in operators, no nodes
         //symbolTable, parameterSym1, ..., returnSym
-        public void AttributeFilterRelAtt(RelationSymbol parameterSym1, PredicateData data, RelationSymbol returnSym)
+        public void AttributeFilterRelAtt(RelationSymbol parameterSym1, PredicateNode[] predicateNodes, RelationSymbol returnSym)
         {
             Console.WriteLine("AttributeFilter'ing...");
-            var index = parameterSym1.Index.Value;
-            var result = parameterSym1.Tuples.Where(t => AttributeSetTestLocal(t[index], data));
+            //var index = parameterSym1.Index.Value; todo remove index prop
+
+           var indexAndPreps = predicateNodes.Select(p => new Tuple<int, PredicateNode>(
+                parameterSym1.Attributes.FindIndex(a => string.Compare(a, (p.FirstNode as AttributeAccessNode).RelAttNode.Attribute, 
+                StringComparison.InvariantCultureIgnoreCase) == 0), p)).ToArray();
+
+            var result = parameterSym1.Tuples.Where(t =>indexAndPreps.All(
+                indexAndPrep => AttributeSetTestLocal(t[indexAndPrep.Item1], indexAndPrep.Item2)));
             returnSym.SetTuples(result);
         }
 
 
-        public void AttributeFilterSet(SetSymbol parameterSym1, PredicateData data, SetSymbol returnSym)
+        public void AttributeFilterSet(SetSymbol parameterSym1, PredicateNode predicateNode, SetSymbol returnSym)
         {
             Console.WriteLine("AttributeFilter'ing...");
-            var result = parameterSym1.Entites.Where(e => AttributeSetTestLocal(e, data));
+            var result = parameterSym1.Entites.Where(e => AttributeSetTestLocal(e, predicateNode));
             returnSym.EntityDic = result.ToDictionary(e => e.Id);
         }
 
-        public bool AttributeSetTestLocal(QLEntity entity, PredicateData data)
+        public bool AttributeSetTestLocal(QLEntity entity, PredicateNode predicateNode) //todo all possible versions
         {
+            var secondNode = predicateNode.SecondNode;
+            var exAtt = (predicateNode.FirstNode as AttributeAccessNode).ExAttNode;
+
             //property present?
-            var part = entity.GetPropertyValue(data.PropName);
+            var part = entity.GetPropertyValue(exAtt.Value);
             if (part == null)
                 return false;
 
@@ -36,71 +45,77 @@ namespace QL4BIMinterpreter.OperatorsLevel0
             if (part.QLClass != null)
                 part = part.QLClass.QLDirectList[0];
 
-            if (data.StringValue != null && TestStringValue(part, data))
+            if (secondNode is CStringNode && TestStringValue(part, secondNode))
                 return true;
 
-            if (data.IntValue.HasValue && TestIntValue(part, data))
+            if (secondNode is CNumberNode && TestIntValue(part, secondNode, predicateNode.Compare))
                 return true;
 
-            if (data.DoubleValue.HasValue && TestFloatValue(part, data))
+            if (secondNode is CFloatNode && TestFloatValue(part, secondNode, predicateNode.Compare))
                 return true;
 
             return false;
         }
 
-        private bool TestStringValue(QLPart part, PredicateData data)
-        {   
+        private bool TestStringValue(QLPart part, Node secondNode)
+        {
+            var stringValue = (secondNode as CStringNode).Value;
+
             if (part.QLString != null)
             {
                 var strPropValue = part.QLString.QLStr;
-                if (string.Compare(strPropValue, data.StringValue, StringComparison.OrdinalIgnoreCase) == 0)
+                if (string.Compare(strPropValue, stringValue, StringComparison.OrdinalIgnoreCase) == 0)
                     return true;
             }
             //enum case
             else if (part.QLEnum != null)
             {
                 var enumPropValue = part.QLEnum.QLStr;
-                if (string.Compare(enumPropValue, data.StringValue, StringComparison.OrdinalIgnoreCase) == 0)
+                if (string.Compare(enumPropValue, stringValue, StringComparison.OrdinalIgnoreCase) == 0)
                     return true;
             }
 
             return false;
         }
 
-        private bool TestIntValue(QLPart part, PredicateData data)
+        private bool TestIntValue(QLPart part, Node secondNode, ParserParts parserParts)
         {
+            var intValue = (secondNode as CNumberNode).IntValue;
+
             //int schema to int query
             if (part.QLNumber != null)
             {
                 var intPropValue = part.QLNumber.Value;
-                if (Compare(intPropValue, data.IntValue.Value, data.Compare))
+                if (Compare(intPropValue, intValue, parserParts))
                     return true;
             }
             //float schema to int query
             if (part.QLFloat != null)
             {
                 var floatPropValue = part.QLFloat.Value;
-                if (Compare(floatPropValue, data.IntValue.Value, data.Compare))
+                if (Compare(floatPropValue, intValue, parserParts))
                     return true;
             }
 
             return false;
         }
 
-        private bool TestFloatValue(QLPart part, PredicateData data)
+        private bool TestFloatValue(QLPart part, Node secondNode, ParserParts parserParts)
         {
+            var floatValue = (secondNode as CFloatNode).FloatValue;
+
             //int schema to float query
             if (part.QLNumber != null)
             {
                 var intPropValue = part.QLNumber.Value;
-                if (Compare(intPropValue, data.DoubleValue.Value, data.Compare))
+                if (Compare(intPropValue, floatValue, parserParts))
                     return true;
             }
             //float schema to float query
             if (part.QLFloat != null)
             {
                 var floatPropValue = part.QLFloat.Value;
-                if (Compare(floatPropValue, data.DoubleValue.Value, data.Compare))
+                if (Compare(floatPropValue, floatValue, parserParts))
                     return true;
             }
 
@@ -109,40 +124,44 @@ namespace QL4BIMinterpreter.OperatorsLevel0
 
         const double Tolerance = Double.Epsilon*2;
 
-        private bool Compare(double a, double b, string compare)
+        private bool Compare(double a, double b, ParserParts parserParts)
         {
-            if (compare == "=")
+            if (parserParts == ParserParts.EqualsPred)
                 return Math.Abs(a - b) < Tolerance;
 
-            if (compare == "!=")
-                return Math.Abs(a - b) > Tolerance;
-
-            if (compare == ">")
+            if (parserParts == ParserParts.LessPred)
                 return a > b;
 
-            if (compare == "<")
+            if (parserParts == ParserParts.LessEqualPred)
+                return a >= b;
+
+            if (parserParts == ParserParts.MorePred)
+                return a < b;
+
+            if (parserParts == ParserParts.MoreEqualPred)
                 return a < b;
 
             throw  new InvalidOperationException();
         }
 
-        public struct PredicateData
+        private bool Compare(int a, int b, ParserParts parserParts)
         {
-            public string PropName;
-            public string Compare;
-            public string StringValue;
-            public int? IntValue;
-            public double? DoubleValue;
+            if (parserParts == ParserParts.EqualsPred)
+                return a == b;
 
-            public PredicateData(PredicateNode node)
-            {
-                //PropName = node.AttNode.Value;
-                //Compare = node.CompareToken;
-                //StringValue = node.ValueStringNode?.Value;
-                //IntValue = node.ValueNumberNode?.IntValue;
-                //DoubleValue = node.ValueFloatNode?.FloatValue;
-                throw new ArgumentException();
-            }
+            if (parserParts == ParserParts.LessPred)
+                return a > b;
+
+            if (parserParts == ParserParts.LessEqualPred)
+                return a >= b;
+
+            if (parserParts == ParserParts.MorePred)
+                return a < b;
+
+            if (parserParts == ParserParts.MoreEqualPred)
+                return a < b;
+
+            throw new InvalidOperationException();
         }
     }
 }

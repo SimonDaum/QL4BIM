@@ -8,8 +8,8 @@ namespace QL4BIMinterpreter
         //only symbols and simple types in operators, no nodes
         //symbolTable, parameterSym1, ..., returnSym
 
-        void AttributeFilterSet(SetSymbol parameterSym1, AttributeFilterOperator.PredicateData data, SetSymbol returnSym);
-        void AttributeFilterRelAtt(RelationSymbol parameterSym1, AttributeFilterOperator.PredicateData data, RelationSymbol returnSym);
-        bool AttributeSetTestLocal(QLEntity entity, AttributeFilterOperator.PredicateData data);
+        void AttributeFilterSet(SetSymbol parameterSym1, PredicateNode predicateNode, SetSymbol returnSym);
+        void AttributeFilterRelAtt(RelationSymbol parameterSym1, PredicateNode[] predicateNode, RelationSymbol returnSym);
+        bool AttributeSetTestLocal(QLEntity entity, PredicateNode predicateNode);
     }
 }

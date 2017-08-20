@@ -33,24 +33,24 @@ namespace QL4BIMinterpreter.OperatorsLevel1
 
             var pairEntiyProp = projectorOperator.ProjectLocal(quadruple, new [] {0, 3});
 
-            var predicateData1 =  new AttributeFilterOperator.PredicateData()
-                {
-                    PropName = "name",
-                    Compare = "=",
-                    StringValue = parameter2
-            };
+            //var predicateData1 =  new AttributeFilterOperator.PredicateData() //todo
+            //    {
+            //        PropName = "name",
+            //        Compare = "=",
+            //        StringValue = parameter2
+            //};
 
-            var pairAttributePresent = pairEntiyProp.Where(p => attributeFilterOperator.AttributeSetTestLocal(p[1], predicateData1)).ToArray();
-            var predicateData2 = new AttributeFilterOperator.PredicateData()
-            {
-                PropName = "nominalValue",
-                Compare = "=",
-                StringValue = parameter3
-            };
+            //var pairAttributePresent = pairEntiyProp.Where(p => attributeFilterOperator.AttributeSetTestLocal(p[1], predicateData1)).ToArray();
+            //var predicateData2 = new AttributeFilterOperator.PredicateData()
+            //{
+            //    PropName = "nominalValue",
+            //    Compare = "=",
+            //    StringValue = parameter3
+            //};
 
-            var result =  pairAttributePresent.Where(p => attributeFilterOperator.AttributeSetTestLocal(p[1], predicateData2)).ToArray();
+            //var result =  pairAttributePresent.Where(p => attributeFilterOperator.AttributeSetTestLocal(p[1], predicateData2)).ToArray();
 
-            returnSym.SetTuples(result);
+            //returnSym.SetTuples(result);
         }
     }
 }
