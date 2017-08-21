@@ -42,7 +42,7 @@ namespace QL4BIMinterpreter.QL4BIM
     public enum ParserParts {
         NullPart,
         SetRelVar,
-        EmptyRelAtt, RelAtt, 
+        EmptyRelAtt, RelAttStr, RelAttIndex,
         SetRelArg, Operator,
         ExType, ExAtt, NumericOrSetRelAtt, SetRelAttPredEnd,
         Constant, String, Number, Float, Bool,

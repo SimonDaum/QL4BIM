@@ -133,14 +133,14 @@ protected virtual void OnContext(ParserContext context)
 			} else {
 				Get();
 				Expect(3);
-				OnParsed(ParserParts.RelAtt, t.val); 
+				OnParsed(ParserParts.RelAttStr, t.val); 
 				Expect(10);
 				Expect(3);
-				OnParsed(ParserParts.RelAtt, t.val); 
+				OnParsed(ParserParts.RelAttStr, t.val); 
 				while (la.kind == 10) {
 					Get();
 					Expect(3);
-					OnParsed(ParserParts.RelAtt, t.val); 
+					OnParsed(ParserParts.RelAttStr, t.val); 
 				}
 				Expect(11);
 			}
@@ -388,8 +388,13 @@ protected virtual void OnContext(ParserContext context)
 
 	void relAtt() {
 		Expect(9);
-		Expect(3);
-		OnParsed(ParserParts.RelAtt, t.val); 
+		if (la.kind == 3) {
+			Get();
+			OnParsed(ParserParts.RelAttStr, t.val); 
+		} else if (la.kind == 2) {
+			Get();
+			OnParsed(ParserParts.RelAttIndex, t.val); 
+		} else SynErr(40);
 		Expect(11);
 	}
 
@@ -397,17 +402,19 @@ protected virtual void OnContext(ParserContext context)
 		OnParsed(ParserParts.SetRelFormalArg); 
 		Expect(3);
 		OnParsed(ParserParts.SetRelArg, t.val); 
-		if (la.kind == 9) {
+		if (la.kind == 8) {
 			Get();
+			OnParsed(ParserParts.EmptyRelAtt); 
+			Expect(9);
 			Expect(3);
-			OnParsed(ParserParts.RelAtt, t.val); 
+			OnParsed(ParserParts.RelAttStr, t.val); 
 			Expect(10);
 			Expect(3);
-			OnParsed(ParserParts.RelAtt, t.val); 
+			OnParsed(ParserParts.RelAttStr, t.val); 
 			while (la.kind == 10) {
 				Get();
 				Expect(3);
-				OnParsed(ParserParts.RelAtt, t.val); 
+				OnParsed(ParserParts.RelAttStr, t.val); 
 			}
 			Expect(11);
 		}
@@ -483,6 +490,7 @@ public class Errors {
 			case 37: s = "invalid equalsPred"; break;
 			case 38: s = "invalid inPred"; break;
 			case 39: s = "invalid numericOrSetRelAtt"; break;
+			case 40: s = "invalid relAtt"; break;
 
 			default: s = "error " + n; break;
 		}

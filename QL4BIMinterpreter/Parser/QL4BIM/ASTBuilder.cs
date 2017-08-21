@@ -159,7 +159,7 @@ namespace QL4BIMinterpreter.QL4BIM
                     case ParserParts.SetRelArg:
                         primeVariable = value;
                         break;
-                    case ParserParts.RelAtt:
+                    case ParserParts.RelAttStr:
                         secondaryVariable.Add(value);
                         break;
                     case ParserParts.SetRelFormalArgEnd:
@@ -263,7 +263,7 @@ namespace QL4BIMinterpreter.QL4BIM
                     case ParserParts.SetRelArg: //ParserParts.SetRelArg
                         PrimeVariable = value;
                         break;
-                    case ParserParts.RelAtt: //ParserParts.EmptyRelAtt
+                    case ParserParts.RelAttStr: //ParserParts.EmptyRelAtt
                         SecondaryVariable = value;
                         break;
                     case ParserParts.ExAtt:
@@ -336,7 +336,7 @@ namespace QL4BIMinterpreter.QL4BIM
                     case ParserParts.SetRelVar: 
                         primeVariable = value;
                         break;
-                    case ParserParts.RelAtt: 
+                    case ParserParts.RelAttStr: 
                         secondaryVariable.Add(value);
                         break;
                     default:
@@ -371,7 +371,7 @@ namespace QL4BIMinterpreter.QL4BIM
                     case ParserParts.SetRelArg: //ParserParts.SetRelArg
                         PrimeVariable = value;
                         break;
-                    case ParserParts.RelAtt: //ParserParts.EmptyRelAtt
+                    case ParserParts.RelAttStr: //ParserParts.EmptyRelAtt
                         SecondaryVariable = value;
                         PromoteSetArgument();
                         break;

@@ -27,13 +27,13 @@ CHARACTERS
 	lf  = '\n'.
 	tab = '\t'.
 	str = up + low + digit.
-	add = '+'.
+	plus = '+'.
 	minus = '-'.
  
 
 TOKENS
-	float = [add|minus] digit {digit} '.' {digit} ['E' [add|minus] digit {digit}].
-	number = [add|minus] digit {digit}.
+	float = [plus|minus] digit {digit} '.' {digit} ['E' [plus|minus] digit {digit}].
+	number = [plus|minus] digit {digit}.
 	lowString = low {low | up | digit}.
 	upString = up {low | up  | digit}.
 	string_ = '\"' { str | specials } '\"'.
@@ -61,10 +61,10 @@ QL4BIM
 	lowString														(.  OnParsed(ParserParts.SetRelVar, t.val); .)						
 	{																
 	"[]"															(.  OnParsed(ParserParts.EmptyRelAtt); .)
-	|"[" lowString													(.  OnParsed(ParserParts.RelAtt, t.val); .)			
-	 "|" lowString													(.  OnParsed(ParserParts.RelAtt, t.val); .)
+	|"[" lowString													(.  OnParsed(ParserParts.RelAttStr, t.val); .)			
+	 "|" lowString													(.  OnParsed(ParserParts.RelAttStr, t.val); .)
 	{
-	"|" lowString													(.  OnParsed(ParserParts.RelAtt, t.val); .)
+	"|" lowString													(.  OnParsed(ParserParts.RelAttStr, t.val); .)
 	}													
 	"]"
 	}
@@ -157,9 +157,11 @@ QL4BIM
 	/*=====================================================*/
 
 	relAtt = 
-	"["		
-	lowString												(.  OnParsed(ParserParts.RelAtt, t.val); .)	
-	"]"
+	"["(
+	lowString												(.  OnParsed(ParserParts.RelAttStr, t.val); .)	
+	|
+	number													(.  OnParsed(ParserParts.RelAttIndex, t.val); .)	
+	)"]"
 	.								
 	/*=====================================================*/
 
@@ -184,12 +186,15 @@ QL4BIM
 
 	setRelFormalArg =										(.  OnParsed(ParserParts.SetRelFormalArg); .)
 	lowString												(.  OnParsed(ParserParts.SetRelArg, t.val); .)
-	[ "[" lowString											(.  OnParsed(ParserParts.RelAtt, t.val); .)	
-	 "|" lowString											(.  OnParsed(ParserParts.RelAtt, t.val); .)	
+	[ 
+	"[]"													(.  OnParsed(ParserParts.EmptyRelAtt); .)
+	(
+	"[" lowString											(.  OnParsed(ParserParts.RelAttStr, t.val); .)	
+	 "|" lowString											(.  OnParsed(ParserParts.RelAttStr, t.val); .)	
 	 {"|" 
-	 lowString												(.  OnParsed(ParserParts.RelAtt, t.val); .)	
+	 lowString												(.  OnParsed(ParserParts.RelAttStr, t.val); .)	
 	 }  
-	 "]" ]													(.  OnParsed(ParserParts.SetRelFormalArgEnd); .)
+	 "]" )]													(.  OnParsed(ParserParts.SetRelFormalArgEnd); .)
 	 .
 	/*=====================================================*/
 
