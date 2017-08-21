@@ -55,7 +55,7 @@ namespace QL4BIMinterpreter.QL4BIM
         GlobalBlock, UserFuncBlock,
         Statement,  Variable, Operator, 
         Argument, ArgumentEnd, SimpleSetRelParameter,
-        TypePrdicate, AttPredicate, CountPredicate 
+        TypePredicate, AttPredicate, CountPredicate 
     }
 
     public delegate void PartParsedEventHandler(object sender, PartParsedEventArgs e);

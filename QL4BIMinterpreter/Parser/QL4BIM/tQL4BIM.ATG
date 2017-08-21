@@ -88,7 +88,7 @@ QL4BIM
 	=
 	(setRelAttLongShort 
 	[
-	exType													(.  OnContext(ParserContext.TypePrdicate); .)	
+	exType													(.  OnContext(ParserContext.TypePredicate); .)	
 	| 
 	exAtt													
 	[														(.  OnContext(ParserContext.AttPredicate); .)						

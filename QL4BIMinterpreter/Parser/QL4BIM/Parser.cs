@@ -193,7 +193,7 @@ protected virtual void OnContext(ParserContext context)
 			if (StartOf(1)) {
 				if (la.kind == 25) {
 					exType();
-					OnContext(ParserContext.TypePrdicate); 
+					OnContext(ParserContext.TypePredicate); 
 				} else if (la.kind == 24) {
 					exAtt();
 					if (StartOf(2)) {
