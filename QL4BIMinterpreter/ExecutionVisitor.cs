@@ -76,9 +76,9 @@ namespace QL4BIMinterpreter
                     var relSymbol = symbolTable.GetRelationSymbol((RelNameNode) statementNode.Arguments[0]);
                     var typePreds = statementNode.Arguments.Where(a => a is TypePredNode).Cast<TypePredNode>();
 
-                    var relAttribute = relSymbol.Attributes;
-
-                    var indicesAndTypes = typePreds.Select(tp => GetIndexFromRelAtt(tp, relAttribute)).ToArray();
+                    var relAttributes = relSymbol.Attributes;
+                    var indicesAndTypes = typePreds.Select( tp => new Tuple<int, string>(
+                            RelAttIndexHelper.GetIndexFromRelAtt(tp.RelAttNode, relAttributes), tp.Type)).ToArray();
 
                     logger.LogStart(operatorName, relSymbol.EntityCount);
                     typeFilterOperator.TypeFilterRelation(relSymbol, indicesAndTypes, returnSymbol);
@@ -312,14 +312,7 @@ namespace QL4BIMinterpreter
 
         }
 
-        private static Tuple<int, string> GetIndexFromRelAtt(TypePredNode tp, List<string> relAttribute)
-        {
-            if (tp.RelAttNode.Attribute == null)
-                return new Tuple<int, string>(tp.RelAttNode.AttIndex -1, tp.Type);
 
-            var index = relAttribute.FindIndex(ai =>string.Compare(ai, tp.RelAttNode.Attribute, StringComparison.OrdinalIgnoreCase) == 0);
-            return new Tuple<int, string>(index, tp.Type);
-        }
 
 
         public void Visit(FunctionNode functionNode)
@@ -352,7 +345,16 @@ namespace QL4BIMinterpreter
 
             Console.WriteLine("Query execution has finished.");
         }
+    }
 
+    static class RelAttIndexHelper
+    {
+        public static int GetIndexFromRelAtt(RelAttNode relAttNode, List<string> relAttribute)
+        {
+            if (relAttNode.Attribute == null)
+                return relAttNode.AttIndex - 1;
 
+            return relAttribute.FindIndex(ai => String.Compare(ai, relAttNode.Attribute, StringComparison.OrdinalIgnoreCase) == 0);
+        }
     }
 }
