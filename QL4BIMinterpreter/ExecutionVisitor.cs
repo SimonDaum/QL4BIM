@@ -78,10 +78,7 @@ namespace QL4BIMinterpreter
 
                     var relAttribute = relSymbol.Attributes;
 
-                    var indicesAndTypes = typePreds.Select(tp => new Tuple<int, string>(
-                        relAttribute.FindIndex(ai => string.Compare(ai, tp.RelAttNode.Attribute, StringComparison.OrdinalIgnoreCase) == 0),
-                        tp.Type)).ToArray();
-
+                    var indicesAndTypes = typePreds.Select(tp => GetIndexFromRelAtt(tp, relAttribute)).ToArray();
 
                     logger.LogStart(operatorName, relSymbol.EntityCount);
                     typeFilterOperator.TypeFilterRelation(relSymbol, indicesAndTypes, returnSymbol);
@@ -90,7 +87,7 @@ namespace QL4BIMinterpreter
                 else
                 {   
                     var returnSymbol = symbolTable.GetSetSymbol(statementNode.ReturnSetNode);
-                    var typePred = statementNode.Arguments[0] as TypePredNode;
+                    var typePred = (TypePredNode)statementNode.Arguments[0];
                     var setIn = typePred.SetNode;
                     var parameterSymbol1 = symbolTable.GetSetSymbol(setIn);
 
@@ -315,6 +312,14 @@ namespace QL4BIMinterpreter
 
         }
 
+        private static Tuple<int, string> GetIndexFromRelAtt(TypePredNode tp, List<string> relAttribute)
+        {
+            if (tp.RelAttNode.Attribute == null)
+                return new Tuple<int, string>(tp.RelAttNode.AttIndex -1, tp.Type);
+
+            var index = relAttribute.FindIndex(ai =>string.Compare(ai, tp.RelAttNode.Attribute, StringComparison.OrdinalIgnoreCase) == 0);
+            return new Tuple<int, string>(index, tp.Type);
+        }
 
 
         public void Visit(FunctionNode functionNode)
