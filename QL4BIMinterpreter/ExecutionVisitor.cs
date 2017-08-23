@@ -75,10 +75,7 @@ namespace QL4BIMinterpreter
                     var returnSymbol = symbolTable.GetRelationSymbol(statementNode.ReturnRelationNode);
                     var relSymbol = symbolTable.GetRelationSymbol((RelNameNode) statementNode.Arguments[0]);
                     var typePreds = statementNode.Arguments.Where(a => a is TypePredNode).Cast<TypePredNode>();
-
-                    var relAttributes = relSymbol.Attributes;
-                    var indicesAndTypes = typePreds.Select( tp => new Tuple<int, string>(
-                            RelAttIndexHelper.GetIndexFromRelAtt(tp.RelAttNode, relAttributes), tp.Type)).ToArray();
+                    var indicesAndTypes = typePreds.Select( tp => new Tuple<int, string>(tp.RelAttNode.AttIndex, tp.Type)).ToArray();
 
                     logger.LogStart(operatorName, relSymbol.EntityCount);
                     typeFilterOperator.TypeFilterRelation(relSymbol, indicesAndTypes, returnSymbol);
@@ -225,8 +222,7 @@ namespace QL4BIMinterpreter
 
                     var parameterRelationSymbol = symbolTable.GetRelationSymbol(relNameNode);
                     var attributesInRel = parameterRelationSymbol.Attributes;
-                    var indices = argumentsIn.Select( a => attributesInRel.FindIndex(ai => 
-                            string.Compare(ai, a.Attribute, StringComparison.OrdinalIgnoreCase) == 0)).ToArray();
+                    var indices = argumentsIn.Select( a => a.AttIndex).ToArray();
 
                     logger.LogStart(operatorName, parameterRelationSymbol.EntityCount);
                     projectorOperator.ProjectRelAttRelation(parameterRelationSymbol, indices, returnSymbol);
@@ -344,17 +340,6 @@ namespace QL4BIMinterpreter
 
 
             Console.WriteLine("Query execution has finished.");
-        }
-    }
-
-    static class RelAttIndexHelper
-    {
-        public static int GetIndexFromRelAtt(RelAttNode relAttNode, List<string> relAttribute)
-        {
-            if (relAttNode.Attribute == null)
-                return relAttNode.AttIndex - 1;
-
-            return relAttribute.FindIndex(ai => String.Compare(ai, relAttNode.Attribute, StringComparison.OrdinalIgnoreCase) == 0);
         }
     }
 }

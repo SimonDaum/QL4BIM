@@ -14,8 +14,8 @@ namespace QL4BIMinterpreter.OperatorsLevel0
             Console.WriteLine("AttributeFilter'ing...");
             //var index = parameterSym1.Index.Value; todo remove index prop
             var attributes = parameterSym1.Attributes;
-           var indexAndPreps = predicateNodes.Select(p => new Tuple<int, PredicateNode>(
-               RelAttIndexHelper.GetIndexFromRelAtt((p.FirstNode as AttributeAccessNode).RelAttNode, attributes),p));
+           var indexAndPreps = predicateNodes.Select(p => 
+            new Tuple<int, PredicateNode>((p.FirstNode as AttributeAccessNode).RelAttNode.AttIndex,p));
 
             var result = parameterSym1.Tuples.Where(t =>indexAndPreps.All(
                 indexAndPrep => AttributeSetTestLocal(t[indexAndPrep.Item1], indexAndPrep.Item2)));

@@ -181,15 +181,8 @@ namespace QL4BIMinterpreter.QL4BIM
 
     public class RelAttNode : Node
     {
-        public string Attribute { get; set; }
         public int AttIndex { get; set; }
         public string RelationName { get; set; }
-
-        public RelAttNode(string attribute, string relationName)
-        {
-            Attribute = attribute;
-            RelationName = relationName;
-        }
 
         public RelAttNode(int attIndex, string relationName)
         {
@@ -204,7 +197,7 @@ namespace QL4BIMinterpreter.QL4BIM
 
         public string ToShortString()
         {
-            return Attribute != null ?  RelationName + "[" + Attribute + "]" : RelationName + "[" + AttIndex + "]";
+            return RelationName + "[" + AttIndex + "]";
         }
     }
 
@@ -215,7 +208,7 @@ namespace QL4BIMinterpreter.QL4BIM
             RelationName = literal;
         }
 
-        public IList<string> Attributes { get; set; }
+        public List<string> Attributes { get; set; }
 
         public string RelationName { get; private set; }
 
