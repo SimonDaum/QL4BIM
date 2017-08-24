@@ -208,11 +208,13 @@ namespace QL4BIMinterpreter.QL4BIM
             RelationName = literal;
         }
 
+        public bool IsEmptyArgs { get; set; }
+
         public List<string> Attributes { get; set; }
 
         public string RelationName { get; private set; }
 
-        public override string Value => RelationName +  "[" + string.Join("|", Attributes) + "]";
+        public override string Value => RelationName + (IsEmptyArgs ? "[]" : "[" + string.Join("|", Attributes) + "]");
 
         public override string ToString()
         {

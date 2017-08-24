@@ -361,6 +361,8 @@ namespace QL4BIMinterpreter.QL4BIM
 
         class ParseVariableContextSwitch : ContextSwitch
         {
+            public const string EmptyRelAtts = "[]";
+
             private string primeVariable;
             private readonly List<string> secondaryVariable = new List<string>();
 
@@ -374,6 +376,9 @@ namespace QL4BIMinterpreter.QL4BIM
                     case ParserParts.RelAttStr: 
                         secondaryVariable.Add(value);
                         break;
+                    case ParserParts.EmptyRelAtt:
+                        secondaryVariable.Add(EmptyRelAtts);
+                        break;
                     default:
                         throw new InvalidOperationException();
                 }
@@ -386,7 +391,10 @@ namespace QL4BIMinterpreter.QL4BIM
                 else
                 {
                     var relation = new RelationNode(primeVariable);
-                    relation.Attributes = secondaryVariable.ToList();
+                    if (secondaryVariable.Count == 1 && secondaryVariable[0] == EmptyRelAtts)
+                        relation.IsEmptyArgs = true;
+                    else
+                        relation.Attributes = secondaryVariable.ToList();
                     ParentFuncNode.LastStatement.SetRelationReturn(relation);
                 }
 

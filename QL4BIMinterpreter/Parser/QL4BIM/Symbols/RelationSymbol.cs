@@ -7,24 +7,41 @@ namespace QL4BIMinterpreter.QL4BIM
 {
     public class RelationSymbol : Symbol
     {
-        private readonly List<String> attributes;
-        private readonly int attributeCount;
+        private  List<String> attributes;
+        private  int attributeCount;
         private  List<QLEntity[]> tuples;
 
-
+        public bool HasEmptyAtts { get; private set; }
 
         public RelationSymbol(RelationNode node) : base(node)
         {
-            attributes = node.Attributes.ToList();
-            attributeCount = attributes.Count;
+            if (node.Attributes == null)
+            {
+                attributeCount = -1;
+                HasEmptyAtts = true;
+            }
+            else
+            {
+                attributeCount = node.Attributes.Count;
+                attributes = node.Attributes;            
+            }
+
             tuples = new List<QLEntity[]>();
             Header = "Relation->";
         }
 
         public void AddTuple(QLEntity[] tuple)
         {
-            if(tuple.Length != attributeCount)
+            if(!HasEmptyAtts && tuple.Length != attributeCount )
                 throw new ArgumentException();
+
+            if (attributeCount == -1 && HasEmptyAtts)
+            {
+                attributeCount = tuple.Length;
+                attributes = new List<string>();
+                for (int i = 0; i < attributeCount; i++)
+                    attributes.Add((i+1).ToString());
+            }
 
             tuples.Add(tuple);
         }

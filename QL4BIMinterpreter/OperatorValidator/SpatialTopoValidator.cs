@@ -6,7 +6,7 @@ namespace QL4BIMinterpreter
 {
     class SpatialTopoValidator: OperatorValidator, ISpatialTopoValidator
     {
-        public string[] TopoOperators { get; } = "Overlaps,Touches,Contains,Covers,CoveredBy,Disjoint,Equals".Split(',');
+        public string[] TopoOperators { get; } = "Overlaps,OL,Touches,TO,Contains,CT,Covers,CO,CoveredBy,CB,Disjoint,DJ,Equals,EQ".Split(',');
 
         public SpatialTopoValidator()
         {
