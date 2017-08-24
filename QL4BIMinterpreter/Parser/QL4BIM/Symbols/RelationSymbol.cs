@@ -32,7 +32,13 @@ namespace QL4BIMinterpreter.QL4BIM
 
         public void AddTuple(QLEntity[] tuple)
         {
-            if(!HasEmptyAtts && tuple.Length != attributeCount )
+            HandleAttributeCount(tuple);
+            tuples.Add(tuple);
+        }
+
+        private void HandleAttributeCount(QLEntity[] tuple)
+        {
+            if (!HasEmptyAtts && tuple.Length != attributeCount)
                 throw new ArgumentException();
 
             if (attributeCount == -1 && HasEmptyAtts)
@@ -40,18 +46,22 @@ namespace QL4BIMinterpreter.QL4BIM
                 attributeCount = tuple.Length;
                 attributes = new List<string>();
                 for (int i = 0; i < attributeCount; i++)
-                    attributes.Add((i+1).ToString());
+                    attributes.Add((i + 1).ToString());
             }
-
-            tuples.Add(tuple);
         }
 
         public void SetTuples(IEnumerable<QLEntity[]> entityTuples)
         {
-            tuples = entityTuples.ToList();
+            var tupleList = entityTuples.ToList();
+            var tuple = tupleList.FirstOrDefault(e => e != null);
+            if (tuple == null)
+            {
+                tuples = new List<QLEntity[]>();
+                return;
+            }
 
-            if(tuples.FirstOrDefault() != null && tuples[0].Length != attributeCount)
-                throw new ArgumentException();
+            HandleAttributeCount(tuple);
+            tuples = tupleList;
         }
 
         public sealed override IEnumerable<QLEntity[]> Tuples => tuples.ToArray();
