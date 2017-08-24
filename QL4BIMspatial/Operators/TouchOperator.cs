@@ -53,7 +53,8 @@ namespace QL4BIMspatial
             if (!TouchWithoutInnerOuterTest2(meshA, meshB, positiveOffset, negativeOffset))
                 return false;
 
-            return !insideTester.BIsInside(meshA, meshB); ;
+            var dfdf = !insideTester.BIsInside(meshA, meshB);
+            return dfdf;
         }
 
         public bool TouchWithoutInnerOuterTest2(TriangleMesh meshA, TriangleMesh meshB, double positiveOffset, double negativeOffset)

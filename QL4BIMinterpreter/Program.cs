@@ -42,7 +42,7 @@ namespace QL4BIMinterpreter
             container.RegisterType<IProjectorOperator, ProjectorOperator>();
             container.RegisterType<IPropertyFilterOperator, PropertyFilterOperator>();
             container.RegisterType<IDeassociaterOperator, DeassociaterOperator>();
-            container.RegisterType<ITaskTimerOperator, TaskTimerOperator>();
+            container.RegisterType<ITaskTimerOperator, TimeResolverOperator>();
             container.RegisterType<IMaximumOperator, MaximumOperator>();
 
             container.RegisterType<IOperatorValidator, OperatorValidator>();

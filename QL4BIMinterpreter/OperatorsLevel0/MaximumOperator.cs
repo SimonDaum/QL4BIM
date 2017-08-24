@@ -18,7 +18,7 @@ namespace QL4BIMinterpreter.OperatorsLevel0
             this.attributeFilterOperator = attributeFilterOperator;
         }
 
-        public void MaximumRelAtt(RelationSymbol parameterSym1,  string parameter2, RelationSymbol returnSym)
+        public void MaximumRelAtt(RelationSymbol parameterSym1, string exAttribute, RelationSymbol returnSym)
         {
             Console.WriteLine("Maximum'ing...");
 
@@ -28,7 +28,7 @@ namespace QL4BIMinterpreter.OperatorsLevel0
             var tuples = parameterSym1.Tuples.ToArray();
             foreach (var tuple in tuples)
             {
-                var part = tuple[index].GetPropertyValue(parameter2);
+                var part = tuple[index].GetPropertyValue(exAttribute);
                 if (part != null)
                 {
                     partForTypeExtraction = part;
@@ -42,8 +42,8 @@ namespace QL4BIMinterpreter.OperatorsLevel0
             IEnumerable<QLEntity[]> tuplesOut = null;
             if (partForTypeExtraction.QLNumber != null)
             {
-                var max = tuples.Max(t => t[index].GetPropertyValue(parameter2).QLNumber.Value);
-                tuplesOut = tuples.Where(t => t[index].GetPropertyValue(parameter2).QLNumber.Value == max);
+                var max = tuples.Max(t => t[index].GetPropertyValue(exAttribute).QLNumber.Value);
+                tuplesOut = tuples.Where(t => t[index].GetPropertyValue(exAttribute).QLNumber.Value == max);
             }
 
             returnSym.SetTuples(tuplesOut);

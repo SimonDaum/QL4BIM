@@ -7,6 +7,6 @@ namespace QL4BIMinterpreter
         //only symbols and simple types in operators, no nodes
         //symbolTable, parameterSym1, ..., returnSym
 
-        void MaximumRelAtt(RelationSymbol parameterSym1, string parameter2, RelationSymbol returnSym);
+        void MaximumRelAtt(RelationSymbol parameterSym1, string exAttribute, RelationSymbol returnSym);
     }
 }

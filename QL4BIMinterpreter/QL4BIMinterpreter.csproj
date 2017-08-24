@@ -123,7 +123,7 @@
     <Compile Include="OperatorsLevel1\PropertyFilterOperator.cs" />
     <Compile Include="OperatorsLevel0\DereferenceOperator.cs" />
     <Compile Include="OperatorsLevel0\TypeFilterOperator.cs" />
-    <Compile Include="OperatorsLevel1\TaskTimerOperator.cs" />
+    <Compile Include="OperatorsLevel1\TimeResolverOperator.cs" />
     <Compile Include="OperatorValidator\DeassociaterValidator.cs" />
     <Compile Include="OperatorValidator\FuncValidator.cs" />
     <Compile Include="OperatorValidator\MaximumValidator.cs" />

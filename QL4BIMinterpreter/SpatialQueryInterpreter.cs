@@ -31,19 +31,37 @@ namespace QL4BIMinterpreter
                 case "Overlaps":
                     Overlap(returnSymbol, parameterSymbol1, parameterSymbol2);
                     break;
+                case "OL":
+                    Overlap(returnSymbol, parameterSymbol1, parameterSymbol2);
+                    break;
                 case "Touches":
+                    Touch(returnSymbol, parameterSymbol1, parameterSymbol2);
+                    break;
+                case "TO":
                     Touch(returnSymbol, parameterSymbol1, parameterSymbol2);
                     break;
                 case "AboveRelaxed":
                     AboveReleaxed(returnSymbol, parameterSymbol1, parameterSymbol2);
                     break;
+                case "AR":
+                    AboveReleaxed(returnSymbol, parameterSymbol1, parameterSymbol2);
+                    break;
                 case "AboveStrict":
+                    AboveStrict(returnSymbol, parameterSymbol1, parameterSymbol2);
+                    break;
+                case "AS":
                     AboveStrict(returnSymbol, parameterSymbol1, parameterSymbol2);
                     break;
                 case "BelowRelaxed":
                     BelowReleaxed(returnSymbol, parameterSymbol1, parameterSymbol2);
                     break;
+                case "BR":
+                    BelowReleaxed(returnSymbol, parameterSymbol1, parameterSymbol2);
+                    break;
                 case "BelowStrict":
+                    BelowStrict(returnSymbol, parameterSymbol1, parameterSymbol2);
+                    break;
+                case "BS":
                     BelowStrict(returnSymbol, parameterSymbol1, parameterSymbol2);
                     break;
                 case "WestRelaxed":
@@ -52,22 +70,43 @@ namespace QL4BIMinterpreter
                 case "WestStrict":
                     WestStrict(returnSymbol, parameterSymbol1, parameterSymbol2);
                     break;
+                case "WS":
+                    WestStrict(returnSymbol, parameterSymbol1, parameterSymbol2);
+                    break;
                 case "EastRelaxed":
+                    EastRelaxed(returnSymbol, parameterSymbol1, parameterSymbol2);
+                    break;
+                case "ER":
                     EastRelaxed(returnSymbol, parameterSymbol1, parameterSymbol2);
                     break;
                 case "EastStrict":
                     EastStrict(returnSymbol, parameterSymbol1, parameterSymbol2);
                     break;
+                case "ES":
+                    EastStrict(returnSymbol, parameterSymbol1, parameterSymbol2);
+                    break;
                 case "NorthRelaxed":
+                    NorthRelaxed(returnSymbol, parameterSymbol1, parameterSymbol2);
+                    break;
+                case "NR":
                     NorthRelaxed(returnSymbol, parameterSymbol1, parameterSymbol2);
                     break;
                 case "NorthStrict":
                     NorthStrict(returnSymbol, parameterSymbol1, parameterSymbol2);
                     break;
+                case "NS":
+                    NorthStrict(returnSymbol, parameterSymbol1, parameterSymbol2);
+                    break;
                 case "SouthRelaxed":
                     SouthRelaxed(returnSymbol, parameterSymbol1, parameterSymbol2);
                     break;
+                case "SR":
+                    SouthRelaxed(returnSymbol, parameterSymbol1, parameterSymbol2);
+                    break;
                 case "SouthStrict":
+                    SouthStrict(returnSymbol, parameterSymbol1, parameterSymbol2);
+                    break;
+                case "SS":
                     SouthStrict(returnSymbol, parameterSymbol1, parameterSymbol2);
                     break;
             }

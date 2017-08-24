@@ -7,6 +7,6 @@ namespace QL4BIMinterpreter
         //only symbols and simple types in operators, no nodes
         //symbolTable, parameterSym1, ..., returnSym
 
-        void TaskTimerRelAtt(RelationSymbol parameterSym1, RelationSymbol returnSym);
+        void TimeResolverRel(RelationSymbol parameterSym1, RelationSymbol returnSym);
     }
 }

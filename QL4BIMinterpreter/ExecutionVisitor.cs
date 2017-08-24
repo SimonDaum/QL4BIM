@@ -56,7 +56,7 @@ namespace QL4BIMinterpreter
             var symbolTable = ((FunctionNode)statementNode.Parent).SymbolTable;
 
             var operatorName = statementNode.OperatorNode.Value;
-            if (operatorName == "ImportModel")
+            if (operatorName == "ImportModel" || operatorName == "IM")
             {
                 var returnSymbol = symbolTable.GetSetSymbol(statementNode.ReturnSetNode);
                 importModelOperator.ImportModel(statementNode.Arguments[0].Value, returnSymbol); 
@@ -67,7 +67,7 @@ namespace QL4BIMinterpreter
             //sig1: Set    <- Set, String
             //sig2: Relation   <- RelAtt, String VarArg
             //sig3: Relation   <- Relation, String Var arg
-            if (operatorName == "TypeFilter")
+            if (operatorName == "TypeFilter" || operatorName == "TF")
             {
                 var isRelationOverload = statementNode.Arguments[0] is RelNameNode;
                 if (isRelationOverload)
@@ -97,7 +97,7 @@ namespace QL4BIMinterpreter
             //overloaded
             //sig1: Set    <- Set, Predicate
             //sig2: Relation   <- Relation, Predicate
-            if (operatorName == "AttributeFilter")
+            if (operatorName == "AttributeFilter" || operatorName == "AF")
             {
                 var relName = statementNode.Arguments[0] as RelNameNode;
                 if (relName != null)
@@ -133,7 +133,7 @@ namespace QL4BIMinterpreter
             //sig2: Relation [2]    <- Set, String, String
             //sig3: Relation [+1]   <- Relation, String 
             //sig3: Relation [+1]   <- Relation, String, String 
-            if (operatorName == "Dereferencer")
+            if (operatorName == "Dereferencer" || operatorName == "DR")
             {
                 var relNameNode = statementNode.Arguments[0] as RelNameNode;
 
@@ -167,7 +167,7 @@ namespace QL4BIMinterpreter
             //sig2: Relation [2]    <- Set, String, String
             //sig3: Relation [+1]   <- RelAtt, String todo
             //sig3: Relation [+1]   <- RelAtt, String, String todo
-            if (operatorName == "Deassociater")
+            if (operatorName == "Deassociater" || operatorName == "DA")
             {
                 var returnSymbol = symbolTable.GetRelationSymbol(statementNode.ReturnRelationNode);
                 var relNameNode = statementNode.Arguments[0] as RelNameNode;
@@ -199,14 +199,17 @@ namespace QL4BIMinterpreter
             }
 
 
-            if (operatorName == "Projector")
+            if (operatorName == "Projector" || operatorName == "PR")
             {
                 var arguementCount = statementNode.Arguments.Count;
                 if (arguementCount == 2)
                 {
                     var returnSymbolSet = symbolTable.GetSetSymbol(statementNode.ReturnSetNode);
                     var relNameNode = (RelNameNode)statementNode.Arguments[0];
+                    var relAttNode = (RelAttNode)statementNode.Arguments[1];
+
                     var parameterRelationSymbol1 = symbolTable.GetRelationSymbol(relNameNode);
+                    parameterRelationSymbol1.Index = relAttNode.AttIndex;
 
                     logger.LogStart(operatorName, parameterRelationSymbol1.EntityCount);
                     projectorOperator.ProjectRelAttSet(parameterRelationSymbol1, returnSymbolSet);
@@ -233,7 +236,7 @@ namespace QL4BIMinterpreter
 
             }
 
-            if (operatorName == "PropertyFilterOperator")
+            if (operatorName == "PropertyFilterOperator" || operatorName == "PF")
             {
                 var returnSymbol = symbolTable.GetRelationSymbol(statementNode.ReturnRelationNode);
                 var firstAttribute = symbolTable.GetSetSymbol(statementNode.Arguments[0] as SetNode);
@@ -246,25 +249,29 @@ namespace QL4BIMinterpreter
                 return;
             }
 
-            if (operatorName == "TaskTimer")
+            if (operatorName == "TimeResolver" || operatorName == "TR")
             {
                 var returnSymbol = symbolTable.GetRelationSymbol(statementNode.ReturnRelationNode);
-                var parameterRelationSymbol = symbolTable.GetRelationSymbol((RelNameNode)statementNode.Arguments[0] );
+                var parameterRelationSymbol = symbolTable.GetRelationSymbol((RelNameNode)statementNode.Arguments[0]);
+                parameterRelationSymbol.Index = ((RelAttNode) statementNode.Arguments[1]).AttIndex;
 
                 logger.LogStart(operatorName, parameterRelationSymbol.EntityCount);
-                taskTimerOperator.TaskTimerRelAtt(parameterRelationSymbol, returnSymbol);
+                taskTimerOperator.TimeResolverRel(parameterRelationSymbol, returnSymbol);
                 logger.LogStop(returnSymbol.EntityCount);
                 return;
             }
 
-            if (operatorName == "Maximum")
+            if (operatorName == "Maximum" || operatorName == "MA")
             {
                 var returnSymbol = symbolTable.GetRelationSymbol(statementNode.ReturnRelationNode);
                 var parameterRelationSymbol = symbolTable.GetRelationSymbol( (RelNameNode)statementNode.Arguments[0]);
-                var testValue = statementNode.Arguments[1].Value;
+                var attributeAccessNode = (AttributeAccessNode) statementNode.Arguments[1];
+
+                parameterRelationSymbol.Index = attributeAccessNode.RelAttNode.AttIndex;
+                var exAtt = attributeAccessNode.ExAttNode;
 
                 logger.LogStart(operatorName, parameterRelationSymbol.EntityCount);
-                maximumOperator.MaximumRelAtt(parameterRelationSymbol,testValue, returnSymbol);
+                maximumOperator.MaximumRelAtt(parameterRelationSymbol,exAtt.Value, returnSymbol);
                 logger.LogStop(returnSymbol.EntityCount);
                 return;
             }
