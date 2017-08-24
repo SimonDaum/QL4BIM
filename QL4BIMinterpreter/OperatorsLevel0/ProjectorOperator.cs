@@ -23,7 +23,7 @@ namespace QL4BIMinterpreter.OperatorsLevel0
         {
             Console.WriteLine("Projector'ing...");
 
-            var result = ProjectLocal(parameterSym1.Tuples, new [] { parameterSym1.Index.Value}).Select(t => t[0]);
+            var result = ProjectLocal(parameterSym1.Tuples, new [] { parameterSym1.Index.Value}).Select(t => t[0]).Distinct();
 
             returnSym.EntityDic = result.ToDictionary(e => e.Id); ;
         }

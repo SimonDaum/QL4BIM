@@ -42,7 +42,8 @@ namespace QL4BIMinterpreter
         {
             Symbol symbol = new SetSymbol(setNode);
 
-            symbols.Add(setNode.Value, symbol);
+            if(!symbols.ContainsKey(setNode.Value))
+                symbols.Add(setNode.Value, symbol);
 
         }
 
@@ -50,7 +51,8 @@ namespace QL4BIMinterpreter
         {
             Symbol symbol = new RelationSymbol(relationNode);
 
-            symbols.Add(relationNode.RelationName, symbol);
+            if (!symbols.ContainsKey(relationNode.RelationName))
+                symbols.Add(relationNode.RelationName, symbol);
 
         }
 

@@ -486,9 +486,13 @@ namespace QL4BIMinterpreter
                 return null;
 
             if(string.IsNullOrEmpty(input))
-            {   
-                if(currentEntites == null)
-                    ShowSymbol(globalSymbolTable.Symbols.Values.Last());
+            {
+                if (currentEntites == null)
+                {
+                    var lastSymbol = globalSymbolTable.Symbols.Values.Last();
+                    ShowSymbol(lastSymbol);
+                }
+
                 else
                     ShowSymbol(currentAttributes);
             }
@@ -512,6 +516,13 @@ namespace QL4BIMinterpreter
 
         private void ShowSymbol(Symbol symbol)
         {
+            if (!symbol.Tuples.Any())
+            {
+                allShown = true;
+                Reset();
+            }
+                
+
             height = Console.WindowHeight - 5;
             shownEntites = 0;
             currentEntites = symbol.Tuples.ToArray();

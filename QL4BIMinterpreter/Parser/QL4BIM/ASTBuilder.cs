@@ -102,16 +102,21 @@ namespace QL4BIMinterpreter.QL4BIM
                 ParentFuncNode.LastStatement.Arguments.Add(node);
             }
 
-            protected Node PopLastArgument(bool skipAllowedArguments)
+            protected Node PopLastArgument(bool skipIfRelPresent)
             {
+                if (skipIfRelPresent)
+                {
+                    var revertedArgs = ParentFuncNode.LastStatement.Arguments.Reverse();
+                    var relName = revertedArgs.FirstOrDefault(a => a is RelNameNode);
+                    if (relName != null)
+                        return null;
+                }
+
                 var argCount = ParentFuncNode.LastStatement.Arguments.Count;
                 var lastArg = ParentFuncNode.LastStatement.Arguments.LastOrDefault();
 
                 if (lastArg == null)
                     throw new ArgumentException("Argument is missing");
-
-                if (skipAllowedArguments && (lastArg is RelAttNode || lastArg is TypePredNode))
-                    return null;
 
                 ParentFuncNode.LastStatement.Arguments.RemoveAt(argCount - 1);
                 return lastArg;
