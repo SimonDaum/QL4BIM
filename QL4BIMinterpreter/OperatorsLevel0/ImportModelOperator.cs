@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using QL4BIMinterpreter.QL4BIM;
+using QL4BIMprimitives;
 using QL4BIMspatial;
 
 namespace QL4BIMinterpreter.OperatorsLevel0

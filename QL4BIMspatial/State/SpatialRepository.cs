@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using MathNet.Numerics.LinearAlgebra.Double;
 using Microsoft.Practices.Unity.Utility;
+using QL4BIMprimitives;
 
 namespace QL4BIMspatial
 {
@@ -25,8 +27,16 @@ namespace QL4BIMspatial
             temp.AddRange(meshes);
             TriangleMeshes = temp;
 
-            foreach (var mesh in meshes)
-                TriangleMeshById.Add(mesh.Name, mesh);
+            try
+            {
+                foreach (var mesh in meshes)
+                    TriangleMeshById.Add(mesh.Name, mesh);
+            }
+            catch (Exception)
+            {
+                throw new QueryException("Mesh already stored. Delete symbols.");
+            }
+
         }
 
         public void RemoveMeshByGlobalId(string globalId)

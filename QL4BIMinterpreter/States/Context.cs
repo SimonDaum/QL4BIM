@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading;
 using QL4BIMinterpreter.P21;
 using QL4BIMinterpreter.QL4BIM;
+using QL4BIMprimitives;
 using QL4BIMspatial;
 
 namespace QL4BIMinterpreter
@@ -153,6 +154,14 @@ namespace QL4BIMinterpreter
             {
                 currentState = resultWriteState;
                 currentState.Execute(input);
+                return true;
+            }
+
+            if (input.StartsWith("-"))
+            {
+                Console.WriteLine("Inputs starts with - but is no console operator. Show query instead.");
+                currentState = queryShowState;
+                currentState.Execute("");
                 return true;
             }
 
@@ -346,7 +355,7 @@ namespace QL4BIMinterpreter
             }
             catch (QueryException e)
             {   
-                queryShowState.Execute("");
+                Console.Clear();
                 Console.WriteLine(e.Message);
 
                 return queryShowState;

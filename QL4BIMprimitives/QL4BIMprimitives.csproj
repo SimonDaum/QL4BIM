@@ -71,6 +71,7 @@
   <ItemGroup>
     <Compile Include="Axis.cs" />
     <Compile Include="Box.cs" />
+    <Compile Include="QueryException.cs" />
     <Compile Include="IHasBounds.cs" />
     <Compile Include="Interval.cs" />
     <Compile Include="IVolume.cs" />

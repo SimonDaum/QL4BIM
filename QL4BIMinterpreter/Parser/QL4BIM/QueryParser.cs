@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using QL4BIMprimitives;
 
 namespace QL4BIMinterpreter.QL4BIM
 {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using QL4BIMinterpreter.QL4BIM;
+using QL4BIMprimitives;
 
 namespace QL4BIMinterpreter
 {   
@@ -68,13 +69,7 @@ namespace QL4BIMinterpreter
 
     }
 
-    class QueryException : Exception
-    {
-        public QueryException(string message) : base(message)
-        {
 
-        }
-    }
 
     
 
