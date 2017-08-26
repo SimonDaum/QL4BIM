@@ -40,6 +40,9 @@ namespace QL4BIMinterpreter
 
         public void AddSetSymbol(SetNode setNode)
         {
+            if (symbols.ContainsKey(setNode.Value))
+                throw new QueryException($"Symbol {setNode.Value} already present.");
+
             Symbol symbol = new SetSymbol(setNode);
 
             if(!symbols.ContainsKey(setNode.Value))
@@ -49,6 +52,9 @@ namespace QL4BIMinterpreter
 
         public void AddRelSymbol(RelationNode relationNode)
         {
+            if(symbols.ContainsKey(relationNode.RelationName))
+                throw new QueryException($"Symbol {relationNode.RelationName} already present.");
+
             Symbol symbol = new RelationSymbol(relationNode);
 
             if (!symbols.ContainsKey(relationNode.RelationName))
@@ -57,7 +63,7 @@ namespace QL4BIMinterpreter
         }
 
         public SetSymbol GetSetSymbol(SetNode node)
-        {
+        {   
             return (SetSymbol)symbols[node.Value];
         }
 

@@ -41,7 +41,7 @@ namespace QL4BIMinterpreter
             symbolClearState = new SymbolClearState(repository, spatialRepository, symbolShowState, queryShowState, "SymbolClearState");
 
             resultShowState = new ResultShowState(repository, queryShowState, "ResultShowState");
-            executeAllState = new ExecuteAllState(repository, spatialRepository, queryReader, symbolVisitor, executionVisitor, funcVisitor,
+            executeAllState = new ExecuteAllState(symbolClearState, repository, spatialRepository, queryReader, symbolVisitor, executionVisitor, funcVisitor,
                 "ExecuteAllState", queryShowState, resultShowState);
 
             resultWriteState = new ResultWriteState(repository, "ResultWriteState", resultShowState);
@@ -119,7 +119,7 @@ namespace QL4BIMinterpreter
                 return true;
             }
 
-            if (IsOnOf(input, "-ShowSymbols", "-SSy"))
+            if (IsOnOf(input, "-PrintSymbols", "-PS"))
             {
                 currentState = symbolShowState;
                 currentState.Execute("");
@@ -128,7 +128,7 @@ namespace QL4BIMinterpreter
                 return true;
             }
 
-            if (IsOnOf(input, "-ShowSettings", "-SSe"))
+            if (IsOnOf(input, "-PrintSettings", "-PSe"))
             {
                 currentState = showSettingsState;
                 currentState.Execute("");
@@ -171,8 +171,9 @@ namespace QL4BIMinterpreter
 
     internal abstract class State
     {
-        protected string Header = "{0}" + Environment.NewLine + new String('*', 90) + Environment.NewLine
-                                  + "{1}" + new String('*', 90);
+        public string Header => "<" + Name + ">" + Environment.NewLine + " {0}" + Environment.NewLine + 
+                                new String('*', Console.WindowWidth-5) + Environment.NewLine
+                                 + "{1}" + new String('*', Console.WindowWidth-5);
 
         public IInterpreterRepository Repository { get; set; }
         public ISpatialRepository SpatialRepository { get; set; }
@@ -199,11 +200,10 @@ namespace QL4BIMinterpreter
 
         public override State Execute(string input)
         {
-            if (!string.IsNullOrEmpty(input) && !string.IsNullOrWhiteSpace(input))
-                Repository.Query += input + Environment.NewLine;
+            if(!string.IsNullOrEmpty(input) && !string.IsNullOrWhiteSpace(input))
+                Repository.Query += input +  Environment.NewLine;
 
             ShowState.Execute(string.Empty);
-
             return null;
         }
     }
@@ -298,6 +298,7 @@ namespace QL4BIMinterpreter
 
     internal class ExecuteAllState : State
     {
+        private readonly SymbolClearState clearState;
         private readonly IQueryReader queryReader;
         private readonly ISymbolVisitor symbolVisitor;
         private readonly IExecutionVisitor executionVisitor;
@@ -306,12 +307,13 @@ namespace QL4BIMinterpreter
         private readonly QueryShowState queryShowState;
         private readonly ResultShowState resultShowState;
 
-        public ExecuteAllState(IInterpreterRepository repository, ISpatialRepository spatialRepository, IQueryReader queryReader,
+        public ExecuteAllState(SymbolClearState clearState, IInterpreterRepository repository, ISpatialRepository spatialRepository, IQueryReader queryReader,
             ISymbolVisitor symbolVisitor, IExecutionVisitor executionVisitor, IFuncVisitor funcVisitor,
             string name, QueryShowState queryShowState, ResultShowState resultShowState)
         {
             Repository = repository;
             SpatialRepository = spatialRepository;
+            this.clearState = clearState;
             this.queryReader = queryReader;
             this.symbolVisitor = symbolVisitor;
             this.executionVisitor = executionVisitor;
@@ -324,6 +326,15 @@ namespace QL4BIMinterpreter
 
         public override State Execute(string input)
         {
+            if (Repository.GlobalSymbolTable != null && Repository.GlobalSymbolTable.Symbols.Any())
+            {
+                Console.WriteLine("Press Y to delete current symbols before next query exection.");
+                var key = Console.ReadKey(false);
+
+                if (key.KeyChar == 'y' || key.KeyChar == 'Y')
+                    clearState.Execute("");
+            }
+
             try
             {   
                 var queryNode = queryReader.Parse(Repository.Query);
@@ -461,7 +472,8 @@ namespace QL4BIMinterpreter
         private int shownEntites;
         private bool allShown;
         private IEnumerable<string> currentAttributes;
-        private const string TupleSeperator = "\t->\t";
+        private string varName;
+        private const string TupleSeperator = "|";
 
         public ResultShowState(IInterpreterRepository interpreterRepository, QueryShowState queryShowState, string name)
         {
@@ -494,7 +506,7 @@ namespace QL4BIMinterpreter
                 }
 
                 else
-                    ShowSymbol(currentAttributes);
+                    ShowSymbol(varName,currentAttributes);
             }
 
             if (input.Length > 4 && input.Contains(" "))
@@ -527,12 +539,13 @@ namespace QL4BIMinterpreter
             shownEntites = 0;
             currentEntites = symbol.Tuples.ToArray();
             allShown = false;
-             currentAttributes = symbol.Attributes;
-            ShowSymbol(currentAttributes);
+            currentAttributes = symbol.Attributes;
+            varName = symbol.Value;
+            ShowSymbol(varName,currentAttributes);
         }
 
 
-        private void ShowSymbol(IEnumerable<string> attributes)
+        private void ShowSymbol(string relName, IEnumerable<string> attributes)
         {
             var i = shownEntites;
             shownEntites += height;
@@ -546,12 +559,10 @@ namespace QL4BIMinterpreter
 
 
             var sb = new StringBuilder();
-            sb.AppendLine(string.Join(TupleSeperator, attributes));
-
             for (; i < shownEntites; i++)
-                sb.AppendLine(string.Join(TupleSeperator, currentEntites[i].Select(e => e.ToString())));
+                sb.AppendLine(string.Join("\t" + TupleSeperator + "\t", currentEntites[i].Select(e => e.ToString())));
 
-            Console.WriteLine(Header, "Current Result (" + shownEntites + " of " + currentEntites.Length + ")", sb);
+            Console.WriteLine(Header, $"Symbol {relName} (Index {shownEntites} of {currentEntites.Length})", sb);
         }
     }
 

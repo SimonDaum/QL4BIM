@@ -129,16 +129,16 @@ namespace QL4BIMinterpreter.OperatorsLevel0
                 return Math.Abs(a - b) < Tolerance;
 
             if (parserParts == ParserParts.LessPred)
-                return a > b;
+                return a < b;
 
             if (parserParts == ParserParts.LessEqualPred)
-                return a >= b;
+                return a <= b;
 
             if (parserParts == ParserParts.MorePred)
-                return a < b;
+                return a > b;
 
             if (parserParts == ParserParts.MoreEqualPred)
-                return a < b;
+                return a >= b;
 
             throw  new InvalidOperationException();
         }
