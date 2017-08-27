@@ -1,0 +1,26 @@
+﻿Copyright (c) 2017	Chair of Computational Modeling and Simulation (CMS), 
+					Prof. André Borrmann, 
+					Technische Universität München, 
+					Arcisstr. 21, D-80333 München,
+					https://www.cms.bgu.tum.de/en/research/projects/31-forschung/projekte/332-spatio-temporal-query-language-for-4d-building-models
+					Developed for CMS by Simon Daum, simondaum@tum.de
+
+QL4BIM is available as Open Source Software for research. It is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the 
+implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+The header sections in the source files show the relative licence of the component.
+Overview:
+The QL4BIMinterpreter component is distributed under the GNU General Public Licence
+The QL4BIMprimitives component is distributed under the GNU Lesser General Public Licence
+The QL4BIMspatial component is distributed under the GNU General Public Licence
+The QL4BIMindexing component is distributed under the GNU Lesser General Public Licence
+The IfcImporter component is distributed under the original licence of the IFC ENGINE DLL 
+
+External components:
+(1) IFC ENGINE DLL 
+	http://rdf.bg/ifc-engine-dll.html?page=products
+(2) Unity Application Block (Unity) 
+	https://github.com/unitycontainer/unity
+(3) Math.NET Numerics
+	https://numerics.mathdotnet.com/
+(4) .Net port of the Java Spatial Index Library

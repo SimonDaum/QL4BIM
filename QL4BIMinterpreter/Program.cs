@@ -69,16 +69,11 @@ namespace QL4BIMinterpreter
 
             while (true)
             {
-                if (ReadInputAndCall())
-                    continue;
-                break;
+                if (!_context.Execute(Console.ReadLine()))
+                    break;
             }
         }
 
-        private static bool ReadInputAndCall()
-        {
-            return _context.Execute(Console.ReadLine());
-        }
 
     }
 }

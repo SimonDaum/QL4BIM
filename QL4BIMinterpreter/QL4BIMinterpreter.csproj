@@ -188,6 +188,11 @@
       <Name>QL4BIMspatial</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="lic.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>XCOPY  $(SolutionDir)packages\IfcEngine $(ProjectDir)bin\$(PlatformName)\Debug\ /R /Y</PostBuildEvent>

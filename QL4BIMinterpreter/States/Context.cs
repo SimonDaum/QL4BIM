@@ -25,8 +25,12 @@ namespace QL4BIMinterpreter
         private readonly SymbolClearState symbolClearState;
         private readonly ShowSettingsState showSettingsState;
         private readonly PerformanceTestState performanceTestState;
+        private readonly ShowLicenceState showLicenceState;
 
         private State currentState;
+
+
+        private const string HelpString = "Available console operators: -Help, -H, -ShowLicence, -SL, -Quit, -Q, -AddStatement, -AS, -CancelQuery, -CQ, -ShowQuery, -SQ, -ExecuteAll, -EA, -PerformanceTest, -PT, -PrintSymbols, -PS, -Settings, -SE , -ClearState, -CS, -ShowResult, -SR, -WriteResult, -WR";
 
         public Context(IQueryReader queryReader, ISymbolVisitor symbolVisitor, IExecutionVisitor executionVisitor, IFuncVisitor funcVisitor,
             ISpatialRepository spatialRepository, IInterpreterRepository repository, ISettings settings, ILogger logger)
@@ -48,13 +52,13 @@ namespace QL4BIMinterpreter
             resultWriteState = new ResultWriteState(repository, "ResultWriteState", resultShowState);
 
             showSettingsState = new ShowSettingsState(settings, "ShowSettingsState");
+           showLicenceState = new ShowLicenceState(queryAddState, "ShowLicenceState");
 
             performanceTestState = new PerformanceTestState(repository, spatialRepository, queryReader, symbolVisitor, executionVisitor,
                 funcVisitor, logger, settings, "PerformanceTestState");
 
-
-            queryShowState.Execute("");
-            currentState = queryAddState;
+            currentState = showLicenceState;
+            currentState.Execute("");
         }
 
         private bool IsOnOf(string input,  params string[] operatorNames)
@@ -79,6 +83,13 @@ namespace QL4BIMinterpreter
             if (IsOnOf(input, "-Quit","-Q"))
             {
                 return false;
+            }
+
+            if (IsOnOf(input, "-Help", "-H"))
+            {
+                Console.WriteLine(HelpString);
+                currentState = queryAddState;
+                return true;
             }
 
             if (IsOnOf(input, "-AddStatement", "-AS"))
@@ -129,9 +140,17 @@ namespace QL4BIMinterpreter
                 return true;
             }
 
-            if (IsOnOf(input, "-PrintSettings", "-PSe"))
+            if (IsOnOf(input, "-Settings", "-SE"))
             {
                 currentState = showSettingsState;
+                currentState.Execute("");
+                return true;
+            }
+
+
+            if (IsOnOf(input, "-ShowLicence", "-SL"))
+            {
+                currentState = showLicenceState;
                 currentState.Execute("");
                 return true;
             }
@@ -160,6 +179,7 @@ namespace QL4BIMinterpreter
             if (input.StartsWith("-"))
             {
                 Console.WriteLine("Inputs starts with - but is no console operator. Show query instead.");
+                Console.WriteLine("Type -H for available operators");
                 currentState = queryShowState;
                 currentState.Execute("");
                 return true;
@@ -225,6 +245,34 @@ namespace QL4BIMinterpreter
             return null;
         }
     }
+
+
+    internal class ShowLicenceState : State
+    {
+        private readonly QueryAddState queryAddState;
+        private const string LicenceFileName = "lic.txt";
+
+        public ShowLicenceState(QueryAddState queryAddState, string name)
+        {
+            this.queryAddState = queryAddState;
+            Name = name;
+        }
+
+        public override State Execute(string input)
+        {
+            if (!File.Exists(LicenceFileName))
+            {
+                Console.WriteLine("Licence file is missing...");
+                return queryAddState;
+            }
+
+            var text = File.ReadAllText(LicenceFileName) + Environment.NewLine;
+            Console.WriteLine(Header, "Contente of " + LicenceFileName, text);
+
+            return queryAddState;
+        }
+    }
+
 
     internal class QueryShowState : State
     {
@@ -415,14 +463,17 @@ namespace QL4BIMinterpreter
             Console.WriteLine("Total Memory: {0}", GC.GetTotalMemory(true)/(1024d * 1024));
             Console.WriteLine("Deallocating memory...");
 
-            var symbols = Repository.GlobalSymbolTable.Symbols.Select(p => p.Value);
-            var entities = symbols.SelectMany(s => s.Tuples).SelectMany(e => e);
+            if (Repository.GlobalSymbolTable != null)
+            {
+                var symbols = Repository.GlobalSymbolTable.Symbols.Select(p => p.Value);
+                var entities = symbols.SelectMany(s => s.Tuples).SelectMany(e => e);
 
-            foreach (var qlEntity in entities)
-                SpatialRepository.RemoveMeshByGlobalId(qlEntity.GlobalId);
+                foreach (var qlEntity in entities)
+                    SpatialRepository.RemoveMeshByGlobalId(qlEntity.GlobalId);
 
-            Reset();
-
+                Reset();
+            }
+ 
             Console.WriteLine("Total Memory: {0}", GC.GetTotalMemory(true)/(1024d * 1024));
 
             queryShowState.Execute("");
