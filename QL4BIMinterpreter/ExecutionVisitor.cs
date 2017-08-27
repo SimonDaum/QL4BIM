@@ -347,7 +347,7 @@ namespace QL4BIMinterpreter
 
             Console.WriteLine();
             Console.WriteLine("Query execution has finished");
-            Console.WriteLine("Press any to see content of last assigned symbol.");
+            Console.WriteLine("Press enter to see content of last assigned symbol.");
         }
     }
 }

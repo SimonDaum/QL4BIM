@@ -58,7 +58,7 @@ namespace QL4BIMinterpreter
                 funcVisitor, logger, settings, "PerformanceTestState");
 
             currentState = showLicenceState;
-            currentState.Execute("");
+            currentState = currentState.Execute("");
         }
 
         private bool IsOnOf(string input,  params string[] operatorNames)
@@ -155,15 +155,20 @@ namespace QL4BIMinterpreter
                 return true;
             }
 
-            if (IsOnOf(input, "-ClearState", "-CS"))
+            if (IsOnOf(input, "-ClearSymbol", "-CS"))
             {
                 currentState = symbolClearState;
                 currentState = currentState.Execute(""); ;
                 return true;
             }
 
-            if (IsOnOf(input, "-ShowResult", "-SR"))
+            if (input.StartsWith("-ShowResult") || input.StartsWith("-SR"))
             {
+                if(input.Split(' ').Length <= 1)
+                {
+                    Console.WriteLine("Add symbol name after -ShowResult/-SR");
+                    return true;
+                }
                 currentState = resultShowState;
                 currentState.Execute(input);
                 return true;
@@ -178,10 +183,11 @@ namespace QL4BIMinterpreter
 
             if (input.StartsWith("-"))
             {
-                Console.WriteLine("Inputs starts with - but is no console operator. Show query instead.");
+                Console.WriteLine("Inputs starts with - but is no console operator. Showing query instead.");
                 Console.WriteLine("Type -H for available operators");
                 currentState = queryShowState;
                 currentState.Execute("");
+                currentState = queryAddState;             
                 return true;
             }
 
@@ -200,9 +206,9 @@ namespace QL4BIMinterpreter
 
     internal abstract class State
     {
-        public string Header => "<" + Name + ">" + Environment.NewLine + " {0}" + Environment.NewLine + 
+        public string Header => "<" + Name + ">" + " {0}" + Environment.NewLine + " {1}" + Environment.NewLine + 
                                 new String('*', Console.WindowWidth-5) + Environment.NewLine
-                                 + "{1}" + new String('*', Console.WindowWidth-5);
+                                 + "{2}" + new String('*', Console.WindowWidth-5) + "{3}";
 
         public IInterpreterRepository Repository { get; set; }
         public ISpatialRepository SpatialRepository { get; set; }
@@ -267,8 +273,7 @@ namespace QL4BIMinterpreter
             }
 
             var text = File.ReadAllText(LicenceFileName) + Environment.NewLine;
-            Console.WriteLine(Header, "Contente of " + LicenceFileName, text);
-
+            Console.WriteLine(Header, "", "Contente of " + LicenceFileName, text, Environment.NewLine + "Press enter to continue");
             return queryAddState;
         }
     }
@@ -292,7 +297,7 @@ namespace QL4BIMinterpreter
                 query = query.Replace("func",  Environment.NewLine + "func");
             }
 
-            Console.WriteLine(Header, "Current Query", query);
+            Console.WriteLine(Header, "Type statement and press enter to add, -EA and enter to execute query", "Current Query", query, "");
 
             return queryAddState;
         }
@@ -386,7 +391,7 @@ namespace QL4BIMinterpreter
             if (Repository.GlobalSymbolTable != null && Repository.GlobalSymbolTable.Symbols.Any())
             {
                 Console.WriteLine("Press Y to delete current symbols before next query exection.");
-                var key = Console.ReadKey(false);
+                var key = Console.ReadKey(true);
 
                 if (key.KeyChar == 'y' || key.KeyChar == 'Y')
                     clearState.Execute("");
@@ -426,14 +431,17 @@ namespace QL4BIMinterpreter
 
         public override State Execute(string input)
         {
-            var symbolNames = Repository.GlobalSymbolTable.Symbols.Values.Select(v => v.Value).ToArray();
+            var symbolNames = new [] {"no symbols stored..."};
+            if (Repository.GlobalSymbolTable != null)
+                symbolNames = Repository.GlobalSymbolTable.Symbols.Values.Select(v => v.Value).ToArray();
+            
             string symbolOut = string.Empty;
             if (symbolNames.Length > 0)
                 symbolOut = string.Join(Environment.NewLine, symbolNames);
 
             symbolOut = symbolOut + Environment.NewLine;
 
-            Console.WriteLine(Header, "Current Symbols", symbolOut);
+            Console.WriteLine(Header, "-SR <set/relation> to see content, -CS to delete all symbols", "Current Symbols", symbolOut, "");
             return null;
         }
     }
@@ -554,8 +562,11 @@ namespace QL4BIMinterpreter
         {
             var globalSymbolTable = interpreterRepository.GlobalSymbolTable;
 
-            if (globalSymbolTable.Symbols.Count == 0)
-                return null;
+            if (globalSymbolTable == null || globalSymbolTable.Symbols.Count == 0)
+            {
+                Reset();
+                return queryShowState;
+            }
 
             if(string.IsNullOrEmpty(input))
             {
@@ -622,7 +633,7 @@ namespace QL4BIMinterpreter
             for (; i < shownEntites; i++)
                 sb.AppendLine(string.Join("\t" + TupleSeperator + "\t", currentEntites[i].Select(e => e.ToString())));
 
-            Console.WriteLine(Header, $"Symbol {relName} (Index {shownEntites} of {currentEntites.Length})", sb);
+            Console.WriteLine(Header,"Press enter to see next section", $"Symbol {relName} (Index {shownEntites} of {currentEntites.Length})", sb, "");
         }
     }
 

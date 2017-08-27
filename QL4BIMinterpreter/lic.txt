@@ -1,26 +1,34 @@
 ﻿Copyright (c) 2017	Chair of Computational Modeling and Simulation (CMS), 
 					Prof. André Borrmann, 
 					Technische Universität München, 
-					Arcisstr. 21, D-80333 München,
-					https://www.cms.bgu.tum.de/en/research/projects/31-forschung/projekte/332-spatio-temporal-query-language-for-4d-building-models
-					Developed for CMS by Simon Daum, simondaum@tum.de
+					Arcisstr. 21, D-80333 München, Germany
+					Developed for CMS by Simon Daum, simon.daum@tum.de
+					http://go.tum.de/795052
 
-QL4BIM is available as Open Source Software for research. It is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the 
+QL4BIM is available as Open Source Software for research demonstration and verification. It is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the 
 implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
-The header sections in the source files show the relative licence of the component.
-Overview:
-The QL4BIMinterpreter component is distributed under the GNU General Public Licence
-The QL4BIMprimitives component is distributed under the GNU Lesser General Public Licence
-The QL4BIMspatial component is distributed under the GNU General Public Licence
-The QL4BIMindexing component is distributed under the GNU Lesser General Public Licence
-The IfcImporter component is distributed under the original licence of the IFC ENGINE DLL 
+The components QL4BIMinterpreter and QL4BIMspatial are distributed under the GNU General Public Licence.
+The components QL4BIMprimitives and QL4BIMindexing are distributed under the GNU Lesser General Public Licence.
+The IfcImporter component is distributed under the original licence of the IFC ENGINE DLL.
+See header sections in the source files for detailed information.
 
-External components:
-(1) IFC ENGINE DLL 
+Used libaries:
+(1) IFC ENGINE DLL
+	Copyright by RDF Ltd.
 	http://rdf.bg/ifc-engine-dll.html?page=products
-(2) Unity Application Block (Unity) 
+(2) CommonServiceLocator
+	Copyright by Microsoft
+	http://commonservicelocator.codeplex.com/
+	http://commonservicelocator.codeplex.com/license
+(3) Unity Application Block (Unity)
+	Copyright by Microsoft
 	https://github.com/unitycontainer/unity
-(3) Math.NET Numerics
+	https://opensource.org/licenses/Apache-2.0
+(4) Math.NET Numerics
 	https://numerics.mathdotnet.com/
-(4) .Net port of the Java Spatial Index Library
+	https://numerics.mathdotnet.com/License.html
+(5) .Net port of the Java Spatial Index Library, 
+	Copyright by Infomatiq Limited & Aled Morris
+	Ported to C# by Dror Gluska
+	https://www.gnu.org/licenses/lgpl-3.0.en.html

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using QL4BIMprimitives;
 using StrInt = System.Tuple<string, int?>;
 namespace QL4BIMinterpreter.QL4BIM
 {
@@ -19,7 +20,7 @@ namespace QL4BIMinterpreter.QL4BIM
 
         private void Parser_ContextChanged(object sender, ContextChangedEventArgs e)
         {
-            Console.WriteLine(e.ToString());
+            //Console.WriteLine(e.ToString());
 
             contextSwitch?.TearDownContext();
 
@@ -64,7 +65,7 @@ namespace QL4BIMinterpreter.QL4BIM
 
         private void ParserOnPartParsed(object sender, PartParsedEventArgs e)
         {
-            Console.WriteLine('\t' + e.ToString());
+            //Console.WriteLine('\t' + e.ToString());
             contextSwitch.AddNode(e.CurrentToken, e.ParsePart);
         }
 
@@ -226,9 +227,9 @@ namespace QL4BIMinterpreter.QL4BIM
 
         class AttributePredicateSwitch : SetRelContextSwitch
         {
-            public ParserParts Compare { get; set; }
-            public AttributeAccessNode AttributeAccessNodeStart { get; set; }
-            public Node AttributeAccessNodeEnd { get; set; }
+            private ParserParts Compare { get; set; }
+            private AttributeAccessNode AttributeAccessNodeStart { get; set; }
+            private Node AttributeAccessNodeEnd { get; set; }
 
             public override void AddNode(string value, ParserParts parserPart)
             {
@@ -314,7 +315,6 @@ namespace QL4BIMinterpreter.QL4BIM
             {
                 PrimeVariable = null;
                 SecondaryVariable = null;
-
             }
 
             protected int GetIndexOfAttribute(string value)
@@ -473,11 +473,10 @@ namespace QL4BIMinterpreter.QL4BIM
                     return;
 
                 if (!String.IsNullOrEmpty(PrimeVariable) && PrimeVariable != predecessorArg.Value)
-                    throw new ArgumentException(
-                        "a relational Attribute can only be used after a relational Argument with the same Name.");
+                    throw new QueryException("a relational Attribute can only be used after a relational Argument with the same Name.");
 
                 if (!(predecessorArg is SetNode))
-                    throw new ArgumentException("a relational Attribute can only be used after a relational Argument.");
+                    throw new QueryException("a relational Attribute can only be used after a relational Argument.");
 
                 var relNameNode = new RelNameNode(predecessorArg.Value);
                 AddArgument(relNameNode);
@@ -486,24 +485,18 @@ namespace QL4BIMinterpreter.QL4BIM
 
             public override void TearDownContext()
             {
-                //if (PrimeVariable == null && SecondaryVariable.Count == 0)
-                //throw  new ArgumentException("PrimeVariable = null and SecondaryVariable.Count = 0");
-
                 //set
                 if (PrimeVariable != null && !SecondaryVariable.HasValue)
                 {
                     AddArgument(new SetNode(PrimeVariable));
                 }
-
                 //rel
                 else if (SecondaryVariable.HasValue)
                 {
                     var relAttNode = new RelAttNode(SecondaryVariable.Value, PrimeVariable);
                     AddArgument(relAttNode);
                 }
-
                 base.TearDownContext();
-
             }
 
         }
@@ -519,7 +512,7 @@ namespace QL4BIMinterpreter.QL4BIM
                 var predecessor = PopLastArgument(false);
 
                 if(!(predecessor is RelAttNode))
-                    throw  new ArgumentException("predecessor arguement must be a RelAtt.");
+                    throw  new QueryException("predecessor arguement must be a RelAtt.");
 
                 relAttNode = predecessor as RelAttNode;
             }
