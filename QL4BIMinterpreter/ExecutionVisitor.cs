@@ -39,6 +39,7 @@ namespace QL4BIMinterpreter
         private readonly IAttributeFilterOperator attributeFilterOperator;
         private readonly IDereferenceOperator dereferenceOperator;
         private readonly IImportModelOperator importModelOperator;
+        private readonly IExportModelOperator exportModelOperator;
         private readonly IProjectorOperator projectorOperator;
         private readonly IPropertyFilterOperator propertyFilterOperator;
         private readonly ISpatialTopoValidator spatialTopoValidator;
@@ -50,6 +51,7 @@ namespace QL4BIMinterpreter
         public ExecutionVisitor( ISpatialQueryInterpreter spatialQueryInterpreter,
             ITypeFilterOperator typeFilterOperator, IAttributeFilterOperator attributeFilterOperator,
             IDereferenceOperator dereferenceOperator, IImportModelOperator importModelOperator,
+            IExportModelOperator exportModelOperator,
             IProjectorOperator projectorOperator, IPropertyFilterOperator propertyFilterOperator,
             IDeassociaterOperator deassociaterOperator, ITaskTimerOperator taskTimerOperator,
             IMaximumOperator maximumOperator,
@@ -60,6 +62,7 @@ namespace QL4BIMinterpreter
             this.attributeFilterOperator = attributeFilterOperator;
             this.dereferenceOperator = dereferenceOperator;
             this.importModelOperator = importModelOperator;
+            this.exportModelOperator = exportModelOperator;
             this.projectorOperator = projectorOperator;
             this.propertyFilterOperator = propertyFilterOperator;
             this.spatialTopoValidator = spatialTopoValidator;
@@ -83,6 +86,14 @@ namespace QL4BIMinterpreter
             {
                 var returnSymbol = symbolTable.GetSetSymbol(statementNode.ReturnSetNode);
                 importModelOperator.ImportModel(statementNode.Arguments[0].Value, returnSymbol); 
+                return;
+            }
+
+            if (operatorName == "ExportModel" || operatorName == "EM")
+            {
+                var returnSymbol = symbolTable.GetSetSymbol(statementNode.ReturnSetNode);
+                var relSymbol = symbolTable.GetSetSymbol((SetNode)statementNode.Arguments[0]);
+                exportModelOperator.ExportModel(relSymbol, statementNode.Arguments[1].Value, returnSymbol);
                 return;
             }
 

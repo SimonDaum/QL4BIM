@@ -5,12 +5,14 @@
 					Developed for CMS by Simon Daum, simon.daum@tum.de
 					http://go.tum.de/795052
 
-QL4BIM is available as Open Source Software for research demonstration and verification. It is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the 
-implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+QL4BIM is available as Open Source Software for research demonstration and verification. 
+It is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without 
+even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
-The components QL4BIMinterpreter, QL4BIMspatial QL4BIMprimitives and QL4BIMindexing are distributed under the GNU General Public Licence.
-The IfcImporter component is distributed under the original licence of the IFC ENGINE DLL.
-See header sections in the source files for detailed information.
+The components QL4BIMinterpreter, QL4BIMspatial QL4BIMprimitives and QL4BIMindexing are 
+distributed under the GNU General Public Licence.The IfcImporter component is 
+distributed under the original licence of the IFC ENGINE DLL. See header sections in the
+source files for detailed information.
 
 Used libaries:
 (1) IFC ENGINE DLL

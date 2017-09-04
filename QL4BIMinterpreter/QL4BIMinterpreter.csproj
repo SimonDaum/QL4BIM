@@ -112,6 +112,8 @@
     <Compile Include="Interfaces\IP21Repository.cs" />
     <Compile Include="OperatorsLevel0\AttributeFilterOperator.cs" />
     <Compile Include="Interfaces\IMaximumOperator.cs" />
+    <Compile Include="Interfaces\IExportModelOperator.cs" />
+    <Compile Include="OperatorsLevel0\ExportModelOperator.cs" />
     <Compile Include="OperatorsLevel0\ImportModelOperator.cs" />
     <Compile Include="Interfaces\IAttributeFilterOperator.cs" />
     <Compile Include="Interfaces\IGetModelOperator.cs" />

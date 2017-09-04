@@ -59,6 +59,7 @@ namespace QL4BIMinterpreter
             container.RegisterType<IFuncVisitor, FuncVisitor>();
 
             container.RegisterType<IImportModelOperator, ImportModelOperator>();
+            container.RegisterType<IExportModelOperator, ExportModelOperator>();
             container.RegisterType<ITypeFilterOperator, TypeFilterOperator>();
             container.RegisterType<IAttributeFilterOperator, AttributeFilterOperator>();
             container.RegisterType<IDereferenceOperator, DereferenceOperator>();
