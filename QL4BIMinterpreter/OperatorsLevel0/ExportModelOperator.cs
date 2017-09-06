@@ -61,6 +61,8 @@ namespace QL4BIMinterpreter.OperatorsLevel0
             }
            
             File.WriteAllText(path, sb.ToString());
+
+            returnSym.EntityDic = new Dictionary<int, QLEntity>(setSymbol.EntityDic);
         }
 
         private static void FormatParts(List<QLPart> parts, StringBuilder stringBuilder)
