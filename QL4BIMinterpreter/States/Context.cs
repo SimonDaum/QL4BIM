@@ -296,7 +296,7 @@ namespace QL4BIMinterpreter
             }
 
             var text = File.ReadAllText(LicenceFileName) + Environment.NewLine;
-            Console.WriteLine(Header, "", "Contente of " + LicenceFileName, text, Environment.NewLine + "Press enter to continue");
+            Console.WriteLine(Header, "", "Content of " + LicenceFileName, text, Environment.NewLine + "Press enter to continue");
             return queryAddState;
         }
     }

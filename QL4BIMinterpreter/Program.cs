@@ -36,12 +36,15 @@ namespace QL4BIMinterpreter
     {
         private static IContext _context;
 
+        private const string VERSION = "1.0.0"; 
+
         static void Main(string[] args)
         {
-            SetupEngineDll();
+            var location = System.Reflection.Assembly.GetEntryAssembly().Location;
+            SetupEngineDll(location);
 
             var env = Environment.Is64BitProcess ? "64bit" : "32bit";
-             Console.WriteLine("->QL4BIM " + env + System.Reflection.Assembly.GetEntryAssembly().Location);
+             Console.WriteLine($"->QL4BIM System {VERSION} {env} {location}");
 
 
             var container = new UnityContainer();
@@ -100,11 +103,11 @@ namespace QL4BIMinterpreter
             }
         }
 
-        private static void SetupEngineDll()
+        private static void SetupEngineDll(string location)
         {
             try
             {
-                var curDir = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location);
+                var curDir = Path.GetDirectoryName(location);
                 var engineX32 = Path.Combine(curDir, "ifcengineX32.dll");
                 var engineX64 = Path.Combine(curDir, "ifcengineX64.dll");
                 if (!File.Exists(engineX32))

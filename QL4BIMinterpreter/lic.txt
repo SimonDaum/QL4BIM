@@ -1,12 +1,12 @@
-﻿Copyright (c) 2017	Chair of Computational Modeling and Simulation (CMS), 
-					Prof. André Borrmann, 
-					Technische Universität München, 
-					Arcisstr. 21, D-80333 München, Germany
-					Developed for CMS by Simon Daum, simon.daum@tum.de
-					http://go.tum.de/795052
+﻿Copyright (c) 2017 Chair of Computational Modeling and Simulation (CMS), 
+	Prof. André Borrmann, 
+	Technische Universität München, 
+	Arcisstr. 21, D-80333 München, Germany
+	Developed for CMS by Simon Daum, simon.daum@tum.de
+	http://go.tum.de/795052
 
 QL4BIM components are is available as Open Source Software for research demonstration and 
-verification. They are distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+verification. They are distributed in the hope that they will be useful, but WITHOUT ANY WARRANTY; 
 without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 The components QL4BIMinterpreter, QL4BIMspatial QL4BIMprimitives and QL4BIMindexing are distributed
@@ -17,6 +17,11 @@ Used binaries:
 (1) IFC ENGINE DLL
 	Copyright by RDF Ltd.
 	http://rdf.bg/ifc-engine-dll.html?page=products
+(2) Compiler Generator Coco/R
+	Copyright by Hanspeter Moessenboeck, University of Linz
+	extended by M. Loeberbauer & A. Woess, Univ. of Linz
+	with improvements by Pat Terry, Rhodes University
+	http://www.ssw.uni-linz.ac.at/Coco/
 
 Used libraries:
 (1) CommonServiceLocator

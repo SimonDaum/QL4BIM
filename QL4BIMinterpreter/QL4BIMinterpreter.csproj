@@ -196,6 +196,7 @@
     <Content Include="Licences\Apache License.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Licences\CocoGPL.txt" />
     <Content Include="Licences\MIT.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
