@@ -22,6 +22,7 @@ along with QL4BIMinterpreter. If not, see <http://www.gnu.org/licenses/>.
 */
 
 using System;
+using System.IO;
 using Microsoft.Practices.Unity;
 using QL4BIMinterpreter.OperatorsLevel0;
 using QL4BIMinterpreter.OperatorsLevel1;
@@ -37,10 +38,11 @@ namespace QL4BIMinterpreter
 
         static void Main(string[] args)
         {
-            if (Environment.Is64BitProcess)
-                Console.WriteLine("->QL4BIM X64, " + System.Reflection.Assembly.GetEntryAssembly().Location);
-            else
-                Console.WriteLine("->QL4BIM X86, " + System.Reflection.Assembly.GetEntryAssembly().Location);
+            SetupEngineDll();
+
+            var env = Environment.Is64BitProcess ? "64bit" : "32bit";
+             Console.WriteLine("->QL4BIM " + env + System.Reflection.Assembly.GetEntryAssembly().Location);
+
 
             var container = new UnityContainer();
             MainInterface mainInterface = new MainInterface(container);
@@ -98,6 +100,25 @@ namespace QL4BIMinterpreter
             }
         }
 
+        private static void SetupEngineDll()
+        {
+            try
+            {
+                var curDir = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location);
+                var engineX32 = Path.Combine(curDir, "ifcengineX32.dll");
+                var engineX64 = Path.Combine(curDir, "ifcengineX64.dll");
+                if (!File.Exists(engineX32))
+                    File.Copy(Path.Combine(curDir, @"..\..\bin\ifcengineX32.dll"), engineX32);
+                if (!File.Exists(engineX64))
+                    File.Copy(Path.Combine(curDir, @"..\..\bin\ifcengineX64.dll"), engineX64);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("IfcEngine binary error...check installation");
+                Console.WriteLine(e);
+                throw;
+            }
 
+        }
     }
 }

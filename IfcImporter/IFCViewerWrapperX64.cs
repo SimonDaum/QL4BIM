@@ -126,10 +126,10 @@ namespace IFCViewerX86
             if (!File.Exists(sPath))
                 return null;
 
-            long ifcModel = IfcEngine.x64.sdaiOpenModelBN(0, sPath, "IFC2X3_TC1.exp");
+            long ifcModel = IfcEngine.x64.sdaiOpenModelBN(0, sPath, @"..\..\IfcEngine\IFC2X3_TC1.exp");
 
-            string xmlSettings_IFC2x3 = @"IFC2X3-Settings.xml";
-            string xmlSettings_IFC4 = @"IFC4-Settings.xml";
+            string xmlSettings_IFC2x3 = @"..\..\IfcEngine\IFC2X3-Settings.xml";
+            string xmlSettings_IFC4 = @"..\..\IfcEngine\IFC4-Settings.xml";
 
             if (ifcModel != 0)
             {
@@ -151,7 +151,7 @@ namespace IFCViewerX86
                     if (s.Contains("IFC4") == true)
                     {
                         IfcEngine.x64.sdaiCloseModel(ifcModel);
-                        ifcModel = IfcEngine.x64.sdaiOpenModelBN(0, sPath, "IFC4.exp");
+                        ifcModel = IfcEngine.x64.sdaiOpenModelBN(0, sPath, @"..\..\IfcEngine\IFC4.exp");
 
                         if (ifcModel != 0)
                             textReader = new XmlTextReader(xmlSettings_IFC4);

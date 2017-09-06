@@ -59,7 +59,7 @@ namespace QL4BIMinterpreter.P21
             typeIsAbstract = new Dictionary<string, bool>();
             typeNameToNetType = new Dictionary<string, NetType>();
 
-            string schemaFilename = isIfc4 ? @"..\Schema\ifc4.exp" : @"..\Schema\ifc2x3_tc1.exp";
+            string schemaFilename = isIfc4 ? @"..\..\IfcEngine\IFC4.exp" : @"..\..\IfcEngine\IFC2X3_TC1.exp";
 
             var schemaLines = File.ReadAllLines(schemaFilename).ToArray();
             entityLines.Clear();

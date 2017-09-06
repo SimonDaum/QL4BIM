@@ -5,31 +5,32 @@
 					Developed for CMS by Simon Daum, simon.daum@tum.de
 					http://go.tum.de/795052
 
-QL4BIM is available as Open Source Software for research demonstration and verification. 
-It is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without 
-even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+QL4BIM components are is available as Open Source Software for research demonstration and 
+verification. They are distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
-The components QL4BIMinterpreter, QL4BIMspatial QL4BIMprimitives and QL4BIMindexing are 
-distributed under the GNU General Public Licence.The IfcImporter component is 
-distributed under the original licence of the IFC ENGINE DLL. See header sections in the
-source files for detailed information.
+The components QL4BIMinterpreter, QL4BIMspatial QL4BIMprimitives and QL4BIMindexing are distributed
+under the GNU General Public Licence. The IfcImporter component is distributed under the 
+GNU Lesser General Public License. See header sections in the source files for detailed information.  
 
-Used libaries:
+Used binaries:
 (1) IFC ENGINE DLL
 	Copyright by RDF Ltd.
 	http://rdf.bg/ifc-engine-dll.html?page=products
-(2) CommonServiceLocator
+
+Used libraries:
+(1) CommonServiceLocator
 	Copyright by Microsoft
 	http://commonservicelocator.codeplex.com/
 	http://commonservicelocator.codeplex.com/license
-(3) Unity Application Block (Unity)
+(2) Unity Application Block (Unity)
 	Copyright by Microsoft
 	https://github.com/unitycontainer/unity
 	https://opensource.org/licenses/Apache-2.0
-(4) Math.NET Numerics
+(3) Math.NET Numerics
 	https://numerics.mathdotnet.com/
 	https://numerics.mathdotnet.com/License.html
-(5) .Net port of the Java Spatial Index Library, 
+(4) .NET port of the Java Spatial Index Library, 
 	Copyright by Infomatiq Limited & Aled Morris
 	Ported to C# by Dror Gluska
 	https://www.gnu.org/licenses/lgpl-3.0.en.html

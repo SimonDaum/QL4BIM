@@ -169,7 +169,6 @@
     <Compile Include="ExecutionVisitor.cs" />
     <Compile Include="SymbolVisitor.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="States\Context.cs" />
     <Compile Include="Interfaces\IContext.cs" />
   </ItemGroup>
@@ -194,20 +193,28 @@
     <Content Include="lic.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Licences\ap.txt">
+    <Content Include="Licences\Apache License.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Licences\mit.txt">
+    <Content Include="Licences\MIT.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Licences\ms_pl.txt">
+    <Content Include="Licences\Ms_PL.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Licences\LGPL.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Licences\GPL.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>XCOPY  $(SolutionDir)packages\IfcEngine $(ProjectDir)bin\$(PlatformName)\Debug\ /R /Y</PostBuildEvent>
+    <PostBuildEvent>XCOPY  $(SolutionDir)packages\RDF $(ProjectDir)bin\ /E /Y</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>

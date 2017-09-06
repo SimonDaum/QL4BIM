@@ -96,7 +96,6 @@
     <Compile Include="IO\IfcReader.cs" />
     <Compile Include="IO\IIfcReader.cs" />
     <Compile Include="ISpatialMain.cs" />
-    <None Include="ClassDiagram1.cd" />
     <None Include="Intersectors\BoxIntersector.cs" />
     <None Include="Intersectors\BoxTriangleIntersector.cs" />
     <Compile Include="Intersectors\IIntervalIntersector.cs" />
