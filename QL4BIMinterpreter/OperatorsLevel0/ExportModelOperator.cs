@@ -99,6 +99,15 @@ namespace QL4BIMinterpreter.OperatorsLevel0
                     FormatParts(parts[i].QLList.List, stringBuilder);
                     stringBuilder.Append(")" +  c);
                 }
+
+                if (parts[i].QLClass != null)
+                {
+                    var qlClass = parts[i].QLClass;
+                    stringBuilder.Append(qlClass.ClassName);
+                    stringBuilder.Append("(");
+                    FormatParts(qlClass.QLDirectList.List, stringBuilder);
+                    stringBuilder.Append(")" + c);
+                }
             }
 
         }
