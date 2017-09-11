@@ -174,7 +174,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="ClassDiagram2.cd" />
     <None Include="packages.config" />
     <None Include="Parser\P21\P21.ATG" />
     <None Include="Parser\QL4BIM\tQL4BIM.ATG" />
@@ -191,22 +190,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="lic.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Licences\Apache License.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Licences\CocoGPL.txt" />
-    <Content Include="Licences\MIT.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Licences\Ms_PL.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Licences\LGPL.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Licences\GPL.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

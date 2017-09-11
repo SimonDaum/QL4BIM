@@ -163,8 +163,8 @@ namespace IFCViewerX86
 
             int ifcModel = IfcEngine.x86.sdaiOpenModelBN(0, sPath, @"..\..\IfcEngineConf\IFC2X3_TC1.exp");
 
-            string xmlSettings_IFC2x3 = @"..\..\IfcEngine\IFC2X3-Settings.xml";
-            string xmlSettings_IFC4 = @"..\..\IfcEngine\IFC4-Settings.xml";
+            string xmlSettings_IFC2x3 = @"..\..\IfcEngineConf\IFC2X3-Settings.xml";
+            string xmlSettings_IFC4 = @"..\..\IfcEngineConf\IFC4-Settings.xml";
 
             if (ifcModel != 0)
             {

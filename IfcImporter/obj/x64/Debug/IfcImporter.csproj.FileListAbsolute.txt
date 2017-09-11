@@ -1,9 +1,0 @@
-C:\Users\Simon\Documents\Projekte\Dev\QL4BIM_OS\QL4OS\IfcImporter\bin\x64\Debug\IFC2X3_TC1.exp
-C:\Users\Simon\Documents\Projekte\Dev\QL4BIM_OS\QL4OS\IfcImporter\bin\x64\Debug\IFC4.exp
-C:\Users\Simon\Documents\Projekte\Dev\QL4BIM_OS\QL4OS\IfcImporter\bin\x64\Debug\IFC2X3-Settings.xml
-C:\Users\Simon\Documents\Projekte\Dev\QL4BIM_OS\QL4OS\IfcImporter\bin\x64\Debug\IFC4-Settings.xml
-C:\Users\Simon\Documents\Projekte\Dev\QL4BIM_OS\QL4OS\IfcImporter\obj\x64\Debug\IfcImporter.dll
-C:\Users\Simon\Documents\Projekte\Dev\QL4BIM_OS\QL4OS\IfcImporter\obj\x64\Debug\IfcImporter.pdb
-C:\Users\Simon\Documents\Projekte\Dev\QL4BIM_OS\QL4OS\IfcImporter\bin\x64\Debug\IfcImporter.dll.config
-C:\Users\Simon\Documents\Projekte\Dev\QL4BIM_OS\QL4OS\IfcImporter\bin\x64\Debug\IfcImporter.dll
-C:\Users\Simon\Documents\Projekte\Dev\QL4BIM_OS\QL4OS\IfcImporter\bin\x64\Debug\IfcImporter.pdb
