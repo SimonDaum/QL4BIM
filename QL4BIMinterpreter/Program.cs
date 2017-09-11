@@ -111,9 +111,9 @@ namespace QL4BIMinterpreter
                 var engineX32 = Path.Combine(curDir, "ifcengineX32.dll");
                 var engineX64 = Path.Combine(curDir, "ifcengineX64.dll");
                 if (!File.Exists(engineX32))
-                    File.Copy(Path.Combine(curDir, @"..\..\bin\ifcengineX32.dll"), engineX32);
+                    File.Copy(Path.Combine(curDir, @"..\..\IfcEngineBin\ifcengineX32.dll"), engineX32);
                 if (!File.Exists(engineX64))
-                    File.Copy(Path.Combine(curDir, @"..\..\bin\ifcengineX64.dll"), engineX64);
+                    File.Copy(Path.Combine(curDir, @"..\..\IfcEngineBin\ifcengineX64.dll"), engineX64);
             }
             catch (Exception e)
             {

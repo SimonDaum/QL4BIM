@@ -175,7 +175,9 @@ namespace QL4BIMspatial
 
             CreateOffsetVectors();
 
-            return new TriangleMesh(triangles, name, createTree, offsetVectors);
+			if(triangles.Count > 0)
+				return new TriangleMesh(triangles, name, createTree, offsetVectors);
+	        return null;
         }
 
         private static DenseVector TupleToVector(Tuple<double, double, double> v1)

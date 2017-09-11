@@ -47,9 +47,12 @@ namespace QL4BIMinterpreter
             var dir = Path.GetDirectoryName(path);
             var file = Path.GetFileNameWithoutExtension(path) + "{0}";
 
-            if (!Directory.Exists(dir))
-                throw new DirectoryNotFoundException();
-
+	        if (!Directory.Exists(dir))
+	        {
+		        Console.Write("settings.Log.PathLogFileOut directory does not exist. Check settings...");
+				return;
+	        }
+                
             var date = UseDateInFileName ? DateTime.Now.ToString("d_M_yyyy_HH_mm_ss") : string.Empty;
 
             fileName = Path.Combine(dir, file + date + ".csv");

@@ -71,7 +71,7 @@ namespace QL4BIMspatial
 
             Console.WriteLine("Total Memory after Meshing: {0}", GC.GetTotalMemory(true) / (1024d * 1024));
 
-            foreach (var mesh in meshes)
+            foreach (var mesh in meshes.Where( m => m != null))
                 mesh.CreateRTree();
 
             Console.WriteLine("Total Memory after RTreeing: {0}", GC.GetTotalMemory(true) / (1024d * 1024));

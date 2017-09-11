@@ -142,13 +142,7 @@ namespace QL4BIMspatial
                     result.Add(new Pair<TriangleMesh, TriangleMesh>(cubeX, meshB));
             }
 
-            //var result = vectorDirOperator.Intersects(spatialRepository.MeshesAsMatrix,"d1");
-
-            //var df = result.ToArray();
             PrintOut(result, "ArbitraryDirectionD1");
-
-            // result = vectorDirOperator.Intersects(spatialRepository.MeshesAsMatrix, "d2");
-            //PrintOut(result, "ArbitraryDirectionD2");
         }
 
         public void AboveOfRelaxed()
@@ -225,25 +219,19 @@ namespace QL4BIMspatial
 
         public void Export()
         {
-            //var meshes = spatialRepository.TriangleMeshes.ToList();
-
-            //var meshesInner = meshes.Select(m => overlapOperator.OuterMesh(m, -0.1));
-            //x3DExporter.ExportMeshes(@"C:\Users\Simon\Documents\Data\Ifc\sample_two-floors_INNER.x3d", meshesInner);    
-
             var ds = spatialRepository.MeshByGlobalId("3hXGhYvd59SukMqHINmzDS");
             var dsOuter = overlapOperator.OuterMesh(ds, 0.1);
             var dsinner = overlapOperator.OuterMesh(ds, -0.1);
-
-
-            x3DExporter.ExportMeshes(@"C:\Users\Simon\Documents\Projekte\Dev\SeeBridge\samples\dirTests\OutNorm.x3d", new List<TriangleMesh>() { ds });
-            x3DExporter.ExportMeshes(@"C:\Users\Simon\Documents\Projekte\Dev\SeeBridge\samples\dirTests\OutOut.x3d", new List<TriangleMesh>() { dsOuter });
-            x3DExporter.ExportMeshes(@"C:\Users\Simon\Documents\Projekte\Dev\SeeBridge\samples\dirTests\OutInner.x3d", new List<TriangleMesh>() { dsinner });
+		
+            x3DExporter.ExportMeshes(@"OutNorm.x3d", new List<TriangleMesh>() { ds });
+            x3DExporter.ExportMeshes(@"OutOut.x3d", new List<TriangleMesh>() { dsOuter });
+            x3DExporter.ExportMeshes(@"OutInner.x3d", new List<TriangleMesh>() { dsinner });
 
             var meshes = vectorDirOperator.GetTransMesh("d1");
-            x3DExporter.ExportMeshes(@"C:\Users\Simon\Documents\Projekte\Dev\SeeBridge\samples\dirTests\d1.x3d", meshes);
+            x3DExporter.ExportMeshes(@"d1.x3d", meshes);
 
             meshes = spatialRepository.TriangleMeshes;
-            x3DExporter.ExportMeshes(@"C:\Users\Simon\Documents\Projekte\Dev\SeeBridge\samples\dirTests\dini.x3d", meshes);
+            x3DExporter.ExportMeshes(@"dini.x3d", meshes);
         }
 
         public void ExportTrees()

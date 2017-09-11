@@ -120,10 +120,10 @@ namespace QL4BIMspatial
                         var offSetTriB = meshB.CreateOuterTriangle(triB, currentMinusOffset);
                         if (triangleIntersector.DoIntersect(offSetTriA, offSetTriB))
                         {   
-                            exporter.ExportMeshes(@"C: \Users\Simon\Documents\Data\Ifc\alexTriOri.x3d", new List<TriangleMesh>()
+                            exporter.ExportMeshes(@"_TriOri.x3d", new List<TriangleMesh>()
                             { new TriangleMesh(new List<Triangle>() {triA, triB},"original", false)});
 
-                            exporter.ExportMeshes(@"C: \Users\Simon\Documents\Data\Ifc\alexTriInner.x3d", new List<TriangleMesh>()
+                            exporter.ExportMeshes(@"_TriInner.x3d", new List<TriangleMesh>()
                             { new TriangleMesh(new List<Triangle>() { offSetTriA, offSetTriB},"iinner", false)});
 
                             return true;
