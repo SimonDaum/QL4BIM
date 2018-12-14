@@ -46,18 +46,19 @@ namespace QL4BIMinterpreter
             var path = settings.Log.PathLogFileOut;
             var dir = Path.GetDirectoryName(path);
             var file = Path.GetFileNameWithoutExtension(path) + "{0}";
+            logs = new List<LogEntry>();
 
-	        if (!Directory.Exists(dir))
+            if (!Directory.Exists(dir))
 	        {
-		        Console.Write("settings.Log.PathLogFileOut directory does not exist. Check settings...");
+		        Console.Write(String.Format(
+                    "settings.Log.PathLogFileOut directory \"{0}\" does not exist. \nCheck settings... (press any key to continue)",
+                    dir));
+                Console.ReadKey();
 				return;
 	        }
                 
             var date = UseDateInFileName ? DateTime.Now.ToString("d_M_yyyy_HH_mm_ss") : string.Empty;
-
             fileName = Path.Combine(dir, file + date + ".csv");
-
-            logs = new List<LogEntry>();
         }
 
         public void LogStart(string tag, int countIn)
@@ -103,7 +104,15 @@ namespace QL4BIMinterpreter
 
             logs.Clear();
 
-            File.WriteAllText(string.Format(fileName, index), sb.ToString());
+            try
+            {
+                File.WriteAllText(string.Format(fileName, index), sb.ToString());
+            }
+            catch (Exception e)
+            {
+                Console.Write(e.Message);
+            }
+
         }
 
         public bool UseDateInFileName { get; set; }

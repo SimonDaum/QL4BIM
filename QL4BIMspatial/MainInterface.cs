@@ -79,7 +79,7 @@ namespace QL4BIMspatial
         {
             settings.Touch.PositiveOffset = 0.05;
             settings.Touch.NegativeOffsetAsRatio = 1;
-            settings.Direction.PositiveOffset = 0.1;
+            settings.Direction.PositiveOffset = 0.02;
             settings.Direction.RaysPerSquareMeter = 10;
 
             settings.Direction.SupportAnyDirection = false;

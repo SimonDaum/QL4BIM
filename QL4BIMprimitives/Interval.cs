@@ -74,7 +74,7 @@ namespace QL4BIMprimitives
         public static Interval[] SplitInterval(Interval interval)
         {
             var mid = interval.Min + interval.Length/2;
-            return new []{new Interval(interval.Min, mid), new Interval(mid, interval.Min) };
+            return new []{new Interval(interval.Min, mid), new Interval(mid, interval.Max) };
         }
 
         public static double UnionLength(Interval a, Interval b)

@@ -214,6 +214,9 @@ namespace QL4BIMinterpreter
                 return true;
             }
 
+            if (currentState == null)
+                currentState = queryShowState;
+
             var newState = currentState.Execute(input);
 
             if (newState != null)
@@ -241,10 +244,15 @@ namespace QL4BIMinterpreter
         public string Name { get; set; }
 
         protected virtual void Reset()//todo check calls
-        {
-            Repository.GlobalSymbolTable.Reset(); 
-            Repository.GlobalEntityDictionary.Clear();
-            SpatialRepository.Reset();
+        {   
+            if(Repository.GlobalSymbolTable != null)
+                Repository.GlobalSymbolTable.Reset();
+
+            if (Repository.GlobalEntityDictionary != null)
+                Repository.GlobalEntityDictionary.Clear();
+
+            if (SpatialRepository != null)
+                SpatialRepository.Reset();
             GC.Collect();
             GC.WaitForPendingFinalizers();
         }
